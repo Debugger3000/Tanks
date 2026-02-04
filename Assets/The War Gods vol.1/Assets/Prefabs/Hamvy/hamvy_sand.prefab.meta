@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b661a746c0542854cb47dd3c485022b3
+timeCreated: 1534873308
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Prefabs/Hamvy/hamvy_sand.prefab
+  uploadId: 272886

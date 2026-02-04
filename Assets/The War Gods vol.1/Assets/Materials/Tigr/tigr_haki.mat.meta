@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 50eb662f6f8ff9644b1ab64e52a82467
+timeCreated: 1536605271
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Materials/Tigr/tigr_haki.mat
+  uploadId: 272886

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: ccb94d3ec882e2246a79aee562e0905a
+timeCreated: 1536604701
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Materials/Abrams/abrams_yellow.mat
+  uploadId: 272886

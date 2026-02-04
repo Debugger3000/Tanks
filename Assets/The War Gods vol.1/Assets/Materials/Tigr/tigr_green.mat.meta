@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 05535248db1c5664da6723814ab3cf7e
+timeCreated: 1536605270
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Materials/Tigr/tigr_green.mat
+  uploadId: 272886

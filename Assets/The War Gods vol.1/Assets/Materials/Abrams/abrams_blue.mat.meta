@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 32b7c8ff15cf74e42b3d676a5bce0821
+timeCreated: 1536604700
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Materials/Abrams/abrams_blue.mat
+  uploadId: 272886

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2f93198a74b97044c9c90b5142f7c269
+timeCreated: 1536605506
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Materials/Bonus/soldier_02.mat
+  uploadId: 272886

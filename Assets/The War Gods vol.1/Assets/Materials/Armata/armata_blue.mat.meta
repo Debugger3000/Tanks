@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 217a5150b66277e4ca32e7330bf5e25b
+timeCreated: 1536605244
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Materials/Armata/armata_blue.mat
+  uploadId: 272886

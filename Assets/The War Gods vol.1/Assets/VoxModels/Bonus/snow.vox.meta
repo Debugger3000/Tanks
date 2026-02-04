@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: db55a0e6d6f75864697cf392e8b39ee0
+timeCreated: 1534876227
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/VoxModels/Bonus/snow.vox
+  uploadId: 272886

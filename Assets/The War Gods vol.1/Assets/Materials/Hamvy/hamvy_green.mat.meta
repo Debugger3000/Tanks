@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 9e344b22a69847345a5b731f55b805f5
+timeCreated: 1536605257
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Materials/Hamvy/hamvy_green.mat
+  uploadId: 272886

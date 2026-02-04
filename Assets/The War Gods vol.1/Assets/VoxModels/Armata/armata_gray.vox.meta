@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c644530a7dda2c449ab1ba1ca5ac6f8c
+timeCreated: 1534871970
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/VoxModels/Armata/armata_gray.vox
+  uploadId: 272886

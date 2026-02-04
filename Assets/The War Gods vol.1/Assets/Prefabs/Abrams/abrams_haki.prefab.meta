@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 67049ca19ac0dfe488311fb400c1ff69
+timeCreated: 1534872734
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126505
+  packageName: 'The War Gods: pack of military voxels vol.1'
+  packageVersion: 1.0
+  assetPath: Assets/The War Gods vol.1/Assets/Prefabs/Abrams/abrams_haki.prefab
+  uploadId: 272886
