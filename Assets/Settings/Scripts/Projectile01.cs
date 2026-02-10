@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class Projectile01 : MonoBehaviour
 {
-    public float explosionRadius = 1.5f; // How many tiles to destroy
+    public float explosionRadius = 1f; // How many tiles to destroy
     public GameObject hitEffectPrefab;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -16,12 +16,14 @@ public class Projectile01 : MonoBehaviour
         float angle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg;
         Quaternion hitRotation = Quaternion.Euler(0, 0, angle);
 
-        // spawn projectile explosion effect
-        GameObject effect = Instantiate(hitEffectPrefab, hitPoint, hitRotation);    
         
         // Check if we hit the ground
         if (collision.gameObject.CompareTag("GroundDestruct"))
         {
+            // spawn projectile explosion effect
+            GameObject effect = Instantiate(hitEffectPrefab, hitPoint, hitRotation);    
+        
+
             // Try to get the Tilemap component from what we hit
             Tilemap tilemap = collision.gameObject.GetComponent<Tilemap>();
 
@@ -30,19 +32,30 @@ public class Projectile01 : MonoBehaviour
                 Explode(tilemap, collision.contacts[0].point);
             }
 
-            
+            // Destroy the bullet itself
+            Destroy(gameObject);
+            Destroy(effect, 3f);
+            // projectile has exploded switch turn now...
+            GameController.Instance.SwitchTurn();
         }
-        // we hit a tank
+        // we hit a wall so it should bounce...
         // else if(collision.gameObject.CompareTag("TankShellCollider"))
         // {
-        //     ExplodeNoTiles(hitPoint);
+            
         // }
-        // Destroy the bullet itself
-        Destroy(gameObject);
-        
-        Destroy(effect, 1.5f);
-        // shell hits a tank, that shell needs to explode
 
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Tanks")) 
+        {
+            // spawn projectile explosion effect
+            GameObject effect = Instantiate(hitEffectPrefab, hitPoint, hitRotation);    
+            // Destroy the bullet itself
+            Destroy(gameObject);
+            Destroy(effect, 3f);
+            // projectile has exploded switch turn now...
+            GameController.Instance.SwitchTurn();
+        }
+        
+        
     }
 
     

@@ -4,7 +4,7 @@ public class Tank02Barrel : MonoBehaviour
 {
 
     public float rotationSpeed = 50f;
-
+    private float verticalInput;
     public float minAngle = -90f;
     public float maxAngle = 90f;
 
@@ -27,6 +27,7 @@ public class Tank02Barrel : MonoBehaviour
     {
         if (Keyboard.current == null) return;
 
+        RotateBarrel();
         // float rotationInput = 0;
 
         // // Using Left/Right or Up/Down arrows to rotate
@@ -36,14 +37,41 @@ public class Tank02Barrel : MonoBehaviour
         // // In 2D, we rotate around the Z axis
         // transform.Rotate(0, 0, rotationInput * rotationSpeed * Time.deltaTime);
 
-        float input = 0;
+        // float input = 0;
 
-        // Up arrow moves toward 180 (Left), Down arrow moves toward 0 (Right)
-        if (Keyboard.current.upArrowKey.isPressed) input = 1;
-        if (Keyboard.current.downArrowKey.isPressed) input = -1;
+        // // Up arrow moves toward 180 (Left), Down arrow moves toward 0 (Right)
+        // if (Keyboard.current.upArrowKey.isPressed) input = 1;
+        // if (Keyboard.current.downArrowKey.isPressed) input = -1;
 
+        
+        // Shoot projectile with space bar key press
+        // if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        // {
+        //     Shoot();
+        // }
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        Debug.Log("shoot for tank 2 pressed...");
+        if (context.performed) {
+            Shoot();
+        }
+    }
+
+    public void OnBarrelRotate(InputAction.CallbackContext context)
+    {
+        Debug.Log("rotate barrel for tank 2 pressed...");
+        Vector2 fullInput = context.ReadValue<Vector2>();
+
+        // Grab only Y axis for move controls so just W and S
+        verticalInput = fullInput.y;
+    }
+
+    private void RotateBarrel()
+    {
         // 1. Calculate the new angle based on input and time
-        currentAngle += input * rotationSpeed * Time.deltaTime;
+        currentAngle += verticalInput * rotationSpeed * Time.deltaTime;
 
         // 2. Clamp the angle so it stays between 0 and 180
         currentAngle = Mathf.Clamp(currentAngle, minAngle, maxAngle);
@@ -51,11 +79,6 @@ public class Tank02Barrel : MonoBehaviour
         // 3. Apply the rotation to the Z axis
         transform.localRotation = Quaternion.Euler(0, 0, currentAngle);
 
-        // Shoot projectile with space bar key press
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            Shoot();
-        }
     }
 
 

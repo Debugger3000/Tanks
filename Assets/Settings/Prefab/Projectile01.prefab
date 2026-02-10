@@ -169,5 +169,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef047b04a29326a48b259a6462ff4f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile01
-  explosionRadius: 1.5
+  explosionRadius: 1
   hitEffectPrefab: {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}

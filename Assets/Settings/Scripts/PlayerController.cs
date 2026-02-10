@@ -4,6 +4,8 @@ using UnityEngine.InputSystem; // New Input System
 
 public class PlayerController : MonoBehaviour
 {
+    private Vector2 moveInput;
+
     public float moveSpeed = 2f;
     public float jumpForce = 3f;
 
@@ -20,8 +22,6 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public float checkRadius = 0.1f;
     public LayerMask groundLayer;
-
-    private Vector2 moveInput;
 
     void Start()
     {
@@ -47,6 +47,12 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        Debug.Log("tank 1 movement detected...");
+        moveInput = context.ReadValue<Vector2>();
+    }
+
     void FixedUpdate()
     {
 
@@ -60,12 +66,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
 
 
-        // Horizontal movement
-        float move = 0f;
-        if (Keyboard.current.aKey.isPressed) move = -1f;
-        if (Keyboard.current.dKey.isPressed) move = 1f;
-
-        Vector2 targetVelocity = new Vector2(move * moveSpeed, rb.linearVelocity.y);
+        Vector2 targetVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
         rb.linearVelocity = targetVelocity;
     }
 

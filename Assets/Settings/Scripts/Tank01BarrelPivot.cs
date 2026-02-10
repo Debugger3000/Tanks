@@ -2,11 +2,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class Tank01BarrelPivot : MonoBehaviour
 {
+
+    [SerializeField]
+    private int tankIndex;
     public float rotationSpeed = 50f;
+    [SerializeField]
+    private float verticalInput;
 
     public float minAngle = -90f;
     public float maxAngle = 90f;
 
+    [SerializeField]
     private float currentAngle = 0f;
 
 
@@ -18,13 +24,31 @@ public class Tank01BarrelPivot : MonoBehaviour
     [Header("Firing Settings")]
     public GameObject bulletPrefab; // Drag your bullet prefab here in Inspector
     public Transform firePoint;     // Drag your FirePoint object here in Inspector
+    // 25f is 100% power
+    // 20f is 75% power
+    // 15f is 50%
+    // 10f
+    // 5f
     public float bulletForce = 20f;
+
+    void Start()
+    {
+        var pInput = GetComponentInParent<PlayerInput>();
+        if (pInput != null)
+        {
+            tankIndex = pInput.playerIndex;                                 
+            Debug.Log($"Tank spawned! I am player: {tankIndex}");
+        }
+    }
 
     // use Update() for capturing input
     // use FixedUpdate() for physics based stuff...
     void Update()
     {
         if (Keyboard.current == null) return;
+
+        // call rotate barrel function
+        RotateBarrel();
 
         // float rotationInput = 0;
 
@@ -35,25 +59,75 @@ public class Tank01BarrelPivot : MonoBehaviour
         // // In 2D, we rotate around the Z axis
         // transform.Rotate(0, 0, rotationInput * rotationSpeed * Time.deltaTime);
 
-        float input = 0;
+        // float input = 0;
 
-        // Up arrow moves toward 180 (Left), Down arrow moves toward 0 (Right)
-        if (Keyboard.current.wKey.isPressed) input = 1;
-        if (Keyboard.current.sKey.isPressed) input = -1;
+        // // Up arrow moves toward 180 (Left), Down arrow moves toward 0 (Right)
+        // if (Keyboard.current.wKey.isPressed) input = 1;
+        // if (Keyboard.current.sKey.isPressed) input = -1;
 
+        
+        // Shoot projectile with space bar key press
+        // if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        // {
+        //     Shoot();
+        // }
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        //Debug.Log("shoot for tank 1 pressed...");
+        if (context.performed) {
+            Shoot();
+        }
+    }
+
+    public void OnBarrelRotate(InputAction.CallbackContext context)
+    {
+        //Debug.Log("rotate barrel for tank 1 pressed...");
+        Vector2 fullInput = context.ReadValue<Vector2>();
+
+        // Grab only Y axis for move controls so just W and S
+        verticalInput = fullInput.y;
+    }
+
+    private void RotateBarrel()
+    {
         // 1. Calculate the new angle based on input and time
-        currentAngle += input * rotationSpeed * Time.deltaTime;
+        currentAngle += verticalInput * rotationSpeed * Time.deltaTime;
 
         // 2. Clamp the angle so it stays between 0 and 180
         currentAngle = Mathf.Clamp(currentAngle, minAngle, maxAngle);
 
         // 3. Apply the rotation to the Z axis
         transform.localRotation = Quaternion.Euler(0, 0, currentAngle);
+        
+    }
 
-        // Shoot projectile with space bar key press
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            Shoot();
+    public void OnIncreasePower(InputAction.CallbackContext context)
+    {
+        //Debug.Log($"{gameObject.name} moved by {context.control.name}");
+
+        if (context.performed) {
+            if(bulletForce < 25f)
+            {
+                bulletForce += 1;
+            }
+            
+            float powerPercent = 0.25f + (bulletForce - 10f) * (0.75f / 15f);
+            GameController.Instance.SetPowerBar(tankIndex, powerPercent);
+        }
+        
+    }
+    public void OnDecreasePower(InputAction.CallbackContext context)
+    {
+        //Debug.Log($"{gameObject.name} moved by {context.control.name}");
+        if (context.performed) {
+            if(bulletForce > 10f)
+            {
+                bulletForce -= 1;
+            }
+            float powerPercent = 0.25f + (bulletForce - 10f) * (0.75f / 15f);
+            GameController.Instance.SetPowerBar(tankIndex, powerPercent);
         }
     }
 
