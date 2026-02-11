@@ -22,6 +22,19 @@ public class GameController : MonoBehaviour
     public Image p2PowerBar;
     public TextMeshProUGUI p2PowerText;
 
+
+    [Header("Player Inventory")]
+    [Header("Inventory Data")]
+    public PlayerWeaponInventory p1Inventory;
+    public PlayerWeaponInventory p2Inventory;
+
+    private TankBarrel player1Barrel;
+    private TankBarrel player2Barrel;
+
+    [Header("Starting Loadout")]
+    public WeaponData starterWeapon1;
+    public WeaponData starterWeapon2;
+
     [Header("Game Settings")]
     readonly private float turnDelay = 5.0f;
     private int turnCounter = 0;
@@ -41,7 +54,41 @@ public class GameController : MonoBehaviour
         SetInputFocus();
         turnCounter++;
         tankList[0].SetIsTurn(true);
+
+        player1Barrel = p1.GetComponentInChildren<TankBarrel>();
+        player2Barrel = p2.GetComponentInChildren<TankBarrel>();
+
+        // set up player inventory with basic weapon
+        InitPlayerInventory();
     }
+
+
+    private void InitPlayerInventory()
+    {
+        p1Inventory.ResetInventory();
+        p2Inventory.ResetInventory();
+
+        // 2. Add the basic weapons to P1
+        p1Inventory.AddWeapon(starterWeapon1);
+        p1Inventory.AddWeapon(starterWeapon2);
+
+        // 3. Add the basic weapons to P2
+        p2Inventory.AddWeapon(starterWeapon1);
+        p2Inventory.AddWeapon(starterWeapon2);
+
+        // 4. (Optional) Set the tank's current weapon to the first starter
+        player1Barrel.SetWeapon(starterWeapon1);
+        player2Barrel.SetWeapon(starterWeapon1);
+        
+    }
+
+    // public void ChangeActiveWeapon(WeaponData data)
+    // {
+    //     if (turnCounter % 2 != 0)
+    //         player1Barrel.SetWeapon(data);
+    //     else
+    //         player2Barrel.SetWeapon(data);
+    // }
 
     
 

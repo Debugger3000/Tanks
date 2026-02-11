@@ -3,8 +3,20 @@ using UnityEngine.Tilemaps;
 
 public class Projectile01 : MonoBehaviour
 {
-    public float explosionRadius = 1f; // How many tiles to destroy
+    //public float explosionRadius = 1f; // How many tiles to destroy
     public GameObject hitEffectPrefab;
+
+    private WeaponData data;
+
+    // Call this to pass in weapon data to determine 
+    public void Setup(WeaponData weaponData)
+    {
+        data = weaponData;
+    }
+
+
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -51,6 +63,11 @@ public class Projectile01 : MonoBehaviour
             // Destroy the bullet itself
             Destroy(gameObject);
             Destroy(effect, 3f);
+
+            // call player hit function in player 
+
+
+
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
         }
@@ -69,7 +86,7 @@ public class Projectile01 : MonoBehaviour
         // Loop through a grid around the impact point
         // With 0.25 cells, a range of 5-6 will ensure a smooth circle
         // If your cell size is 0.125, you need a larger range to "find" all the tiny tiles
-        int range = Mathf.CeilToInt(explosionRadius / 0.125f) + 1; 
+        int range = Mathf.CeilToInt(data.explosionRadius / 0.125f) + 1; 
 
         for (int x = -range; x <= range; x++)
         {
@@ -81,7 +98,7 @@ public class Projectile01 : MonoBehaviour
                 Vector3 cellWorldPos = map.GetCellCenterWorld(tilePos);
                 
                 // Check distance from the impact to this specific tiny cell
-                if (Vector3.Distance(cellWorldPos, (Vector3)impactPoint) <= explosionRadius)
+                if (Vector3.Distance(cellWorldPos, (Vector3)impactPoint) <= data.explosionRadius)
                 {
                     map.SetTile(tilePos, null); // Deletes only this tiny 0.25 cell!
                 }
