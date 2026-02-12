@@ -762,6 +762,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: df84d532-7bc0-4368-bdb2-387754f821cb
     m_ActionName: 'Tanks/Tank2PowerDecrease[/Keyboard/period]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6b32622e-c4f2-459b-bf9c-919c6ef310a5
+    m_ActionName: Tanks/Click
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 47f50bc3-5e17-4c59-bfc4-8a692b5a8a79
+    m_ActionName: Tanks/Point
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8ac0fedd-20fc-42b6-be52-f39f37a64826
+    m_ActionName: UI/Point
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7adf7b9d-88c3-493d-919f-f346424da85c
+    m_ActionName: UI/Click
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6556dc75-43af-45c3-b6f9-8b09ea2a7ddf
+    m_ActionName: New action map/New action
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: T1
   m_DefaultActionMap: Tanks
@@ -806,7 +826,7 @@ MonoBehaviour:
   jumpForce: 3
   shellPower: 75
   maxHealth: 100
-  currentHealth: 100
+  currentHealth: 0
   maxGas: 100
   currentGas: 0
   gasDrainRate: 10
@@ -814,7 +834,7 @@ MonoBehaviour:
   checkRadius: 0.1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!1 &6110629871988447551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,6 +1066,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank02BarrelPivot
       objectReference: {fileID: 0}
+    - target: {fileID: 1120725286922621882, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428963067960688054, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 7557659267843863323}
+    - target: {fileID: 1428963067960688054, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: tankIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428963067960688054, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: muzzleSmokePrefab
+      value: 
+      objectReference: {fileID: 100002, guid: a24c2dc4ddb2fb34591d1bbab6a8354a, type: 3}
+    - target: {fileID: 1428963067960688054, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: muzzleFlashtPrefab
+      value: 
+      objectReference: {fileID: 100006, guid: 0661276422528d74d8c9894abad93242, type: 3}
+    - target: {fileID: 1428963067960688054, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: Assembly-CSharp::TankBarrel
+      objectReference: {fileID: 0}
     - target: {fileID: 4756087098881014793, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.915
@@ -1086,7 +1130,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7866566573783112955, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1101,7 +1146,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c895f29df8fe284429313010017d0875, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Tank01BarrelPivot
+  m_EditorClassIdentifier: Assembly-CSharp::TankBarrel
+--- !u!4 &7557659267843863323 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6111812501174112571, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+  m_PrefabInstance: {fileID: 4338011085971120672}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9093526438771760681 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4756087098881014793, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}

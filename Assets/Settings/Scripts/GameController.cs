@@ -1,7 +1,10 @@
 
+using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
@@ -39,24 +42,77 @@ public class GameController : MonoBehaviour
     readonly private float turnDelay = 5.0f;
     private int turnCounter = 0;
 
-    public TankController[] tankList;
+    private TankController[] tankList;
 
     private int activePlayerIndex = 0;
     private PlayerInput[] players;
 
-    void Awake() { Instance = this; }
+    private bool isSwitching = false;
+
+    public InputActionAsset myInputActions;
+
+    // expose GameController via GameController.Instance
+    void Awake() { 
+        
+        Instance = this;
+    
+        // This turns on the UI map so the EventSystem can "hear" the mouse
+        // if (myInputActions != null)
+        // {
+        //     myInputActions.FindActionMap("UI").Enable();
+
+        //     // You should also enable your Player map here if you haven't elsewhere
+        //     //myInputActions.FindActionMap("Player").Enable(); 
+        // } 
+        }
+
+    // void Start()
+    // {
+    //     // Find the EventSystem's brain in the scene
+    //     var uiModule = FindAnyObjectByType<InputSystemUIInputModule>();
+        
+    //     // Find the Player Input component (the one using the T1 scheme)
+    //     var playerInput = FindAnyObjectByType<PlayerInput>();
+
+    //     if (playerInput != null && uiModule != null)
+    //     {
+    //         // This is the "Magic Link" that connects the two
+    //         playerInput.uiInputModule = uiModule;
+            
+    //         // Ensure the UI map is actually turned on
+    //         var uiMap = playerInput.actions.FindActionMap("UI");
+    //         if (uiMap != null) uiMap.Enable();
+            
+    //         Debug.Log("UI Link Established with Player Input!");
+    //     }
+    // }
 
     public void InitializePlayers(PlayerInput p1, PlayerInput p2)
     {
-        //Debug.Log("init''ing players.....");
-        players = new PlayerInput[] { p1, p2 };
-        UpdateTurnUI();
-        SetInputFocus();
-        turnCounter++;
-        tankList[0].SetIsTurn(true);
+        Debug.Log("GameController INIT");
+        // myActions.UI.Enable(); // enable UI
 
+        players = new PlayerInput[] { p1, p2 };
+
+        // grab player instances into tankList for TankController
+        tankList = new TankController[] {
+            p1.GetComponent<TankController>(),
+            p2.GetComponent<TankController>()
+        };
+        // grab player instances into their barrel variables
         player1Barrel = p1.GetComponentInChildren<TankBarrel>();
+        // player1Barrel.gameObject.GetComponent<Renderer>().material.color = Color.red;
         player2Barrel = p2.GetComponentInChildren<TankBarrel>();
+        
+        Debug.Log($"Tank list is: {tankList}");
+
+        // Start game
+        UpdateTurnUI();
+        DeactivateInput();
+        // SetCurrentTurnFocus(); // activate current players input
+        NewPlayersTurn(); // set players values to appriproate values for their turn 
+
+        
 
         // set up player inventory with basic weapon
         InitPlayerInventory();
@@ -65,8 +121,8 @@ public class GameController : MonoBehaviour
 
     private void InitPlayerInventory()
     {
-        p1Inventory.ResetInventory();
-        p2Inventory.ResetInventory();
+        //p1Inventory.ResetInventory();
+        //p2Inventory.ResetInventory();
 
         // 2. Add the basic weapons to P1
         p1Inventory.AddWeapon(starterWeapon1);
@@ -79,6 +135,19 @@ public class GameController : MonoBehaviour
         // 4. (Optional) Set the tank's current weapon to the first starter
         player1Barrel.SetWeapon(starterWeapon1);
         player2Barrel.SetWeapon(starterWeapon1);
+    }
+
+    public void SetPlayerWeapon(int playerIndex, WeaponData weaponData)
+    {
+        Debug.Log($"Setting {playerIndex} weapon to {weaponData}");
+        if (playerIndex == 0)
+        {
+            player1Barrel.SetWeapon(weaponData);
+        }   
+        else
+        {
+            player2Barrel.SetWeapon(weaponData);   
+        }
         
     }
 
@@ -92,19 +161,13 @@ public class GameController : MonoBehaviour
 
     
 
-    private void SetInputFocus()
-    {
-        // Turn off everyone, then turn on the active player
-        players[0].DeactivateInput();
-        players[1].DeactivateInput();
-        players[activePlayerIndex].ActivateInput();
-    }
+    
     private void UpdateTurnUI()
     {
         //Debug.Log($"Tank {activePlayerIndex + 1}'s Turn");
         turnIndicator.text = $"Tank {activePlayerIndex + 1}'s Turn";
-        p1GasBar.fillAmount = 1.0f;
-        p2GasBar.fillAmount = 1.0f;
+        // p1GasBar.fillAmount = 1.0f;
+        // p2GasBar.fillAmount = 1.0f;
     }
 
 
@@ -130,43 +193,69 @@ public class GameController : MonoBehaviour
         players[1].DeactivateInput();
     }
 
+
+    // called by TankController after their shot
     public void SwitchTurn()
     {   
-        Debug.Log($"switching turns now... {tankList.Length}");
-        ChangeTankTurnLogic();
+        if (isSwitching) return; // Block the second call!
+        isSwitching = true;
+        StartCoroutine(SwitchTurnDelayed());
+    
+        //Invoke("SwitchTurnDelayed", turnDelay); // 
+    }
+
+    // delayed call, so animations can play out 
+    IEnumerator SwitchTurnDelayed()
+    {
+        isSwitching = true;
+        DeactivateInput();
+        yield return new WaitForSeconds(turnDelay);
+
+        Debug.Log($"switching turns now... old index {activePlayerIndex}");
+        
+        Debug.Log($"switching turns now... new index {activePlayerIndex}");
+
+        EndOfPlayerTurn(); // reset end of players turn to values
+        NewPlayersTurn(); // set new players turn values
+
+        UpdateTurnUI(); // switch turn indicator
+        CrateSpawn(); // check turns for crates...
+        SetCurrentTurnFocus();
+        isSwitching = false;
+    }
+
+    // control device activation per player
+    private void DeactivateInput()
+    {
+        players[0].DeactivateInput();
+        players[1].DeactivateInput();
+         // turn on active player 
+    }
+
+    private void SetCurrentTurnFocus()
+    {
+        players[activePlayerIndex].ActivateInput();
+    }
+
+    private void EndOfPlayerTurn()
+    {
+        tankList[activePlayerIndex].SetIsTurn(false); // set end of players turn
+        tankList[activePlayerIndex].GetComponentInChildren<TankBarrel>().SetHasPlayerShot(false);
+    }
+
+    private void NewPlayersTurn()
+    {
         turnCounter++; // increment turn...
-        Invoke("SwitchTurnDelayed", turnDelay); // 
-    }
-
-    private void SwitchTurnDelayed()
-    {
-        // now change index
-        activePlayerIndex = (activePlayerIndex == 0) ? 1 : 0;
-        SetInputFocus();
-        UpdateTurnUI();
-
-        // check turns for crates...
-        CrateSpawn();
-    }
-
-    private void ChangeTankTurnLogic()
-    {
-        // 1. Figure out who is NEXT before we reset anything
-        int nextPlayerIndex = (activePlayerIndex == 0) ? 1 : 0;
-
-        for (int i = 0; i < tankList.Length; i++)
+        if(turnCounter != 1)
         {
-            bool isNext = (i == nextPlayerIndex);
-            
-            // Set the turn flag
-            tankList[i].SetIsTurn(isNext);
-            
-            // ONLY reset gas for the tank whose turn is starting
-            if (isNext)
-            {
-                tankList[i].ResetGas();
-            }
+            activePlayerIndex = (activePlayerIndex == 0) ? 1 : 0; // now change index            
         }
+        
+        // set new turn players turn to true
+        tankList[activePlayerIndex].SetIsTurn(true);
+        tankList[activePlayerIndex].ResetGas(); // set gas to full
+        SetCurrentTurnFocus(); // activate input for current turn player
+        Debug.Log($"Activeturnindex: {activePlayerIndex} - turncounter: {turnCounter} - Set to true");
     }
 
     // deal with Gas UI changes

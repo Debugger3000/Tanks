@@ -19,6 +19,10 @@ public class TankBarrel : MonoBehaviour
     public GameObject muzzleFlashtPrefab;
     public GameObject muzzleSmokePrefab;
 
+    private bool hasPlayerShot = false;
+
+    private TankController myTankController;
+
     // Projectile vars
     // Header to show within inspector for our script...
     [Header("Firing Settings")]
@@ -46,21 +50,39 @@ public class TankBarrel : MonoBehaviour
     // 5f
     public float bulletForce = 20f;
 
-    void Start()
+    void Awake() 
     {
+
+
         var pInput = GetComponentInParent<PlayerInput>();
         if (pInput != null)
         {
             tankIndex = pInput.playerIndex;                                 
-            Debug.Log($"Tank spawned! I am player: {tankIndex}");
+            //Debug.Log($"Tank spawned! I am player: {tankIndex}");
         }
+        // Looks up the hierarchy until it finds the TankController
+        // myTankController = GetComponentInParent<TankController>();
+        
+        // if (myTankController == null) {
+        //     Debug.LogError($"Barrel on {gameObject.name} can't find its TankController parent!");
+        // }
+    }
+
+    // void Start()
+    // {
+        
+    // }
+
+    public void SetHasPlayerShot(bool val)
+    {
+        hasPlayerShot = val;
     }
 
     // use Update() for capturing input
     // use FixedUpdate() for physics based stuff...
     void Update()
     {
-        if (Keyboard.current == null) return;
+        //if (!myTankController.isMyTurn) return;
 
         // call rotate barrel function
         RotateBarrel();
@@ -98,7 +120,7 @@ public class TankBarrel : MonoBehaviour
 
     public void OnBarrelRotate(InputAction.CallbackContext context)
     {
-        //Debug.Log("rotate barrel for tank 1 pressed...");
+        //Debug.Log($"rotate barrel for tank {tankIndex} pressed...");
         Vector2 fullInput = context.ReadValue<Vector2>();
 
         // Grab only Y axis for move controls so just W and S
@@ -112,6 +134,8 @@ public class TankBarrel : MonoBehaviour
 
         // 2. Clamp the angle so it stays between 0 and 180
         currentAngle = Mathf.Clamp(currentAngle, minAngle, maxAngle);
+
+        //Debug.Log($"tank {tankIndex} moveInput {currentAngle}");
 
         // 3. Apply the rotation to the Z axis
         transform.localRotation = Quaternion.Euler(0, 0, currentAngle);
@@ -150,6 +174,9 @@ public class TankBarrel : MonoBehaviour
     // shoot script for projectile
     void Shoot()
     {
+        // make sure player can only shoot once per turn
+        if (!hasPlayerShot)
+        {
         // start muzzle animation
         GameObject muzzleEffect = Instantiate(muzzleFlashtPrefab, firePoint.position, firePoint.rotation);
         // start muzzle smoke
@@ -177,6 +204,12 @@ public class TankBarrel : MonoBehaviour
         // destroy muzzle effect
         Destroy(muzzleEffect, 0.3f);
         Destroy(muzzleSmokeEffect, 6f);
+
+        // if player has shot
+        hasPlayerShot = true;
+
+        
+        }
     }
 
     

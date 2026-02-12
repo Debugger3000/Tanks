@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem; // New Input System
 
@@ -7,8 +6,7 @@ public class TankController : MonoBehaviour
 
     [SerializeField]
     private int tankIndex;
-    [SerializeField]
-    private bool isMyTurn = false;
+    public bool isMyTurn = false;
 
     public float moveSpeed = 2f;
     public float jumpForce = 3f;
@@ -23,7 +21,6 @@ public class TankController : MonoBehaviour
 
     [SerializeField]
     public float maxGas = 100f;
-    [SerializeField]
     public float currentGas;
     [SerializeField]
     public float gasDrainRate = 10f;
@@ -45,8 +42,8 @@ public class TankController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;
-        currentGas = maxGas;
+        currentHealth = maxHealth; // set health to full
+        currentGas = maxGas; // set gas to full
 
         var pInput = GetComponent<PlayerInput>();
         Debug.Log($"{gameObject.name} is Player Index: {pInput.playerIndex}");
@@ -60,8 +57,8 @@ public class TankController : MonoBehaviour
         {
             // subtract from tank health
             currentHealth -= 25;
-            Debug.Log("tank 1 current health");
-            Debug.Log(currentHealth);
+            //Debug.Log("tank 1 current health");
+            //Debug.Log(currentHealth);
             GameController.Instance.TankDamage(tankIndex, currentHealth);
         }
 
@@ -74,6 +71,9 @@ public class TankController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // if not players turn, dont do anything with input
+        if (!isMyTurn) return;
+
         //Debug.Log($"current gas: {currentGas}");
         // Jump
         // if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
@@ -91,6 +91,8 @@ public class TankController : MonoBehaviour
         // Check if there is horizontal input AND we have gas
         if (isMyTurn && Mathf.Abs(moveInput.x) > 0.01f && currentGas > 0f)
         {
+            //Debug.Log($"tank {tankIndex} moveInput {moveInput.x}");
+
             // Drain gas based on TIME, not per key-press
             // '5 * Time.deltaTime' drains 5 units per second
             currentGas -= gasDrainRate * Time.deltaTime;
@@ -107,7 +109,9 @@ public class TankController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        //Debug.Log("tank 1 movement detected...");
+        // if not players turn, dont do anything with input
+        //if (!isMyTurn) return;
+        Debug.Log($"tank {tankIndex} OnMove - IsmyTurn: {isMyTurn}");
         //Debug.Log($"{gameObject.name} moved by {context.control.name} " + $"using scheme: {GetComponent<PlayerInput>().currentControlScheme}");
         moveInput = context.ReadValue<Vector2>();
         // if (Mathf.Abs(moveInput.x) > 0.01f)
@@ -124,8 +128,9 @@ public class TankController : MonoBehaviour
 
     public void SetIsTurn(bool val)
     {   
-        Debug.Log($"set is turn flag to: {isMyTurn} for {tankIndex}");
+        
         isMyTurn = val;
+        Debug.Log($"is turn flag to: {isMyTurn} for TANK{tankIndex}");
     }
 
     public void ResetGas()

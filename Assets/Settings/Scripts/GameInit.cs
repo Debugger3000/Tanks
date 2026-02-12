@@ -30,9 +30,11 @@ public class GameInit : MonoBehaviour
         p1.ActivateInput();
         p2.ActivateInput();
 
+        Debug.Log($"Spawned P1 (Index: {p1.playerIndex}) and P2 (Index: {p2.playerIndex})");
+
         // Link them to the controller
         GameController.Instance.InitializePlayers(p1, p2);
 
-        Debug.Log($"Spawned P1 (Index: {p1.playerIndex}) and P2 (Index: {p2.playerIndex})");
+        
     }
 }

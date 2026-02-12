@@ -344,8 +344,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3926960588902024065}
-        m_TargetAssemblyTypeName: Tank01BarrelPivot, Assembly-CSharp
+      - m_Target: {fileID: 8015210103347559050}
+        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
         m_MethodName: OnBarrelRotate
         m_Mode: 0
         m_Arguments:
@@ -360,8 +360,8 @@ MonoBehaviour:
     m_ActionName: 'Tanks/WASD[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3926960588902024065}
-        m_TargetAssemblyTypeName: Tank01BarrelPivot, Assembly-CSharp
+      - m_Target: {fileID: 8015210103347559050}
+        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
         m_MethodName: OnShoot
         m_Mode: 0
         m_Arguments:
@@ -388,8 +388,8 @@ MonoBehaviour:
     m_ActionName: Tanks/test
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3926960588902024065}
-        m_TargetAssemblyTypeName: Tank01BarrelPivot, Assembly-CSharp
+      - m_Target: {fileID: 8015210103347559050}
+        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
         m_MethodName: OnIncreasePower
         m_Mode: 0
         m_Arguments:
@@ -408,8 +408,8 @@ MonoBehaviour:
     m_ActionName: 'Tanks/Tank2Power[/Keyboard/period,/Keyboard/slash]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3926960588902024065}
-        m_TargetAssemblyTypeName: Tank01BarrelPivot, Assembly-CSharp
+      - m_Target: {fileID: 8015210103347559050}
+        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
         m_MethodName: OnDecreasePower
         m_Mode: 0
         m_Arguments:
@@ -426,6 +426,26 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: df84d532-7bc0-4368-bdb2-387754f821cb
     m_ActionName: 'Tanks/Tank2PowerDecrease[/Keyboard/period]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6b32622e-c4f2-459b-bf9c-919c6ef310a5
+    m_ActionName: Tanks/Click
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 47f50bc3-5e17-4c59-bfc4-8a692b5a8a79
+    m_ActionName: Tanks/Point
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8ac0fedd-20fc-42b6-be52-f39f37a64826
+    m_ActionName: UI/Point
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7adf7b9d-88c3-493d-919f-f346424da85c
+    m_ActionName: UI/Click
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6556dc75-43af-45c3-b6f9-8b09ea2a7ddf
+    m_ActionName: New action map/New action
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: T1
   m_DefaultActionMap: Tanks
@@ -1157,6 +1177,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank01BarrelPivot
       objectReference: {fileID: 0}
+    - target: {fileID: 5187883257913596603, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 7287245804800718565}
+    - target: {fileID: 5187883257913596603, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: muzzleSmokePrefab
+      value: 
+      objectReference: {fileID: 100002, guid: a24c2dc4ddb2fb34591d1bbab6a8354a, type: 3}
+    - target: {fileID: 5187883257913596603, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: muzzleFlashtPrefab
+      value: 
+      objectReference: {fileID: 100006, guid: 0661276422528d74d8c9894abad93242, type: 3}
+    - target: {fileID: 5187883257913596603, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: Assembly-CSharp::TankBarrel
+      objectReference: {fileID: 0}
     - target: {fileID: 6345624083897860668, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.918
@@ -1197,22 +1233,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2214630345334268848, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
---- !u!114 &3926960588902024065 stripped
+--- !u!4 &7287245804800718565 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5613121460062115540, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+  m_PrefabInstance: {fileID: 2937665586194669617}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8015210103347559050 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2214630345334268848, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5187883257913596603, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
   m_PrefabInstance: {fileID: 2937665586194669617}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c895f29df8fe284429313010017d0875, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Tank01BarrelPivot
+  m_EditorClassIdentifier: Assembly-CSharp::TankBarrel
 --- !u!4 &8130264181977948685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6345624083897860668, guid: f42a5a3735ce601408cf677475ec037a, type: 3}

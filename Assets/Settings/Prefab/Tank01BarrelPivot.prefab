@@ -178,8 +178,6 @@ MonoBehaviour:
   currentAngle: 0
   muzzleFlashtPrefab: {fileID: 100006, guid: 0661276422528d74d8c9894abad93242, type: 3}
   muzzleSmokePrefab: {fileID: 100002, guid: a24c2dc4ddb2fb34591d1bbab6a8354a, type: 3}
-  bulletPrefab: {fileID: 7501069705740584042, guid: 0193bac01507b4445a2e24877508abab, type: 3}
-  currentWeapon: {fileID: 0}
   firePoint: {fileID: 5613121460062115540}
   bulletForce: 20
 --- !u!61 &8697499146729801429
@@ -241,14 +239,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tank01BarrelPivot
   tankIndex: 0
-  rotationSpeed: 100
+  rotationSpeed: 50
   verticalInput: 0
   minAngle: -90
   maxAngle: 90
   currentAngle: 0
   muzzleFlashtPrefab: {fileID: 100006, guid: 0661276422528d74d8c9894abad93242, type: 3}
   muzzleSmokePrefab: {fileID: 100002, guid: a24c2dc4ddb2fb34591d1bbab6a8354a, type: 3}
-  bulletPrefab: {fileID: 0}
-  currentWeapon: {fileID: 0}
   firePoint: {fileID: 5613121460062115540}
   bulletForce: 20
