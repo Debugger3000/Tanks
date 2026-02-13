@@ -525,19 +525,19 @@
             "id": "756867bb-4b8d-4acc-aed3-39153039d524",
             "actions": [
                 {
-                    "name": "Point",
+                    "name": "Click1",
                     "type": "PassThrough",
-                    "id": "8ac0fedd-20fc-42b6-be52-f39f37a64826",
-                    "expectedControlType": "Vector2",
+                    "id": "773273ce-2b62-46c7-9e8e-8074d6934f91",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Click",
+                    "name": "Point",
                     "type": "PassThrough",
-                    "id": "7adf7b9d-88c3-493d-919f-f346424da85c",
-                    "expectedControlType": "Button",
+                    "id": "34f6ce4c-8899-44af-81b5-2db404be420a",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -546,77 +546,33 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "795108bc-e8ae-4dd6-8db8-79a01399a715",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";T1",
-                    "action": "Point",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4cb53e68-4793-490f-acf0-f83e136d3678",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Point",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "06d20c04-9c1e-4493-b085-42f2e23fd4d3",
+                    "id": "5063242c-6087-4444-9f58-f92f2ece46d5",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";T1",
-                    "action": "Click",
+                    "groups": ";Mouse",
+                    "action": "Click1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "93d15903-5ce3-4f73-9e41-326efda912f7",
-                    "path": "<Mouse>/leftButton",
+                    "id": "9927e2a1-f8eb-4223-a48f-e9efbebd439f",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Click",
+                    "groups": ";Mouse",
+                    "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "New action map",
+            "name": "Mouse",
             "id": "b606916a-ae8f-4592-bc36-f1b6e8c33cf9",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "6556dc75-43af-45c3-b6f9-8b09ea2a7ddf",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "a6d2b5f1-c751-4af3-841b-02c5b3a791a5",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
+            "actions": [],
+            "bindings": []
         }
     ],
     "controlSchemes": [
@@ -651,6 +607,17 @@
                     "isOptional": false,
                     "isOR": false
                 },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Mouse",
+            "bindingGroup": "Mouse",
+            "devices": [
                 {
                     "devicePath": "<Mouse>",
                     "isOptional": false,

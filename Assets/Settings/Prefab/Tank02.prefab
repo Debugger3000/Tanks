@@ -764,24 +764,16 @@ MonoBehaviour:
     m_ActionName: 'Tanks/Tank2PowerDecrease[/Keyboard/period]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 6b32622e-c4f2-459b-bf9c-919c6ef310a5
-    m_ActionName: Tanks/Click
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 47f50bc3-5e17-4c59-bfc4-8a692b5a8a79
-    m_ActionName: Tanks/Point
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8ac0fedd-20fc-42b6-be52-f39f37a64826
-    m_ActionName: UI/Point
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 7adf7b9d-88c3-493d-919f-f346424da85c
     m_ActionName: UI/Click
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 6556dc75-43af-45c3-b6f9-8b09ea2a7ddf
-    m_ActionName: New action map/New action
+    m_ActionId: 3d68e748-85cf-4b68-adc3-f95107ab5701
+    m_ActionName: Mouse/Click
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c21e9000-a386-4671-afde-f61daa796310
+    m_ActionName: Mouse/Point
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: T1
   m_DefaultActionMap: Tanks
