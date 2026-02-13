@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour
 
     private bool isSwitching = false;
 
-    public InputActionAsset myInputActions;
+    // public InputActionAsset myInputActions;
 
     // expose GameController via GameController.Instance
     void Awake() { 
@@ -109,7 +109,7 @@ public class GameController : MonoBehaviour
         // Start game
         UpdateTurnUI();
         DeactivateInput();
-        // SetCurrentTurnFocus(); // activate current players input
+        SetCurrentTurnFocus(); // activate current players input
         NewPlayersTurn(); // set players values to appriproate values for their turn 
 
         
@@ -117,6 +117,9 @@ public class GameController : MonoBehaviour
         // set up player inventory with basic weapon
         InitPlayerInventory();
     }
+
+
+    
 
 
     private void InitPlayerInventory()
@@ -228,13 +231,20 @@ public class GameController : MonoBehaviour
     private void DeactivateInput()
     {
         players[0].DeactivateInput();
+        //players[0].enabled = false;
+        //players[0].currentActionMap.Disable();
         players[1].DeactivateInput();
+        //players[1].enabled = false;
+        //players[1].currentActionMap.Disable();
          // turn on active player 
     }
 
     private void SetCurrentTurnFocus()
     {
+        //players[activePlayerIndex].enabled = true;
         players[activePlayerIndex].ActivateInput();
+        //OnTurnSwap(players[activePlayerIndex]);
+        // players[activePlayerIndex].currentActionMap.Enable();
     }
 
     private void EndOfPlayerTurn()
@@ -295,5 +305,31 @@ public class GameController : MonoBehaviour
             // spawn two crates for each player
         }
     }
+
+
+//     public void OnTurnSwap(PlayerInput newActivePlayer)
+//     {
+//     // 1. Get the components from your EventSystem object
+//     var multiEvent = FindFirstObjectByType<MultiplayerEventSystem>();
+//     var uiModule = FindFirstObjectByType<InputSystemUIInputModule>();
+
+//     if (multiEvent != null && uiModule != null)
+//     {
+//         // 2. Point the UI Module to the new player's actions
+//         // This makes the mouse 'Point' and 'Click' work for the new turn
+//         uiModule.actionsAsset = newActivePlayer.actions;
+
+//         // 3. Link the PlayerInput to this specific UI Module
+//         newActivePlayer.uiInputModule = uiModule;
+
+//         // 4. Update the Player Root
+//         // If your UI is global, set this to the Canvas. 
+//         // If each tank has its own overhead UI, set it to the tank.
+//         multiEvent.playerRoot = newActivePlayer.gameObject;
+
+//         // 5. Optional: Auto-select a button for the new player
+//         // multiEvent.SetSelectedGameObject(someDefaultButton);
+//     }
+// }
     
 }

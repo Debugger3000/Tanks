@@ -344,18 +344,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 8015210103347559050}
-        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
-        m_MethodName: OnBarrelRotate
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_ActionId: 4deb3e0a-6f03-43f0-a89d-3de5fc0a5c2a
     m_ActionName: 'Tanks/WASD[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
@@ -387,39 +375,15 @@ MonoBehaviour:
     m_ActionId: 6c2b4526-fb5d-41ef-83e9-2b32e19c26f5
     m_ActionName: Tanks/test
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8015210103347559050}
-        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
-        m_MethodName: OnIncreasePower
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 0eddc0f6-4ff7-47bf-9b11-b707e9666805
-    m_ActionName: 'Tanks/Tank1Power[/Keyboard/q,/Keyboard/e]'
+    m_ActionName: 'Tanks/Tank1PowerIncrease[/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4a90c4b5-45d0-4b4c-ac33-a4e9278283b1
-    m_ActionName: 'Tanks/Tank2Power[/Keyboard/period,/Keyboard/slash]'
+    m_ActionName: 'Tanks/Tank2PowerIncrease[/Keyboard/slash]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8015210103347559050}
-        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
-        m_MethodName: OnDecreasePower
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: e891b259-c0a1-4aa3-9245-2342e9b77e93
     m_ActionName: 'Tanks/Tank1PowerDecrease[/Keyboard/q]'
   - m_PersistentCalls:
@@ -428,16 +392,16 @@ MonoBehaviour:
     m_ActionName: 'Tanks/Tank2PowerDecrease[/Keyboard/period]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 7adf7b9d-88c3-493d-919f-f346424da85c
+    m_ActionId: f2d308e3-6e46-4c3b-8a8f-a2ff0c7ff2b0
+    m_ActionName: UI/ScrollWheel
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5ef21711-a6f1-4471-a2d9-071e4460c946
     m_ActionName: UI/Click
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 3d68e748-85cf-4b68-adc3-f95107ab5701
-    m_ActionName: Mouse/Click
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c21e9000-a386-4671-afde-f61daa796310
-    m_ActionName: Mouse/Point
+    m_ActionId: 8323a00a-e3ea-4eb8-bbfd-3426efb84ca1
+    m_ActionName: UI/Point
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: T1
   m_DefaultActionMap: Tanks

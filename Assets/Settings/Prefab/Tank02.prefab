@@ -537,6 +537,8 @@ GameObject:
   - component: {fileID: 1885226933795210823}
   - component: {fileID: 4726123472715741564}
   - component: {fileID: 8393267165475630642}
+  - component: {fileID: 4281519144505321997}
+  - component: {fileID: 8774897510584405867}
   m_Layer: 7
   m_Name: Tank02
   m_TagString: Tank02
@@ -688,24 +690,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3451732379133091734}
-        m_TargetAssemblyTypeName: Tank01BarrelPivot, Assembly-CSharp
-        m_MethodName: OnBarrelRotate
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_ActionId: ddab2e91-4b59-425f-bb83-ac79026f052a
     m_ActionName: 'Tanks/ArrowKeys[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3451732379133091734}
-        m_TargetAssemblyTypeName: Tank01BarrelPivot, Assembly-CSharp
+        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
         m_MethodName: OnShoot
         m_Mode: 0
         m_Arguments:
@@ -727,19 +717,7 @@ MonoBehaviour:
     m_ActionId: 0eddc0f6-4ff7-47bf-9b11-b707e9666805
     m_ActionName: 'Tanks/Tank1PowerIncrease[/Keyboard/e]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3451732379133091734}
-        m_TargetAssemblyTypeName: Tank01BarrelPivot, Assembly-CSharp
-        m_MethodName: OnIncreasePower
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 4a90c4b5-45d0-4b4c-ac33-a4e9278283b1
     m_ActionName: 'Tanks/Tank2PowerIncrease[/Keyboard/slash]'
   - m_PersistentCalls:
@@ -747,35 +725,23 @@ MonoBehaviour:
     m_ActionId: e891b259-c0a1-4aa3-9245-2342e9b77e93
     m_ActionName: 'Tanks/Tank1PowerDecrease[/Keyboard/q]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3451732379133091734}
-        m_TargetAssemblyTypeName: Tank01BarrelPivot, Assembly-CSharp
-        m_MethodName: OnDecreasePower
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: df84d532-7bc0-4368-bdb2-387754f821cb
     m_ActionName: 'Tanks/Tank2PowerDecrease[/Keyboard/period]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 7adf7b9d-88c3-493d-919f-f346424da85c
+    m_ActionId: f2d308e3-6e46-4c3b-8a8f-a2ff0c7ff2b0
+    m_ActionName: UI/ScrollWheel
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5ef21711-a6f1-4471-a2d9-071e4460c946
     m_ActionName: UI/Click
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 3d68e748-85cf-4b68-adc3-f95107ab5701
-    m_ActionName: Mouse/Click
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c21e9000-a386-4671-afde-f61daa796310
-    m_ActionName: Mouse/Point
+    m_ActionId: 8323a00a-e3ea-4eb8-bbfd-3426efb84ca1
+    m_ActionName: UI/Point
   m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: T1
+  m_DefaultControlScheme: T2
   m_DefaultActionMap: Tanks
   m_SplitScreenIndex: 1
   m_Camera: {fileID: 0}
@@ -827,6 +793,53 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &4281519144505321997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904563594481078411}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16c6f78230fa4964a222622d8aae332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.MultiplayerEventSystem
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+  m_PlayerRoot: {fileID: 0}
+--- !u!114 &8774897510584405867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904563594481078411}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: b0da252519572bd439b11f015ec2a413, type: 3}
+  m_PointAction: {fileID: 1054132383583890850, guid: b0da252519572bd439b11f015ec2a413, type: 3}
+  m_MoveAction: {fileID: 0}
+  m_SubmitAction: {fileID: 0}
+  m_CancelAction: {fileID: 0}
+  m_LeftClickAction: {fileID: -3413235935410351802, guid: b0da252519572bd439b11f015ec2a413, type: 3}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &6110629871988447551
 GameObject:
   m_ObjectHideFlags: 0
