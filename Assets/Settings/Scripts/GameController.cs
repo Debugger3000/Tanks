@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -42,50 +43,23 @@ public class GameController : MonoBehaviour
     readonly private float turnDelay = 5.0f;
     private int turnCounter = 0;
 
+    // Players(Tanks) 1 & 2 - script list
     private TankController[] tankList;
-
-    private int activePlayerIndex = 0;
+    // Players(Tanks) 1 & 2 - InputSystem.PlayerInput list
     private PlayerInput[] players;
-
+    // current Player index (Tank 0 & 1)
+    private int activePlayerIndex = 0;
+    
+    // Safeguard 
     private bool isSwitching = false;
 
     // public InputActionAsset myInputActions;
 
     // expose GameController via GameController.Instance
     void Awake() { 
-        
         Instance = this;
-    
-        // This turns on the UI map so the EventSystem can "hear" the mouse
-        // if (myInputActions != null)
-        // {
-        //     myInputActions.FindActionMap("UI").Enable();
-
-        //     // You should also enable your Player map here if you haven't elsewhere
-        //     //myInputActions.FindActionMap("Player").Enable(); 
-        // } 
         }
 
-    // void Start()
-    // {
-    //     // Find the EventSystem's brain in the scene
-    //     var uiModule = FindAnyObjectByType<InputSystemUIInputModule>();
-        
-    //     // Find the Player Input component (the one using the T1 scheme)
-    //     var playerInput = FindAnyObjectByType<PlayerInput>();
-
-    //     if (playerInput != null && uiModule != null)
-    //     {
-    //         // This is the "Magic Link" that connects the two
-    //         playerInput.uiInputModule = uiModule;
-            
-    //         // Ensure the UI map is actually turned on
-    //         var uiMap = playerInput.actions.FindActionMap("UI");
-    //         if (uiMap != null) uiMap.Enable();
-            
-    //         Debug.Log("UI Link Established with Player Input!");
-    //     }
-    // }
 
     public void InitializePlayers(PlayerInput p1, PlayerInput p2)
     {
@@ -112,14 +86,9 @@ public class GameController : MonoBehaviour
         SetCurrentTurnFocus(); // activate current players input
         NewPlayersTurn(); // set players values to appriproate values for their turn 
 
-        
-
         // set up player inventory with basic weapon
         InitPlayerInventory();
     }
-
-
-    
 
 
     private void InitPlayerInventory()
@@ -127,43 +96,42 @@ public class GameController : MonoBehaviour
         //p1Inventory.ResetInventory();
         //p2Inventory.ResetInventory();
 
-        // 2. Add the basic weapons to P1
-        p1Inventory.AddWeapon(starterWeapon1);
-        p1Inventory.AddWeapon(starterWeapon2);
+        // Add defaults weapons to Player 1 
+        p1Inventory.AddWeapon(new WeaponInstance(starterWeapon1));
+        p1Inventory.AddWeapon(new WeaponInstance(starterWeapon2));
 
-        // 3. Add the basic weapons to P2
-        p2Inventory.AddWeapon(starterWeapon1);
-        p2Inventory.AddWeapon(starterWeapon2);
+        // Add defaults weapons to Player 2
+        p2Inventory.AddWeapon(new WeaponInstance(starterWeapon1));
+        p2Inventory.AddWeapon(new WeaponInstance(starterWeapon2));
 
         // 4. (Optional) Set the tank's current weapon to the first starter
-        player1Barrel.SetWeapon(starterWeapon1);
-        player2Barrel.SetWeapon(starterWeapon1);
+        player1Barrel.SetWeapon(new WeaponInstance(starterWeapon1));
+        player2Barrel.SetWeapon(new WeaponInstance(starterWeapon2));
     }
 
-    public void SetPlayerWeapon(int playerIndex, WeaponData weaponData)
+    public void SetPlayerWeapon(int playerIndex, string weaponData)
     {
         Debug.Log($"Setting {playerIndex} weapon to {weaponData}");
         if (playerIndex == 0)
         {
-            player1Barrel.SetWeapon(weaponData);
+            foreach (WeaponInstance weapon in p1Inventory.ownedWeapons)
+            {   // find weapon that UI correlates too
+                if(weapon.weaponData.name == weaponData){
+                    player1Barrel.SetWeapon(weapon); // set weapon 
+                }
+            }
         }   
         else
         {
-            player2Barrel.SetWeapon(weaponData);   
+            foreach (WeaponInstance weapon in p1Inventory.ownedWeapons)
+            {   // find weapon that UI correlates too
+                if(weapon.weaponData.name == weaponData){
+                    player2Barrel.SetWeapon(weapon); // set weapon 
+                }
+            }   
         }
         
     }
-
-    // public void ChangeActiveWeapon(WeaponData data)
-    // {
-    //     if (turnCounter % 2 != 0)
-    //         player1Barrel.SetWeapon(data);
-    //     else
-    //         player2Barrel.SetWeapon(data);
-    // }
-
-    
-
     
     private void UpdateTurnUI()
     {

@@ -344,6 +344,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8015210103347559050}
+        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
+        m_MethodName: OnBarrelRotate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4deb3e0a-6f03-43f0-a89d-3de5fc0a5c2a
     m_ActionName: 'Tanks/WASD[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
@@ -375,7 +387,19 @@ MonoBehaviour:
     m_ActionId: 6c2b4526-fb5d-41ef-83e9-2b32e19c26f5
     m_ActionName: Tanks/test
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8015210103347559050}
+        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
+        m_MethodName: OnIncreasePower
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 0eddc0f6-4ff7-47bf-9b11-b707e9666805
     m_ActionName: 'Tanks/Tank1PowerIncrease[/Keyboard/e]'
   - m_PersistentCalls:
@@ -383,7 +407,19 @@ MonoBehaviour:
     m_ActionId: 4a90c4b5-45d0-4b4c-ac33-a4e9278283b1
     m_ActionName: 'Tanks/Tank2PowerIncrease[/Keyboard/slash]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8015210103347559050}
+        m_TargetAssemblyTypeName: TankBarrel, Assembly-CSharp
+        m_MethodName: OnDecreasePower
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e891b259-c0a1-4aa3-9245-2342e9b77e93
     m_ActionName: 'Tanks/Tank1PowerDecrease[/Keyboard/q]'
   - m_PersistentCalls:
@@ -392,16 +428,36 @@ MonoBehaviour:
     m_ActionName: 'Tanks/Tank2PowerDecrease[/Keyboard/period]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: f2d308e3-6e46-4c3b-8a8f-a2ff0c7ff2b0
-    m_ActionName: UI/ScrollWheel
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 5ef21711-a6f1-4471-a2d9-071e4460c946
     m_ActionName: UI/Click
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 8323a00a-e3ea-4eb8-bbfd-3426efb84ca1
     m_ActionName: UI/Point
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 65799609-9464-4f70-aae0-69d686c2b8b7
+    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4aac4da6-5fd3-4e31-8aec-91f33da8196d
+    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5e85feb2-272d-4aad-9f4b-a287d18c522f
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9f5a28f4-a76f-4ff8-9ae0-ff49d5ec21c1
+    m_ActionName: 'UI/Cancel[/Keyboard/o]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a4bc63d9-0f82-4b4a-8a84-5c6712c23153
+    m_ActionName: 'UI/Submit[/Keyboard/p]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f1072867-a659-48ff-82e1-cceb3d51d873
+    m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: T1
   m_DefaultActionMap: Tanks

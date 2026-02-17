@@ -4,9 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewPlayerWeaponInventory", menuName = "ScriptableObjects/PlayerWeaponInventory")]
 public class PlayerWeaponInventory : ScriptableObject
 {
-    public List<WeaponData> ownedWeapons = new List<WeaponData>();
+    public List<WeaponInstance> ownedWeapons = new List<WeaponInstance>();
 
-    public void AddWeapon(WeaponData newWeapon)
+
+    public void AddWeapon(WeaponInstance newWeapon)
     {
         //
         if (!ownedWeapons.Contains(newWeapon))

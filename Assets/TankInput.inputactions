@@ -70,18 +70,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Tank1PowerDecrease",
+                    "name": "Tank2PowerDecrease",
                     "type": "Button",
-                    "id": "e891b259-c0a1-4aa3-9245-2342e9b77e93",
+                    "id": "45a2e3b7-0204-4131-98ce-79ce8310fba2",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Tank2PowerDecrease",
+                    "name": "Tank1PowerDecrease",
                     "type": "Button",
-                    "id": "df84d532-7bc0-4368-bdb2-387754f821cb",
+                    "id": "e891b259-c0a1-4aa3-9245-2342e9b77e93",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -476,6 +476,50 @@
                 },
                 {
                     "name": "",
+                    "id": "24256936-a4e1-413f-b0d2-63e21230fe95",
+                    "path": "<Keyboard>/slash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";T2",
+                    "action": "Tank2PowerIncrease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7ad448f0-6d1e-45fa-af8c-e5057d1cebc4",
+                    "path": "<Keyboard>/slash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";T1",
+                    "action": "Tank2PowerDecrease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3a106e0-38b2-4bad-857c-b247aedbc588",
+                    "path": "<Keyboard>/slash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Tank2PowerDecrease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5bd7a156-6e35-4f47-92a1-33cc6eaf4a24",
+                    "path": "<Keyboard>/period",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";T2",
+                    "action": "Tank2PowerDecrease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "045897fe-2dca-43d6-b856-22bf188bd9ff",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -493,28 +537,6 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Tank1PowerDecrease",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f31373d9-69f0-4e66-afeb-494856f9207f",
-                    "path": "<Keyboard>/period",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";T1",
-                    "action": "Tank2PowerDecrease",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "701b6526-396a-468a-8d6e-defe410c58a9",
-                    "path": "<Keyboard>/period",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Tank2PowerDecrease",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

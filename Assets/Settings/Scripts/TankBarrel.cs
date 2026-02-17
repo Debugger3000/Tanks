@@ -31,10 +31,10 @@ public class TankBarrel : MonoBehaviour
 
     // current weapon / projectile
     // updated by UI from above... we swap to whatever weapon we want
-    private WeaponData currentWeapon;
+    private WeaponInstance currentWeapon;
 
     // set current projectile for tank
-    public void SetWeapon(WeaponData weapon)
+    public void SetWeapon(WeaponInstance weapon)
     {
         currentWeapon = weapon; // change weapon data in barrel
         //projectileScript.Setup(currentWeapon); 
@@ -66,6 +66,9 @@ public class TankBarrel : MonoBehaviour
         // if (myTankController == null) {
         //     Debug.LogError($"Barrel on {gameObject.name} can't find its TankController parent!");
         // }
+
+        var tankControl = GetComponentInParent<TankController>();
+        myTankController = tankControl; // set tankcontroller so we can grab vars
     }
 
     // void Start()
@@ -120,11 +123,16 @@ public class TankBarrel : MonoBehaviour
 
     public void OnBarrelRotate(InputAction.CallbackContext context)
     {
-        //Debug.Log($"rotate barrel for tank {tankIndex} pressed...");
-        Vector2 fullInput = context.ReadValue<Vector2>();
+        // make sure only current tank barrel is rotating.
+        if (myTankController.isMyTurn)
+        {
+             //Debug.Log($"rotate barrel for tank {tankIndex} pressed...");
+            Vector2 fullInput = context.ReadValue<Vector2>();
 
-        // Grab only Y axis for move controls so just W and S
-        verticalInput = fullInput.y;
+            // Grab only Y axis for move controls so just W and S
+            verticalInput = fullInput.y;
+        }
+       
     }
 
     private void RotateBarrel()
@@ -175,7 +183,7 @@ public class TankBarrel : MonoBehaviour
     void Shoot()
     {
         // make sure player can only shoot once per turn
-        if (!hasPlayerShot)
+        if (!hasPlayerShot && currentWeapon.currentAmmo > 0)
         {
         // start muzzle animation
         GameObject muzzleEffect = Instantiate(muzzleFlashtPrefab, firePoint.position, firePoint.rotation);
@@ -183,12 +191,12 @@ public class TankBarrel : MonoBehaviour
         GameObject muzzleSmokeEffect = Instantiate(muzzleSmokePrefab, firePoint.position, firePoint.rotation);
 
         // 1. Create the bullet at the FirePoint's position and rotation
-        GameObject bullet = Instantiate(currentWeapon.projectilePreFab, firePoint.position, firePoint.rotation);
+        GameObject bullet = Instantiate(currentWeapon.weaponData.projectilePreFab, firePoint.position, firePoint.rotation);
 
         // The Handoff: The Barrel gives the Projectile a reference to the data
         if (bullet.TryGetComponent(out Projectile01 projectileScript))
         {
-            projectileScript.Setup(currentWeapon); 
+            projectileScript.Setup(currentWeapon.weaponData); 
         }
 
         // make sure a tanks projectile doesn't explode on itself, on shoot
@@ -208,7 +216,10 @@ public class TankBarrel : MonoBehaviour
         // if player has shot
         hasPlayerShot = true;
 
-        
+        // decrement weapon ammo by 1 after use
+        currentWeapon.currentAmmo -= 1;
+
+        // update UI for weapon icon
         }
     }
 

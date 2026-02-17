@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eab049eaecd8e47a2c2cce31fafad9, type: 3}
   m_Name: BigShell
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponName: BigShell
+  weaponName: HE-large
   icon: {fileID: 21300000, guid: e0aab8ef7a3e2664c9a41888a276b862, type: 3}
   projectilePreFab: {fileID: 7501069705740584042, guid: 0193bac01507b4445a2e24877508abab, type: 3}
   damage: 25
   explosionRadius: 2
+  startAmmo: 2
   fireSound: {fileID: 0}

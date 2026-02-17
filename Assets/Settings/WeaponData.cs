@@ -17,6 +17,9 @@ public class WeaponData : ScriptableObject
     // default is 1f radius, two holes in terrain have to be made close together to disrupt tank movement
     public float explosionRadius = 1f; // How many tiles to destroy
 
+    // default is infinite
+    // Pass diff value when creating weapon instance to change
+    public int startAmmo = 9999;
     [Header("Stats")]
     // public float damage;
     // public float fireRate;
@@ -25,4 +28,5 @@ public class WeaponData : ScriptableObject
 
     [Header("Audio")]
     public AudioClip fireSound;
+
 }
