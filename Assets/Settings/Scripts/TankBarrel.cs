@@ -198,6 +198,10 @@ public class TankBarrel : MonoBehaviour
         {
             projectileScript.Setup(currentWeapon.weaponData); 
         }
+        // else if(bullet.TryGetComponent(out ClusterBomb clusterProj))
+        // {
+        //     clusterProj.Setup(currentWeapon.weaponData);
+        // }
 
         // make sure a tanks projectile doesn't explode on itself, on shoot
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
@@ -217,9 +221,10 @@ public class TankBarrel : MonoBehaviour
         hasPlayerShot = true;
 
         // decrement weapon ammo by 1 after use
-        currentWeapon.currentAmmo -= 1;
+        //currentWeapon.currentAmmo -= 1;
 
         // update UI for weapon icon
+        GameController.Instance.WeaponAmmoDecrement(tankIndex, currentWeapon.weaponData.weaponName); // decrement by 1
         }
     }
 

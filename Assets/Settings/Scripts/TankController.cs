@@ -61,6 +61,10 @@ public class TankController : MonoBehaviour
             //Debug.Log(currentHealth);
             GameController.Instance.TankDamage(tankIndex, currentHealth);
         }
+        else if(collision.gameObject.layer == LayerMask.NameToLayer("Crate"))
+        {
+            
+        }
 
     }
 

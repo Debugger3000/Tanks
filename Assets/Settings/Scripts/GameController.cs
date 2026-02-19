@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
@@ -29,8 +30,14 @@ public class GameController : MonoBehaviour
 
     [Header("Player Inventory")]
     [Header("Inventory Data")]
-    public PlayerWeaponInventory p1Inventory;
-    public PlayerWeaponInventory p2Inventory;
+    // public PlayerWeaponInventory p1Inventory;
+    // public PlayerWeaponInventory p2Inventory;
+
+    // hold UI weapon references + weapon Instances in general for each player...   
+    public WeaponUI weaponUI;
+
+    
+    public float crateSpawnHeight = 500f;
 
     private TankBarrel player1Barrel;
     private TankBarrel player2Barrel;
@@ -38,6 +45,13 @@ public class GameController : MonoBehaviour
     [Header("Starting Loadout")]
     public WeaponData starterWeapon1;
     public WeaponData starterWeapon2;
+
+
+    [Header("Crates")]
+    public CrateWeapons crateWeapons;
+    public GameObject cratePrefab;
+    public Transform p1CrateSpawn;
+    public Transform p2CrateSpawn;
 
     [Header("Game Settings")]
     readonly private float turnDelay = 5.0f;
@@ -87,50 +101,48 @@ public class GameController : MonoBehaviour
         NewPlayersTurn(); // set players values to appriproate values for their turn 
 
         // set up player inventory with basic weapon
-        InitPlayerInventory();
+        // InitPlayerInventory();
     }
 
 
-    private void InitPlayerInventory()
+    public void InitPlayerInventory()
     {
+        Debug.Log("INIT playerinventory from GameController...");
         //p1Inventory.ResetInventory();
         //p2Inventory.ResetInventory();
 
         // Add defaults weapons to Player 1 
-        p1Inventory.AddWeapon(new WeaponInstance(starterWeapon1));
-        p1Inventory.AddWeapon(new WeaponInstance(starterWeapon2));
+        //p1Inventory.AddWeapon(new WeaponInstance(starterWeapon1));
+        //p1Inventory.AddWeapon(new WeaponInstance(starterWeapon2));
 
         // Add defaults weapons to Player 2
-        p2Inventory.AddWeapon(new WeaponInstance(starterWeapon1));
-        p2Inventory.AddWeapon(new WeaponInstance(starterWeapon2));
+        //p2Inventory.AddWeapon(new WeaponInstance(starterWeapon1));
+        //p2Inventory.AddWeapon(new WeaponInstance(starterWeapon2));
 
-        // 4. (Optional) Set the tank's current weapon to the first starter
-        player1Barrel.SetWeapon(new WeaponInstance(starterWeapon1));
-        player2Barrel.SetWeapon(new WeaponInstance(starterWeapon2));
+        // increment p2 start weapons
+        weaponUI.IncrementWeapon(0, "HE-small");
+        weaponUI.IncrementWeapon(0, "HE-large");
+        // increment p2 start weapons
+        weaponUI.IncrementWeapon(1, "HE-small"); // increment
+        weaponUI.IncrementWeapon(1, "HE-large");
+
+        // Set current tank weapons to default 
+        WeaponInstance p1Start = weaponUI.GetWeapon(0, "HE-small");
+        WeaponInstance p2Start = weaponUI.GetWeapon(1, "HE-small");
+        player1Barrel.SetWeapon(p1Start);
+        player2Barrel.SetWeapon(p2Start);
     }
 
-    public void SetPlayerWeapon(int playerIndex, string weaponData)
+    public void SetPlayerWeapon(int playerIndex, string weaponName)
     {
-        Debug.Log($"Setting {playerIndex} weapon to {weaponData}");
-        if (playerIndex == 0)
+        WeaponInstance curWeaponInstance = weaponUI.GetWeapon(playerIndex, weaponName);
+        // make sure return is not null
+        if (curWeaponInstance != null)
         {
-            foreach (WeaponInstance weapon in p1Inventory.ownedWeapons)
-            {   // find weapon that UI correlates too
-                if(weapon.weaponData.name == weaponData){
-                    player1Barrel.SetWeapon(weapon); // set weapon 
-                }
-            }
-        }   
-        else
-        {
-            foreach (WeaponInstance weapon in p1Inventory.ownedWeapons)
-            {   // find weapon that UI correlates too
-                if(weapon.weaponData.name == weaponData){
-                    player2Barrel.SetWeapon(weapon); // set weapon 
-                }
-            }   
+            Debug.Log($"Setting weapon for {playerIndex} to {curWeaponInstance.weaponData.weaponName}...");
+            if(playerIndex == 0) player1Barrel.SetWeapon(curWeaponInstance);
+            else player2Barrel.SetWeapon(curWeaponInstance);
         }
-        
     }
     
     private void UpdateTurnUI()
@@ -139,6 +151,12 @@ public class GameController : MonoBehaviour
         turnIndicator.text = $"Tank {activePlayerIndex + 1}'s Turn";
         // p1GasBar.fillAmount = 1.0f;
         // p2GasBar.fillAmount = 1.0f;
+    }
+
+    public void WeaponAmmoDecrement(int tankIndex, string weaponName)
+    {
+        // weapon fired, decrement this weapon
+        weaponUI.DecrementWeapon(tankIndex, weaponName);
     }
 
 
@@ -267,11 +285,40 @@ public class GameController : MonoBehaviour
 
     private void CrateSpawn()
     {
+        // map size
+        // width: 1280
+            // -600 -> 0 -> 600
+        // height: 720
+        System.Random random = new System.Random();
+
         // spawn first crate on turn 7
-        if (turnCounter == 7)
+        if (turnCounter == 2)
         {
+            Debug.Log("Spawning a crate on round TWO TWO TWO WTOTW O WTO");
             // spawn two crates for each player
+            int randX1 = random.Next(-33, 0);
+            int randX2 = random.Next(0, 33);
+
+            p1CrateSpawn.position = new Vector2(randX1, crateSpawnHeight);
+            p2CrateSpawn.position = new Vector2(randX2, crateSpawnHeight);
+
+            GameObject crate1 = Instantiate(cratePrefab, p1CrateSpawn.position, p1CrateSpawn.rotation);
+            GameObject crate2 = Instantiate(cratePrefab, p2CrateSpawn.position, p2CrateSpawn.rotation);
         }
+    }
+
+    public string GetRandomCrateWeapon()
+    {
+        System.Random random = new System.Random();
+        List<WeaponData> weapons = crateWeapons.crateWeapons;
+        int randomIndex = random.Next(0,weapons.Count);
+        return weapons[randomIndex].weaponName; // return weapon name / id
+    }
+
+    // give tank weapon of the crate it has hit...
+    public void TankHitsCrate(string weaponName)
+    {
+        weaponUI.IncrementWeapon(activePlayerIndex, weaponName);
     }
 
 

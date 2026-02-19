@@ -13,7 +13,7 @@ public class WeaponUIInstance
     public GameObject uiWeaponButton;
     // components of UI button
     
-    public TMPro.TextMeshProUGUI ammoText;
+    // public TMPro.TextMeshProUGUI ammoText;
 
    
 

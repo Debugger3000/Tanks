@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1eab049eaecd8e47a2c2cce31fafad9, type: 3}
+  m_Name: ClusterBomb
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  weaponName: Cluster-bomb
+  icon: {fileID: 0}
+  projectilePreFab: {fileID: 5952003335126085872, guid: badcbe5ec88d36f4b8c1240398f8e66f, type: 3}
+  damage: 10
+  explosionRadius: 1
+  startAmmo: 2
+  fireSound: {fileID: 0}

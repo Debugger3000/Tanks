@@ -8,58 +8,79 @@ public class Inventory : MonoBehaviour
     //public GameObject buttonPrefab;   // A button with a text component
     // public TankBarrel playerBarrel;
     private GameController gameController;
-    public WeaponData weaponData;
+
+    private WeaponUI weaponUI;
+    // public WeaponData weaponData;
+
+    public string weaponName = "HE-small";
+
+    // private WeaponInstance weaponInstance;
 
     // public List<string> weaponNames = new List<string> { "HE-small", "HE-large" };
     // icons for certain player... 
-    public GameObject[] allButtons;
+    // public GameObject[] allButtons;
     
-    public string iconName = "Icon"; 
+    // public string iconName = "Icon"; 
 
-    public TMPro.TextMeshProUGUI ammoText;
+    // public TMPro.TextMeshProUGUI ammoText;
 
     [SerializeField]
     public int playerIndex = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // set weaponUI so we can communicate with it
+        weaponUI = FindAnyObjectByType<WeaponUI>();
+
         // Find the controller once at the start
         gameController = FindAnyObjectByType<GameController>();
-        // set ammo font text...
-        if(weaponData.startAmmo > 10)
-        {
-            ammoText.text = "99";            
-        }
-        else
-        {
-            Debug.Log(weaponData.startAmmo.ToString());
-            ammoText.text = weaponData.startAmmo.ToString();
-        }
+
+        // set weaponInstance reference
+        //weaponInstance = weaponUI.GetWeapon(playerIndex,weaponName);
     }
 
     // call gamecontroller method to set weapon for whatever player...
     public void OnClickSetWeapon()
     {
         Debug.Log("BUTTON CLICKED BUITTON CLIEDK");
-        // make sure only player 1 buttons set player 1's items
-        gameController.SetPlayerWeapon(playerIndex, weaponData.name);
+
+        // make sure weapon is available...
+        if(weaponUI.IsWeaponActive(playerIndex, weaponName))
+        {
+            // set that players weapon to that
+            // call to GameController because we have player barrel reference there
+            gameController.SetPlayerWeapon(playerIndex, weaponName);
+        }
+        else
+        {
+            // do nothing
+        }
     }
 
     // control current weapon Active icon UI for players
     public void SelectButton(GameObject clickedButton)
     {
-        foreach (GameObject btn in allButtons)
+        // check GameObject reference ID
+        if (weaponUI.IsWeaponActive(playerIndex, weaponName))
         {
-            // Look for the icon child in every button
-            Transform icon = btn.transform.Find(iconName);
-            
-            if (icon != null)
-            {
-                // If it's the button we clicked, turn it ON. Otherwise, OFF.
-                icon.gameObject.SetActive(btn == clickedButton);
-            }
+            weaponUI.SelectButton(playerIndex,clickedButton); // deselect all other buttons
         }
-    }
+        else
+        {
+            //do nothing...
+        }
 
+        // foreach (GameObject btn in allButtons)
+        // {
+        //     // Look for the icon child in every button
+        //     Transform icon = btn.transform.Find(iconName);
+            
+        //     if (icon != null)
+        //     {
+        //         // If it's the button we clicked, turn it ON. Otherwise, OFF.
+        //         icon.gameObject.SetActive(btn == clickedButton);
+        //     }
+        // }
+    }
 
 }

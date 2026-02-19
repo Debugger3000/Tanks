@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b8aaee5f824c74f80516094d34a9e5, type: 3}
   m_Name: CrateWeapons
   m_EditorClassIdentifier: Assembly-CSharp::CrateWeapons
-  crateWeapons: []
+  crateWeapons:
+  - {fileID: 11400000, guid: f81f4cf158c7be541b8febe04c5dd5d2, type: 2}

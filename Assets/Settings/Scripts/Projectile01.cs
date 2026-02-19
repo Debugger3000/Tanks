@@ -66,8 +66,6 @@ public class Projectile01 : MonoBehaviour
 
             // call player hit function in player 
 
-
-
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
         }

@@ -6,6 +6,7 @@ public class PlayerWeaponInventory : ScriptableObject
 {
     public List<WeaponInstance> ownedWeapons = new List<WeaponInstance>();
 
+    // Key: string (Weapon Name), Value: WeaponInstance
 
     public void AddWeapon(WeaponInstance newWeapon)
     {

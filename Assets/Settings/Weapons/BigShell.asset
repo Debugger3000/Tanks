@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: HE-large
   icon: {fileID: 21300000, guid: e0aab8ef7a3e2664c9a41888a276b862, type: 3}
   projectilePreFab: {fileID: 7501069705740584042, guid: 0193bac01507b4445a2e24877508abab, type: 3}
-  damage: 25
+  damage: 20
   explosionRadius: 2
-  startAmmo: 2
+  startAmmo: 3
   fireSound: {fileID: 0}
