@@ -15,7 +15,10 @@ MonoBehaviour:
   weaponName: Cluster-bomb
   icon: {fileID: 0}
   projectilePreFab: {fileID: 5952003335126085872, guid: badcbe5ec88d36f4b8c1240398f8e66f, type: 3}
+  hitEffectPrefab: {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}
   damage: 10
   explosionRadius: 1
+  childWeaponData:
+  - {fileID: 11400000, guid: 5fc538764dbe15f43b8d33b8aa65e448, type: 2}
   startAmmo: 2
   fireSound: {fileID: 0}

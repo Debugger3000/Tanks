@@ -160,10 +160,12 @@ public class GameController : MonoBehaviour
     }
 
 
-    public void TankDamage(int tankIndex, float healthPercent)
+    public void TankDamage(int tankIndex, float currentHealth)
     {
-        Debug.Log($"Tank {tankIndex} has  been damaged");
-        float adjustedHealth = healthPercent / 100;
+        Debug.Log($"Tank {tankIndex} has  been damaged, current health argument now is:  {currentHealth}");
+        float adjustedHealth = currentHealth / 100;
+        Debug.Log($"Adjusted healh is: {adjustedHealth}");
+
         // healthPercent should be a value between 0 and 1
         if (tankIndex == 0)
             p1HealthBar.fillAmount = adjustedHealth;                                                     

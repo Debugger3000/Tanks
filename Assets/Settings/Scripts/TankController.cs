@@ -11,6 +11,8 @@ public class TankController : MonoBehaviour
     public float moveSpeed = 2f;
     public float jumpForce = 3f;
 
+    public float tiltSpeed = 5f;
+
     [SerializeField]
     public int shellPower = 75;
 
@@ -35,6 +37,7 @@ public class TankController : MonoBehaviour
 
     public Transform groundCheck;
     public float checkRadius = 0.1f;
+    public Vector2 boxSize = new Vector2(10.0f, 2f); // Width and Height
     public LayerMask groundLayer;
 
     private Vector2 moveInput;
@@ -53,23 +56,32 @@ public class TankController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // guess this only detects for basic projectile...
-        if (collision.gameObject.CompareTag("TankProjectile"))
+        if (collision.gameObject.TryGetComponent(out BaseProjectile projectile))
         {
-            // subtract from tank health
-            currentHealth -= 25;
-            //Debug.Log("tank 1 current health");
-            //Debug.Log(currentHealth);
-            GameController.Instance.TankDamage(tankIndex, currentHealth);
+            float damageOfProjectile = projectile.GetDamage();  
+            Debug.Log($"damage of projectile: {damageOfProjectile}");
+            Debug.Log($"BEFORE currentHealth for tank: {currentHealth}");
+            currentHealth -= damageOfProjectile; // subtract from tank health
+            Debug.Log($"AFTER currentHealth for tank: {currentHealth}");
+            GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
         }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer("Crate"))
-        {
+        /// else if(collision.gameObject.layer == LayerMask.NameToLayer("Crate"))
+        // {
             
-        }
+        // }
 
     }
 
     void Update()
     {
+
+        RaycastHit2D hit = Physics2D.BoxCast(groundCheck.position, boxSize, 0f, Vector2.down, checkRadius, groundLayer);
+
+        if (hit.collider != null) {
+            isGrounded = true;
+        } else {
+            isGrounded = false;
+        }
         
     }
 
@@ -77,6 +89,21 @@ public class TankController : MonoBehaviour
     {
         // if not players turn, dont do anything with input
         if (!isMyTurn) return;
+
+        // Raycast from front and back wheels
+        // RaycastHit2D hitFront = Physics2D.Raycast(transform.position + transform.right * 0.5f, -transform.up, 2f, groundLayer);
+        // RaycastHit2D hitBack = Physics2D.Raycast(transform.position - transform.right * 0.5f, -transform.up, 2f, groundLayer);
+
+        // if (hitFront.collider != null && hitBack.collider != null) {
+        //     // Find the direction from the back hit point to the front hit point
+        //     Vector2 direction = hitFront.point - hitBack.point;
+        //     // Calculate the target rotation
+        //     float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            
+        //     // Smoothly rotate the tank
+        //     Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
+        //     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * tiltSpeed);
+        // }
 
         //Debug.Log($"current gas: {currentGas}");
         // Jump
@@ -86,7 +113,9 @@ public class TankController : MonoBehaviour
         // }
 
         // Check if grounded
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
+        // isGrounded = Physics2D.OverlapCircle(groundCheck.position, boxSize, checkRadius, groundLayer);
+
+        
 
         // Horizontal movement
         // float move = 0f;
@@ -95,6 +124,7 @@ public class TankController : MonoBehaviour
         // Check if there is horizontal input AND we have gas
         if (isMyTurn && Mathf.Abs(moveInput.x) > 0.01f && currentGas > 0f)
         {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             //Debug.Log($"tank {tankIndex} moveInput {moveInput.x}");
 
             // Drain gas based on TIME, not per key-press
@@ -106,6 +136,11 @@ public class TankController : MonoBehaviour
 
             // Update the UI/Controller
             GameController.Instance.TankGas(tankIndex, currentGas);
+        }
+        else if (Mathf.Abs(moveInput.x) < 0.01f && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
             
         
@@ -146,12 +181,17 @@ public class TankController : MonoBehaviour
         Debug.Log(currentGas);
     }
 
-    private void OnDrawGizmosSelected()
+    // private void OnDrawGizmosSelected()
+    // {
+    //     if (groundCheck != null)
+    //     {
+    //         Gizmos.color = Color.red;
+    //         Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
+    //     }
+    // }
+    void OnDrawGizmos()
     {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(groundCheck.position, boxSize);
     }
 }

@@ -19,7 +19,7 @@ public class Crate : MonoBehaviour
             // give tank weapon
             GameController.Instance.TankHitsCrate(randomWeaponName);
 
-            // destroy crate on tank contact    
+            // destroy crate on tank contact 
             Destroy(gameObject);
         }
     }

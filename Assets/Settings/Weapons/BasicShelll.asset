@@ -15,7 +15,9 @@ MonoBehaviour:
   weaponName: HE-small
   icon: {fileID: 21300000, guid: 3c0027c84b538f746957031dd45b4da3, type: 3}
   projectilePreFab: {fileID: 7501069705740584042, guid: 0193bac01507b4445a2e24877508abab, type: 3}
+  hitEffectPrefab: {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}
   damage: 15
   explosionRadius: 1
+  childWeaponData: []
   startAmmo: 999
   fireSound: {fileID: 0}

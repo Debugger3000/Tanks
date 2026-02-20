@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClusterBomb
       objectReference: {fileID: 0}
+    - target: {fileID: 5623298296595003410, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623298296595003410, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6572025414732429342, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6572025414732429342, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6572025414732429342, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -56,7 +72,20 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8385472435503495336, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
+      propertyPath: m_Color.b
+      value: 0.01802242
+      objectReference: {fileID: 0}
+    - target: {fileID: 8385472435503495336, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
+      propertyPath: m_Color.g
+      value: 0.01802242
+      objectReference: {fileID: 0}
+    - target: {fileID: 8385472435503495336, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
+      propertyPath: m_Color.r
+      value: 0.4245283
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6993785972134795659, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -81,7 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19564788f168774b94a57d1c85c5a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClusterBomb
-  hitEffectPrefab: {fileID: 100002, guid: a24c2dc4ddb2fb34591d1bbab6a8354a, type: 3}
-  data: {fileID: 11400000, guid: f81f4cf158c7be541b8febe04c5dd5d2, type: 2}
-  clusterForce: 15
+  weaponData: {fileID: 0}
+  clusterForce: 10
   clusterPrefab: {fileID: 6965170067589262021, guid: b7ef591c7348a5241866be7e5f98361f, type: 3}

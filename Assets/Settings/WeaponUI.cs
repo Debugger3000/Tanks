@@ -168,11 +168,15 @@ public class WeaponUI : MonoBehaviour
         Debug.Log($"Setting ammo for {weaponInstance.weaponData.weaponName} with ammo amount of: {amount}");
         // grab text element
         TextMeshProUGUI textElement = weaponInstance.button.GetComponentInChildren<TextMeshProUGUI>();
-
+        
         if (textElement != null)
         {
             if(amount != 0) textElement.text = amount.ToString(); // set to amount above 0
             else textElement.text = ""; // set to nothing cause we are graying it out if 0
+        }
+        else
+        {
+            Debug.Log($"Text mesh pro is null somehow...........................");
         }
     }
 

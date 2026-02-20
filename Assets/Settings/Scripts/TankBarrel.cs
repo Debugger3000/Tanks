@@ -194,14 +194,10 @@ public class TankBarrel : MonoBehaviour
         GameObject bullet = Instantiate(currentWeapon.weaponData.projectilePreFab, firePoint.position, firePoint.rotation);
 
         // The Handoff: The Barrel gives the Projectile a reference to the data
-        if (bullet.TryGetComponent(out Projectile01 projectileScript))
+        if (bullet.TryGetComponent(out BaseProjectile baseProjectileScript))
         {
-            projectileScript.Setup(currentWeapon.weaponData); 
+            baseProjectileScript.Setup(currentWeapon.weaponData);
         }
-        // else if(bullet.TryGetComponent(out ClusterBomb clusterProj))
-        // {
-        //     clusterProj.Setup(currentWeapon.weaponData);
-        // }
 
         // make sure a tanks projectile doesn't explode on itself, on shoot
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
