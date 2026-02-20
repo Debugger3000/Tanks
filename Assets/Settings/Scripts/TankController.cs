@@ -189,9 +189,9 @@ public class TankController : MonoBehaviour
     //         Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
     //     }
     // }
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(groundCheck.position, boxSize);
-    }
+    // void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireCube(groundCheck.position, boxSize);
+    // }
 }

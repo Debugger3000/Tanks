@@ -214,7 +214,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.640062, y: 0.33693153, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4509250188971371614}
@@ -1048,6 +1048,10 @@ PrefabInstance:
       propertyPath: firePoint
       value: 
       objectReference: {fileID: 7287245804800718565}
+    - target: {fileID: 5187883257913596603, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: bulletForce
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 5187883257913596603, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
       propertyPath: muzzleSmokePrefab
       value: 

@@ -270,7 +270,7 @@ public class GameController : MonoBehaviour
     // deal with power bar UI changes
     public void SetPowerBar(int tankIndex, float powerPercent)
     {
-        Debug.Log($"Tank index: {tankIndex} just moved POWER");
+        Debug.Log($"Tank index: {tankIndex} just moved POWER to {powerPercent}");
         // float adjustedPower = powerPercent / 100f;
         if(tankIndex == 0)
         {

@@ -150,17 +150,64 @@ public class TankBarrel : MonoBehaviour
         
     }
 
+    // 35f is 100% power
+    // 30f is 75% power
+    // 25f is 50%
+    // 20f is 25%
+    // 15f is
+    // 10f
+    // 5f
+
+    // public void OnIncreasePower(InputAction.CallbackContext context)
+    // {
+    //     //Debug.Log($"{gameObject.name} moved by {context.control.name}");
+
+    //     if (context.performed) {
+    //         if(bulletForce < 40f)
+    //         {
+    //             bulletForce += 1;
+    //         }
+            
+    //         float powerPercent = GetPowerPercent();
+    //         GameController.Instance.SetPowerBar(tankIndex, powerPercent);
+    //     }
+        
+    // }
+    // public void OnDecreasePower(InputAction.CallbackContext context)
+    // {
+    //     //Debug.Log($"{gameObject.name} moved by {context.control.name}");
+    //     if (context.performed) {
+    //         if(bulletForce > 20f)
+    //         {
+    //             bulletForce -= 1;
+    //         }
+    //         float powerPercent = GetPowerPercent();
+    //         GameController.Instance.SetPowerBar(tankIndex, powerPercent);
+    //     }
+    // }
+
+    // private float GetPowerPercent()
+    // {
+    //     return (bulletForce - 20f) / 20f;
+    // }
+
+    // 35f is 100% power
+    // 30f is 75% power
+    // 25f is 50%
+    // 20f is 25%
+
     public void OnIncreasePower(InputAction.CallbackContext context)
     {
         //Debug.Log($"{gameObject.name} moved by {context.control.name}");
 
         if (context.performed) {
-            if(bulletForce < 25f)
+            if(bulletForce < 35f)
             {
                 bulletForce += 1;
             }
             
-            float powerPercent = 0.25f + (bulletForce - 10f) * (0.75f / 15f);
+            // float powerPercent = 0.25f + (bulletForce - 10f) * (0.75f / 15f);
+            float powerPercent = 0.25f + (bulletForce - 20f) * (0.75f / 15f);
             GameController.Instance.SetPowerBar(tankIndex, powerPercent);
         }
         
@@ -169,11 +216,12 @@ public class TankBarrel : MonoBehaviour
     {
         //Debug.Log($"{gameObject.name} moved by {context.control.name}");
         if (context.performed) {
-            if(bulletForce > 10f)
+            if(bulletForce > 20f)
             {
                 bulletForce -= 1;
             }
-            float powerPercent = 0.25f + (bulletForce - 10f) * (0.75f / 15f);
+            // float powerPercent = 0.25f + (bulletForce - 10f) * (0.75f / 15f);
+            float powerPercent = 0.25f + (bulletForce - 20f) * (0.75f / 15f);
             GameController.Instance.SetPowerBar(tankIndex, powerPercent);
         }
     }
