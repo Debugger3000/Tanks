@@ -15,6 +15,10 @@
 # remove AllSkyFree
 /[Aa]ssets/AllSkyFree
 /[Aa]ssets/Citadel March
+/[Aa]ssets/Grenade Sound FX
+/[Aa]ssets/Announcer
+/[Aa]ssets/Vehicle_Essentials
+/[Aa]ssets/Modern GDR - Free icons pack
 
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1

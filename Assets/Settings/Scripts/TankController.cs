@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem; // New Input System
 
@@ -27,6 +28,9 @@ public class TankController : MonoBehaviour
     [SerializeField]
     public float gasDrainRate = 10f;
 
+    public AudioSource tankControllerAudioSource;
+    public AudioSource tankIdleAudioSource;
+
 
 
     // tank barrel
@@ -51,8 +55,12 @@ public class TankController : MonoBehaviour
         var pInput = GetComponent<PlayerInput>();
         Debug.Log($"{gameObject.name} is Player Index: {pInput.playerIndex}");
         tankIndex = pInput.playerIndex;
+
+        // set audio source
+        // tankControllerAudioSource = GetComponent<AudioSource>();
     }
 
+    // On projectile hit
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // guess this only detects for basic projectile...
@@ -64,11 +72,26 @@ public class TankController : MonoBehaviour
             currentHealth -= damageOfProjectile; // subtract from tank health
             Debug.Log($"AFTER currentHealth for tank: {currentHealth}");
             GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
+            StartTankHitAudio(); // start tank hit audio...
         }
         /// else if(collision.gameObject.layer == LayerMask.NameToLayer("Crate"))
         // {
-            
         // }
+    }
+
+    public void StartTankHitAudio()
+    {   
+        AudioManager.Instance.PlayTankHit(); // play tank hit audio...
+        StartCoroutine(ActivateDelay());
+    
+        //Invoke("SwitchTurnDelayed", turnDelay); // 
+    }
+
+    // delayed call, so animations can play out 
+    IEnumerator ActivateDelay()
+    {
+        yield return new WaitForSeconds(2.0f);
+        AudioManager.Instance.PlayTargetHitAnnouncer(); // play target hit announcer audio
 
     }
 
@@ -136,14 +159,50 @@ public class TankController : MonoBehaviour
 
             // Update the UI/Controller
             GameController.Instance.TankGas(tankIndex, currentGas);
+
+            if (!tankControllerAudioSource.isPlaying)
+            {
+                    tankControllerAudioSource.clip = AudioManager.Instance.tankEngineMoving;
+                    tankControllerAudioSource.loop = true;
+                    tankControllerAudioSource.Play();
+            }
+            // else
+            // {
+            //     // User let go of the button or stick is neutral
+            //     tankControllerAudioSource.Stop();
+            // }
+
         }
-        else if (Mathf.Abs(moveInput.x) < 0.01f && isGrounded)
+        //  no movement, same turn and gas is filled
+        // we play idle sound
+        else if(isMyTurn && Mathf.Abs(moveInput.x) < 0.01f && currentGas > 0f)
+        {
+            // no movement... so we need to stop engine moving audio
+            tankControllerAudioSource.Stop();
+            // Engine Idle Audio
+            if (!tankIdleAudioSource.isPlaying)
+            {
+                    tankIdleAudioSource.clip = AudioManager.Instance.tankEngineIdle;
+                    tankIdleAudioSource.loop = true;
+                    tankIdleAudioSource.Play();
+            }
+            
+        }
+        // is turn and gas is empty... engine sounds need to stop...
+        else if(isMyTurn && currentGas <= 0f)
+        {
+            // stop all engine sounds.... no gas...
+            tankIdleAudioSource.Stop(); // stop idle
+            tankControllerAudioSource.Stop(); // stop moving
+        }
+        
+        // this should always happen for both tnaks whenever...
+        // Tanks when touching environment / ground, are NOT affected by gravity...
+        if (Mathf.Abs(moveInput.x) < 0.01f && isGrounded)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
-            
-        
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -153,6 +212,24 @@ public class TankController : MonoBehaviour
         Debug.Log($"tank {tankIndex} OnMove - IsmyTurn: {isMyTurn}");
         //Debug.Log($"{gameObject.name} moved by {context.control.name} " + $"using scheme: {GetComponent<PlayerInput>().currentControlScheme}");
         moveInput = context.ReadValue<Vector2>();
+
+        // input detected...
+        if (moveInput.x != 0)
+        {
+            if (!tankControllerAudioSource.isPlaying)
+            {
+                    tankControllerAudioSource.clip = AudioManager.Instance.tankEngineIdle;
+                    tankControllerAudioSource.loop = true;
+                    tankControllerAudioSource.Play();
+            }
+            
+        }
+        
+        else
+        {
+            // User let go of the button or stick is neutral
+            tankControllerAudioSource.Stop();
+        }
         // if (Mathf.Abs(moveInput.x) > 0.01f)
         // {
         //         if(currentGas > 0f)

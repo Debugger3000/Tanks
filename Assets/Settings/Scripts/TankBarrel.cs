@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class TankBarrel : MonoBehaviour
@@ -22,6 +23,9 @@ public class TankBarrel : MonoBehaviour
     private bool hasPlayerShot = false;
 
     private TankController myTankController;
+
+    public AudioSource tankBarrelAudioSource;
+    public AudioSource tankShootAudioSource;
 
     // Projectile vars
     // Header to show within inspector for our script...
@@ -69,6 +73,8 @@ public class TankBarrel : MonoBehaviour
 
         var tankControl = GetComponentInParent<TankController>();
         myTankController = tankControl; // set tankcontroller so we can grab vars
+
+        tankBarrelAudioSource = GetComponent<AudioSource>(); // set audio source for barrel...
     }
 
     // void Start()
@@ -126,11 +132,32 @@ public class TankBarrel : MonoBehaviour
         // make sure only current tank barrel is rotating.
         if (myTankController.isMyTurn)
         {
-             //Debug.Log($"rotate barrel for tank {tankIndex} pressed...");
+
+            //Debug.Log($"rotate barrel for tank {tankIndex} pressed...");
             Vector2 fullInput = context.ReadValue<Vector2>();
 
             // Grab only Y axis for move controls so just W and S
             verticalInput = fullInput.y;
+
+    
+            // If the input is active (not zero)
+            if (verticalInput != 0)
+            {
+                // Only start playing if it's not already playing (prevents stutter)
+                if (!tankBarrelAudioSource.isPlaying)
+                {
+                    tankBarrelAudioSource.clip = AudioManager.Instance.tankBarrel;
+                    tankBarrelAudioSource.loop = true;
+                    tankBarrelAudioSource.Play();
+                }
+            }
+            else
+            {
+                // User let go of the button or stick is neutral
+                tankBarrelAudioSource.Stop();
+            }
+
+
         }
        
     }
@@ -150,42 +177,6 @@ public class TankBarrel : MonoBehaviour
         
     }
 
-    // 35f is 100% power
-    // 30f is 75% power
-    // 25f is 50%
-    // 20f is 25%
-    // 15f is
-    // 10f
-    // 5f
-
-    // public void OnIncreasePower(InputAction.CallbackContext context)
-    // {
-    //     //Debug.Log($"{gameObject.name} moved by {context.control.name}");
-
-    //     if (context.performed) {
-    //         if(bulletForce < 40f)
-    //         {
-    //             bulletForce += 1;
-    //         }
-            
-    //         float powerPercent = GetPowerPercent();
-    //         GameController.Instance.SetPowerBar(tankIndex, powerPercent);
-    //     }
-        
-    // }
-    // public void OnDecreasePower(InputAction.CallbackContext context)
-    // {
-    //     //Debug.Log($"{gameObject.name} moved by {context.control.name}");
-    //     if (context.performed) {
-    //         if(bulletForce > 20f)
-    //         {
-    //             bulletForce -= 1;
-    //         }
-    //         float powerPercent = GetPowerPercent();
-    //         GameController.Instance.SetPowerBar(tankIndex, powerPercent);
-    //     }
-    // }
-
     // private float GetPowerPercent()
     // {
     //     return (bulletForce - 20f) / 20f;
@@ -201,6 +192,10 @@ public class TankBarrel : MonoBehaviour
         //Debug.Log($"{gameObject.name} moved by {context.control.name}");
 
         if (context.performed) {
+
+            // play audio
+            tankBarrelAudioSource.PlayOneShot(AudioManager.Instance.powerChangeClick);
+
             if(bulletForce < 35f)
             {
                 bulletForce += 1;
@@ -216,6 +211,10 @@ public class TankBarrel : MonoBehaviour
     {
         //Debug.Log($"{gameObject.name} moved by {context.control.name}");
         if (context.performed) {
+
+            // play audio
+            tankBarrelAudioSource.PlayOneShot(AudioManager.Instance.powerChangeClick);
+
             if(bulletForce > 20f)
             {
                 bulletForce -= 1;
@@ -233,44 +232,70 @@ public class TankBarrel : MonoBehaviour
         // make sure player can only shoot once per turn
         if (!hasPlayerShot && currentWeapon.currentAmmo > 0)
         {
-        // start muzzle animation
-        GameObject muzzleEffect = Instantiate(muzzleFlashtPrefab, firePoint.position, firePoint.rotation);
-        // start muzzle smoke
-        GameObject muzzleSmokeEffect = Instantiate(muzzleSmokePrefab, firePoint.position, firePoint.rotation);
-
-        // 1. Create the bullet at the FirePoint's position and rotation
-        GameObject bullet = Instantiate(currentWeapon.weaponData.projectilePreFab, firePoint.position, firePoint.rotation);
-
-        // The Handoff: The Barrel gives the Projectile a reference to the data
-        if (bullet.TryGetComponent(out BaseProjectile baseProjectileScript))
-        {
-            baseProjectileScript.Setup(currentWeapon.weaponData);
-        }
-
-        // make sure a tanks projectile doesn't explode on itself, on shoot
-        Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-
-        // 2. Get the Rigidbody2D to make it move
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-
-        // 3. Push the bullet in the direction the firePoint is facing (up for 2D sprites)
-        // If your bullet flies sideways, change 'up' to 'right'
-        rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
-
-        // destroy muzzle effect
-        Destroy(muzzleEffect, 0.3f);
-        Destroy(muzzleSmokeEffect, 6f);
-
-        // if player has shot
-        hasPlayerShot = true;
-
-        // decrement weapon ammo by 1 after use
-        //currentWeapon.currentAmmo -= 1;
-
-        // update UI for weapon icon
-        GameController.Instance.WeaponAmmoDecrement(tankIndex, currentWeapon.weaponData.weaponName); // decrement by 1
+            InitShoot(); // start shot logic...        
         }
     }
 
+
+    public void InitShoot()
+    {   
+        // stop this tanks idle noise, now that there turn is over
+        myTankController.tankIdleAudioSource.Stop();
+        // play this, wait a second then fire shot...
+        AudioManager.Instance.PlayFireAtWillAnnouncer(); // play fire announcer audio
+        StartCoroutine(SwitchTurnDelayed());
     
+        //Invoke("SwitchTurnDelayed", turnDelay); // 
+    }
+
+    // delayed call, so animations can play out 
+    IEnumerator SwitchTurnDelayed()
+    {
+        
+        yield return new WaitForSeconds(2.0f);
+
+        // play audio
+        tankShootAudioSource.PlayOneShot(AudioManager.Instance.tankFire);
+
+            // start muzzle animation
+            GameObject muzzleEffect = Instantiate(muzzleFlashtPrefab, firePoint.position, firePoint.rotation);
+            // start muzzle smoke
+            GameObject muzzleSmokeEffect = Instantiate(muzzleSmokePrefab, firePoint.position, firePoint.rotation);
+
+            // 1. Create the bullet at the FirePoint's position and rotation
+            GameObject bullet = Instantiate(currentWeapon.weaponData.projectilePreFab, firePoint.position, firePoint.rotation);
+
+            // The Handoff: The Barrel gives the Projectile a reference to the data
+            if (bullet.TryGetComponent(out BaseProjectile baseProjectileScript))
+            {
+                baseProjectileScript.Setup(currentWeapon.weaponData);
+            }
+
+            // make sure a tanks projectile doesn't explode on itself, on shoot
+            Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+
+            // 2. Get the Rigidbody2D to make it move
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+            // 3. Push the bullet in the direction the firePoint is facing (up for 2D sprites)
+            // If your bullet flies sideways, change 'up' to 'right'
+            rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+
+            // destroy muzzle effect
+            Destroy(muzzleEffect, 0.3f);
+            Destroy(muzzleSmokeEffect, 6f);
+
+            // if player has shot
+            hasPlayerShot = true;
+
+            // decrement weapon ammo by 1 after use
+            //currentWeapon.currentAmmo -= 1;
+
+            // update UI for weapon icon
+            GameController.Instance.WeaponAmmoDecrement(tankIndex, currentWeapon.weaponData.weaponName); // decrement by 1
+            }
+
+
+    
+  
 }

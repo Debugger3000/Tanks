@@ -6,10 +6,12 @@ public abstract class BaseProjectile : MonoBehaviour
 {
     private float projectileDamage;
     public WeaponData weaponData;
+    // protected AudioSource projectileAudioSource;
     // start function
     void Start()
     {
         //SetDamage(); // set damage attribute on projectile creation...
+        // projectileAudioSource = GetComponent<AudioSource>();
     }
 
     void SetDamage()
@@ -32,6 +34,9 @@ public abstract class BaseProjectile : MonoBehaviour
 
     public virtual void Explode(Tilemap map, Vector2 impactPoint, float explosionRadius)
     {
+
+        
+
         // Convert world impact position to Tilemap cell position
         Vector3Int centerCell = map.WorldToCell(impactPoint);
 
@@ -56,5 +61,8 @@ public abstract class BaseProjectile : MonoBehaviour
                 }
             }
         }
+
+        // enviuronment damage so we can play audio
+        AudioManager.Instance.PlayEnvironmentHit(); // call audio manager to play...
     }
 }

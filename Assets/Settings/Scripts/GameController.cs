@@ -10,7 +10,7 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
-    public static GameController Instance;
+    public static GameController Instance; // expose instance
 
     [Header("UI Elements")]
     public TextMeshProUGUI turnIndicator;
@@ -307,6 +307,9 @@ public class GameController : MonoBehaviour
             GameObject crate1 = Instantiate(cratePrefab, p1CrateSpawn.position, p1CrateSpawn.rotation);
             GameObject crate2 = Instantiate(cratePrefab, p2CrateSpawn.position, p2CrateSpawn.rotation);
         }
+
+        // play announcer audio
+        AudioManager.Instance.PlayCrateInbound();
     }
 
     public string GetRandomCrateWeapon()

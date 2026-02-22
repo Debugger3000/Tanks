@@ -117,15 +117,15 @@ public class WeaponUI : MonoBehaviour
         if (playerIndex > -1 && playerIndex < 2)
         {
             WeaponInstance instance = GrabWeaponLocal(playerIndex,weaponName);
+            int newAmmoCount = instance.currentAmmo - 1; //decrement ammo 
+            instance.currentAmmo = newAmmoCount; // set new amount to instance
 
-            instance.currentAmmo -= 1; // decrement ammo
-
-            if (instance.currentAmmo == 0)
+            if (newAmmoCount < 1)
             {
                 // if ammo zero, we need to deactivate
                 MakeWeaponDeActive(instance);
             }
-            SetAmmoUI(instance, instance.currentAmmo); // set UI for ammo text
+            SetAmmoUI(instance, newAmmoCount); // set UI for ammo text
         }
     }
 
@@ -143,8 +143,8 @@ public class WeaponUI : MonoBehaviour
                 // if ammo zero, we need to deactivate
                 MakeWeaponActive(instance);
             }
-            int ammoAmount = instance.currentAmmo + maxAmmo;
-            instance.currentAmmo = ammoAmount; // increment by WeaponData startAmmo
+            int ammoAmount = instance.currentAmmo + maxAmmo; // get new ammo amount
+            instance.currentAmmo = ammoAmount; // set currentAmmo with new amount
             SetAmmoUI(instance, ammoAmount); // set UI for ammo text
         }
     }
