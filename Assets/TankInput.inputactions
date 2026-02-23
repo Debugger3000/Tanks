@@ -86,6 +86,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "JumpT1",
+                    "type": "Button",
+                    "id": "557341da-caa4-464c-b6a0-abe4fdfb96aa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "JumpT2",
+                    "type": "Button",
+                    "id": "d0792e8f-700e-4129-93d7-604378b641cf",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -202,21 +220,10 @@
                 {
                     "name": "",
                     "id": "47f691d7-bf31-4d21-8481-1da73597ad6a",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": ";T1",
-                    "action": "SpaceShoot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2611f4c9-469b-47da-8541-18ef399e9bad",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
                     "action": "SpaceShoot",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -537,6 +544,28 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Tank1PowerDecrease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f55cb2fa-b9a5-47d6-818c-7657ed711eb0",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";T1",
+                    "action": "JumpT1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "19a3285b-966f-404b-8b69-ff98a858d58a",
+                    "path": "<Keyboard>/rightCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";T2",
+                    "action": "JumpT2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

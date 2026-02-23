@@ -16,9 +16,18 @@ public class Crate : MonoBehaviour
         Debug.Log("Tank collided with a crate.....");
         if(collision.gameObject.layer == LayerMask.NameToLayer("Tanks"))
         {
-            // give tank weapon
-            GameController.Instance.TankHitsCrate(randomWeaponName);
+            // get tank index for one hit
+            TankController tankController = collision.gameObject.GetComponent<TankController>();
+            int tankIndex = tankController.GetTankIndex();
 
+            // give tank weapon
+            GameController.Instance.TankHitsCrate(tankIndex,randomWeaponName);
+
+            // destroy crate on tank contact 
+            Destroy(gameObject);
+        }
+        else if(collision.gameObject.layer == LayerMask.NameToLayer("Projectiles"))
+        {
             // destroy crate on tank contact 
             Destroy(gameObject);
         }

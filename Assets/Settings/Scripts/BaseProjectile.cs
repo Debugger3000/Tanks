@@ -6,6 +6,8 @@ public abstract class BaseProjectile : MonoBehaviour
 {
     private float projectileDamage;
     public WeaponData weaponData;
+
+    private bool isExploded = false;
     // protected AudioSource projectileAudioSource;
     // start function
     void Start()
@@ -24,6 +26,9 @@ public abstract class BaseProjectile : MonoBehaviour
         return projectileDamage;
     }
 
+    // This is the "contract" - Children MUST implement this
+    public abstract void TriggerSpecialWeaponEffect(Vector2 hitPoint, Quaternion hitRotation, bool isExploded);
+
     public void Setup(WeaponData weaponData)
     {
         Debug.Log($"Setting projectileDamage in BaseProjectile... to {weaponData}");
@@ -32,10 +37,84 @@ public abstract class BaseProjectile : MonoBehaviour
     }
 
 
-    public virtual void Explode(Tilemap map, Vector2 impactPoint, float explosionRadius)
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
+        ContactPoint2D contact = collision.GetContact(0);
+        Vector2 hitPoint = contact.point;
+        
+        // Calculate rotation 
+        Vector2 normal = collision.contacts[0].normal;
+        float angle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg;
+        Quaternion hitRotation = Quaternion.Euler(0, 0, angle);
 
         
+        // Check if we hit the ground
+        if (collision.gameObject.CompareTag("GroundDestruct"))
+        {
+            // spawn projectile explosion effect
+            GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
+        
+            // Try to get the Tilemap component from what we hit
+            Tilemap tilemap = collision.gameObject.GetComponent<Tilemap>();
+
+            if (tilemap != null)
+            {
+                Explode(tilemap, collision.contacts[0].point, weaponData.explosionRadius);
+                // Explode(tilemap, collision.contacts[0].point);
+            }
+
+            // Destroy the bullet itself
+            Destroy(gameObject);
+            Destroy(effect, 3f);
+
+            if (!isExploded)
+            {
+                TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);
+            }
+
+            // projectile has exploded switch turn now...
+            GameController.Instance.SwitchTurn();
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Tanks")) 
+        {
+            // spawn projectile explosion effect
+            GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
+            // Destroy the bullet itself
+            Destroy(gameObject);
+            Destroy(effect, 3f);
+
+            if (!isExploded)
+            {
+                TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);
+            }
+
+            // projectile has exploded switch turn now...
+            GameController.Instance.SwitchTurn();
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Crate")) 
+        {
+            // spawn projectile explosion effect
+            GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
+            // Destroy the bullet itself
+            Destroy(gameObject);
+            Destroy(effect, 3f);
+
+            if (!isExploded)
+            {
+                TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);
+            }
+
+            // projectile has exploded switch turn now...
+            GameController.Instance.SwitchTurn();
+        }
+        isExploded = true;
+    }
+
+
+    public virtual void Explode(Tilemap map, Vector2 impactPoint, float explosionRadius)
+    {
 
         // Convert world impact position to Tilemap cell position
         Vector3Int centerCell = map.WorldToCell(impactPoint);

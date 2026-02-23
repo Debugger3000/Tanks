@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
@@ -50,6 +51,7 @@ public class GameController : MonoBehaviour
     [Header("Crates")]
     public CrateWeapons crateWeapons;
     public GameObject cratePrefab;
+    public GameObject healthCratePrefab;
     public Transform p1CrateSpawn;
     public Transform p2CrateSpawn;
 
@@ -75,6 +77,8 @@ public class GameController : MonoBehaviour
         }
 
 
+    // ---
+    // INIT functions
     public void InitializePlayers(PlayerInput p1, PlayerInput p2)
     {
         Debug.Log("GameController INIT");
@@ -99,25 +103,11 @@ public class GameController : MonoBehaviour
         DeactivateInput();
         SetCurrentTurnFocus(); // activate current players input
         NewPlayersTurn(); // set players values to appriproate values for their turn 
-
-        // set up player inventory with basic weapon
-        // InitPlayerInventory();
     }
-
 
     public void InitPlayerInventory()
     {
         Debug.Log("INIT playerinventory from GameController...");
-        //p1Inventory.ResetInventory();
-        //p2Inventory.ResetInventory();
-
-        // Add defaults weapons to Player 1 
-        //p1Inventory.AddWeapon(new WeaponInstance(starterWeapon1));
-        //p1Inventory.AddWeapon(new WeaponInstance(starterWeapon2));
-
-        // Add defaults weapons to Player 2
-        //p2Inventory.AddWeapon(new WeaponInstance(starterWeapon1));
-        //p2Inventory.AddWeapon(new WeaponInstance(starterWeapon2));
 
         // increment p2 start weapons
         weaponUI.IncrementWeapon(0, "HE-small");
@@ -144,14 +134,8 @@ public class GameController : MonoBehaviour
             else player2Barrel.SetWeapon(curWeaponInstance);
         }
     }
+
     
-    private void UpdateTurnUI()
-    {
-        //Debug.Log($"Tank {activePlayerIndex + 1}'s Turn");
-        turnIndicator.text = $"Tank {activePlayerIndex + 1}'s Turn";
-        // p1GasBar.fillAmount = 1.0f;
-        // p2GasBar.fillAmount = 1.0f;
-    }
 
     public void WeaponAmmoDecrement(int tankIndex, string weaponName)
     {
@@ -159,9 +143,13 @@ public class GameController : MonoBehaviour
         weaponUI.DecrementWeapon(tankIndex, weaponName);
     }
 
-
+    // ---
+    // UI Logic
+    // --> TankDamage UI
     public void TankDamage(int tankIndex, float currentHealth)
     {
+        
+
         Debug.Log($"Tank {tankIndex} has  been damaged, current health argument now is:  {currentHealth}");
         float adjustedHealth = currentHealth / 100;
         Debug.Log($"Adjusted healh is: {adjustedHealth}");
@@ -173,18 +161,54 @@ public class GameController : MonoBehaviour
             p2HealthBar.fillAmount = adjustedHealth;
     }
 
-    public void OnPlayerDeath(int losingPlayerIndex)
+    
+
+
+    
+
+    // deal with Gas UI changes
+    public void TankGas(int tankIndex, float gasPercent)
     {
-        int winner = (losingPlayerIndex == 0) ? 2 : 1;
-        winScreen.SetActive(true);
-        winText.text = $"PLAYER {winner} WINS!";
-        
-        // Disable all input so they can't move after the game ends
-        players[0].DeactivateInput();
-        players[1].DeactivateInput();
+        float adjustedGas = gasPercent / 100f;
+        // healthPercent should be a value between 0 and 1
+        if (tankIndex == 0)
+            p1GasBar.fillAmount = adjustedGas;                                                     
+        else
+            p2GasBar.fillAmount = adjustedGas;
     }
 
+    // deal with power bar UI changes
+    public void SetPowerBar(int tankIndex, float powerPercent)
+    {
+        Debug.Log($"Tank index: {tankIndex} just moved POWER to {powerPercent}");
+        // float adjustedPower = powerPercent / 100f;
+        if(tankIndex == 0)
+        {
+            p1PowerBar.fillAmount = powerPercent;
+            // change text percent too...
+            p1PowerText.text = $"{powerPercent * 100}%";
+        }
+        else
+        {
+            p2PowerBar.fillAmount = powerPercent;
+            p2PowerText.text = $"{powerPercent * 100}%";
+        }
+    } 
 
+    private void UpdateTurnUI()
+    {
+        //Debug.Log($"Tank {activePlayerIndex + 1}'s Turn");
+        turnIndicator.text = $"Tank {activePlayerIndex + 1}'s Turn";
+        // p1GasBar.fillAmount = 1.0f;
+        // p2GasBar.fillAmount = 1.0f;
+    }
+
+    
+
+    
+
+    // ---
+    // Turn Logic
     // called by TankController after their shot
     public void SwitchTurn()
     {   
@@ -256,60 +280,47 @@ public class GameController : MonoBehaviour
         Debug.Log($"Activeturnindex: {activePlayerIndex} - turncounter: {turnCounter} - Set to true");
     }
 
-    // deal with Gas UI changes
-    public void TankGas(int tankIndex, float gasPercent)
-    {
-        float adjustedGas = gasPercent / 100f;
-        // healthPercent should be a value between 0 and 1
-        if (tankIndex == 0)
-            p1GasBar.fillAmount = adjustedGas;                                                     
-        else
-            p2GasBar.fillAmount = adjustedGas;
-    }
 
-    // deal with power bar UI changes
-    public void SetPowerBar(int tankIndex, float powerPercent)
-    {
-        Debug.Log($"Tank index: {tankIndex} just moved POWER to {powerPercent}");
-        // float adjustedPower = powerPercent / 100f;
-        if(tankIndex == 0)
-        {
-            p1PowerBar.fillAmount = powerPercent;
-            // change text percent too...
-            p1PowerText.text = $"{powerPercent * 100}%";
-        }
-        else
-        {
-            p2PowerBar.fillAmount = powerPercent;
-            p2PowerText.text = $"{powerPercent * 100}%";
-        }
-    } 
-
+    // ---
+    // Crate Logic
     private void CrateSpawn()
     {
-        // map size
-        // width: 1280
-            // -600 -> 0 -> 600
-        // height: 720
         System.Random random = new System.Random();
-
-        // spawn first crate on turn 7
-        if (turnCounter == 2)
+        // check if crate round
+            // crate round every 3 rounds, it will flip flop between players...
+        if(turnCounter > 0)
         {
-            Debug.Log("Spawning a crate on round TWO TWO TWO WTOTW O WTO");
-            // spawn two crates for each player
-            int randX1 = random.Next(-33, 0);
-            int randX2 = random.Next(0, 33);
-
+            // determine spawn location for each crate
+            int randX1 = random.Next(-67, -1);
+            int randX2 = random.Next(1, 67);
             p1CrateSpawn.position = new Vector2(randX1, crateSpawnHeight);
             p2CrateSpawn.position = new Vector2(randX2, crateSpawnHeight);
 
-            GameObject crate1 = Instantiate(cratePrefab, p1CrateSpawn.position, p1CrateSpawn.rotation);
-            GameObject crate2 = Instantiate(cratePrefab, p2CrateSpawn.position, p2CrateSpawn.rotation);
-        }
+            // determine health or weapon crate...
+            int crateRoll1 = random.Next(0, 2);
+            int crateRoll2 = random.Next(0, 2);
 
-        // play announcer audio
-        AudioManager.Instance.PlayCrateInbound();
+            // p1 crate instantiate
+            if(crateRoll1 == 0)
+            {
+                // spawn weapons for p1
+                Instantiate(cratePrefab, p1CrateSpawn.position, p1CrateSpawn.rotation);
+            }else
+            {
+                Instantiate(healthCratePrefab, p1CrateSpawn.position, p1CrateSpawn.rotation); 
+            }
+
+            // p2 crate instantiate
+            if(crateRoll2 == 0)
+            {
+                Instantiate(cratePrefab, p2CrateSpawn.position, p2CrateSpawn.rotation);
+            }else
+            {
+                Instantiate(healthCratePrefab, p2CrateSpawn.position, p2CrateSpawn.rotation);
+            }
+            // play announcer audio
+            AudioManager.Instance.PlayCrateInbound();
+        }
     }
 
     public string GetRandomCrateWeapon()
@@ -321,35 +332,43 @@ public class GameController : MonoBehaviour
     }
 
     // give tank weapon of the crate it has hit...
-    public void TankHitsCrate(string weaponName)
+    public void TankHitsCrate(int tankIndex, string weaponName)
     {
-        weaponUI.IncrementWeapon(activePlayerIndex, weaponName);
+        weaponUI.IncrementWeapon(tankIndex, weaponName);
+    }
+
+    // give tank health for health crate
+    public void TankHitsHealthCrate(int tankIndex)
+    {
+        tankList[tankIndex].GiveHealth(); // give the tank health from crate..
+        // Play heal audio
+        AudioManager.Instance.PlayHealCrateSFX();
     }
 
 
-//     public void OnTurnSwap(PlayerInput newActivePlayer)
-//     {
-//     // 1. Get the components from your EventSystem object
-//     var multiEvent = FindFirstObjectByType<MultiplayerEventSystem>();
-//     var uiModule = FindFirstObjectByType<InputSystemUIInputModule>();
+    // ---
+    // END GAME
+    // End game, and display winner banner
+    public void OnPlayerDeath(int losingPlayerIndex)
+    {
+        // deactivate 
 
-//     if (multiEvent != null && uiModule != null)
-//     {
-//         // 2. Point the UI Module to the new player's actions
-//         // This makes the mouse 'Point' and 'Click' work for the new turn
-//         uiModule.actionsAsset = newActivePlayer.actions;
+        int winner = (losingPlayerIndex == 0) ? 1 : 2;
+        winScreen.SetActive(true); // make end game UI active in hierarchy
+        winText.text = $"PLAYER {winner} WINS!"; // set win text
+    }
+    public void RestartGame()
+    {
+        // Gets the index of the current scene and loads it again
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0); // load first scene in index... which is main menu
+    }
+    public void QuitApplication()
+    {
+        Application.Quit();
+    }
 
-//         // 3. Link the PlayerInput to this specific UI Module
-//         newActivePlayer.uiInputModule = uiModule;
-
-//         // 4. Update the Player Root
-//         // If your UI is global, set this to the Canvas. 
-//         // If each tank has its own overhead UI, set it to the tank.
-//         multiEvent.playerRoot = newActivePlayer.gameObject;
-
-//         // 5. Optional: Auto-select a button for the new player
-//         // multiEvent.SetSelectedGameObject(someDefaultButton);
-//     }
-// }
-    
 }

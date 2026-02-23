@@ -215,7 +215,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.640062, y: 0.33693153, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.75, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4509250188971371614}
@@ -266,7 +266,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fec9c8584398e8a48b252761b899ea28, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -290,8 +290,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.965819, y: -1.0360272}
-  m_Size: {x: 3.1552377, y: 0.54681236}
+  m_Offset: {x: 1.9658191, y: -0.7806865}
+  m_Size: {x: 3.1552384, y: 1.0574937}
   m_Direction: 1
 --- !u!61 &3621900803808984815
 BoxCollider2D:
@@ -300,7 +300,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077846081434104637}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -492,6 +492,26 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 45a2e3b7-0204-4131-98ce-79ce8310fba2
     m_ActionName: 'Tanks/Tank2PowerDecrease[/Keyboard/slash,/Keyboard/period]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9201799727265601436}
+        m_TargetAssemblyTypeName: TankController, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 557341da-caa4-464c-b6a0-abe4fdfb96aa
+    m_ActionName: 'Tanks/JumpT1[/Keyboard/f]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d0792e8f-700e-4129-93d7-604378b641cf
+    m_ActionName: Tanks/JumpT2
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: T1
   m_DefaultActionMap: Tanks
@@ -705,8 +725,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TankController
   tankIndex: 0
   isMyTurn: 0
-  moveSpeed: 5
-  jumpForce: 3
+  moveSpeed: 4
+  jumpForce: 15
+  jetpackForce: 35
+  gasDrainRateJetpack: 25
+  maxJetpackHeight: 2
   tiltSpeed: 5
   shellPower: 75
   maxHealth: 100
@@ -714,6 +737,7 @@ MonoBehaviour:
   maxGas: 100
   currentGas: 0
   gasDrainRate: 10
+  gasDrainRateJump: 20
   tankControllerAudioSource: {fileID: 3915003862956688924}
   tankIdleAudioSource: {fileID: 1606699871974029210}
   groundCheck: {fileID: 2556566593200066781}
@@ -838,7 +862,7 @@ Transform:
   m_GameObject: {fileID: 3847576243758683191}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.964, y: -1.029, z: 0}
+  m_LocalPosition: {x: 1.923, y: -1.283, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

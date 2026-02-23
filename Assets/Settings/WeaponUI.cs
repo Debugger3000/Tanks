@@ -171,14 +171,22 @@ public class WeaponUI : MonoBehaviour
         
         if (textElement != null)
         {
-            if(amount != 0) textElement.text = amount.ToString(); // set to amount above 0
-            else textElement.text = ""; // set to nothing cause we are graying it out if 0
+            if(amount != 0)
+            {
+                textElement.text = amount.ToString(); // set to amount above 0
+                Debug.Log($"setting ammo to {amount}");
+            } 
+            else {
+                Debug.Log($"setting ammo to empty... setammo amount is: {amount}");
+                textElement.text = ""; // set to nothing cause we are graying it out if 0
+            }
         }
         else
         {
             Debug.Log($"Text mesh pro is null somehow...........................");
         }
     }
+    
 
     private void GrayOut(WeaponInstance weaponInstance)
     {

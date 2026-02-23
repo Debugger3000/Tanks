@@ -11,6 +11,10 @@ public class TankController : MonoBehaviour
 
     public float moveSpeed = 2f;
     public float jumpForce = 3f;
+    private bool isJetpacking = false;
+    public float jetpackForce = 45f; // Constant upward push
+    public float gasDrainRateJetpack = 20f; // Fuel used per second
+    public float maxJetpackHeight = 2f;
 
     public float tiltSpeed = 5f;
 
@@ -27,6 +31,9 @@ public class TankController : MonoBehaviour
     public float currentGas;
     [SerializeField]
     public float gasDrainRate = 10f;
+    [SerializeField]
+    public float gasDrainRateJump = 20f;
+   
 
     public AudioSource tankControllerAudioSource;
     public AudioSource tankIdleAudioSource;
@@ -55,9 +62,12 @@ public class TankController : MonoBehaviour
         var pInput = GetComponent<PlayerInput>();
         Debug.Log($"{gameObject.name} is Player Index: {pInput.playerIndex}");
         tankIndex = pInput.playerIndex;
+    }
 
-        // set audio source
-        // tankControllerAudioSource = GetComponent<AudioSource>();
+    // expose tankIndex to other functions
+    public int GetTankIndex()
+    {
+        return tankIndex;
     }
 
     // On projectile hit
@@ -71,20 +81,24 @@ public class TankController : MonoBehaviour
             Debug.Log($"BEFORE currentHealth for tank: {currentHealth}");
             currentHealth -= damageOfProjectile; // subtract from tank health
             Debug.Log($"AFTER currentHealth for tank: {currentHealth}");
-            GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
+
+            if(currentHealth <= 0)
+            {
+                // Tank has zero health or less, end game
+                GameController.Instance.OnPlayerDeath(tankIndex);
+            }
+            else
+            {
+                GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
+            }
             StartTankHitAudio(); // start tank hit audio...
         }
-        /// else if(collision.gameObject.layer == LayerMask.NameToLayer("Crate"))
-        // {
-        // }
     }
 
     public void StartTankHitAudio()
     {   
         AudioManager.Instance.PlayTankHit(); // play tank hit audio...
         StartCoroutine(ActivateDelay());
-    
-        //Invoke("SwitchTurnDelayed", turnDelay); // 
     }
 
     // delayed call, so animations can play out 
@@ -92,7 +106,6 @@ public class TankController : MonoBehaviour
     {
         yield return new WaitForSeconds(2.0f);
         AudioManager.Instance.PlayTargetHitAnnouncer(); // play target hit announcer audio
-
     }
 
     void Update()
@@ -112,6 +125,40 @@ public class TankController : MonoBehaviour
     {
         // if not players turn, dont do anything with input
         if (!isMyTurn) return;
+
+        if (isJetpacking && currentGas > 0 && isMyTurn)
+        {
+
+            // 1. Raycast down to find the ground
+            // LayerMask.GetMask("Ground") ensures we hit terrain, not ourselves
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, LayerMask.GetMask("Ground"));
+
+            if (hit.collider != null)
+            {
+                float currentAltitude = hit.distance;
+
+                // 2. Only apply force if we are below the limit
+                if (currentAltitude < maxJetpackHeight)
+                {
+                    rb.AddForce(Vector2.up * jetpackForce, ForceMode2D.Force);
+                }
+                else
+                {
+                    // Soft Limit: Kill upward velocity so you don't "bounce" off the ceiling
+                    if(rb.linearVelocity.y > 0)
+                    {
+                        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
+                    }
+                }
+            }
+            currentGas -= gasDrainRateJetpack * Time.fixedDeltaTime;
+            GameController.Instance.TankGas(tankIndex, currentGas);
+        }
+        else
+        {
+            // Stop jetpacking if fuel runs out
+            isJetpacking = false; 
+        }
 
         // Raycast from front and back wheels
         // RaycastHit2D hitFront = Physics2D.Raycast(transform.position + transform.right * 0.5f, -transform.up, 2f, groundLayer);
@@ -154,8 +201,26 @@ public class TankController : MonoBehaviour
             // '5 * Time.deltaTime' drains 5 units per second
             currentGas -= gasDrainRate * Time.deltaTime;
 
+            // float targetX = moveInput.x * moveSpeed;
+
+            // // 2. Detect if there is a slope/bump directly in front
+            // Vector2 checkDirection = new Vector2(moveInput.x, 0);
+            // RaycastHit2D hit = Physics2D.Raycast(transform.position, checkDirection, 1.0f);
+
+            // float extraY = 0;
+            // if (hit.collider != null && hit.normal.y > 0.05f) 
+            // {
+            //     // If we hit a bump, give it a tiny "nudge" upward
+            //     extraY = moveSpeed * 2f; 
+            // }
+
+            // // 3. Apply velocity (Adding extraY helps it "step up")
+            // rb.linearVelocity = new Vector2(targetX, rb.linearVelocity.y + extraY);
+
             Vector2 targetVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
             rb.linearVelocity = targetVelocity;
+
+
 
             // Update the UI/Controller
             GameController.Instance.TankGas(tankIndex, currentGas);
@@ -203,6 +268,38 @@ public class TankController : MonoBehaviour
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+
+        if (!isMyTurn) return;
+
+        if (context.started) 
+        {
+            isJetpacking = true;
+        }
+        else if (context.canceled) 
+        {
+            isJetpacking = false;
+        }
+        // F key - to jump
+        // if (context.performed && isGrounded && isMyTurn)
+        // {
+
+        //     // jumping should be costly towards gas...
+        //     currentGas -= gasDrainRateJump;
+
+        //     // currentGas -= gasDrainRate * Time.deltaTime;
+
+        //     // Option A: Setting velocity directly (Snappiest feel)
+        //     //rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
+        //     // Option B: Adding an Impulse force (More "physical" feel)
+        //     rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+        //     GameController.Instance.TankGas(tankIndex, currentGas);
+        // }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -258,14 +355,28 @@ public class TankController : MonoBehaviour
         Debug.Log(currentGas);
     }
 
-    // private void OnDrawGizmosSelected()
-    // {
-    //     if (groundCheck != null)
-    //     {
-    //         Gizmos.color = Color.red;
-    //         Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
-    //     }
-    // }
+    public void GiveHealth()
+    {
+        float newHealth = currentHealth + 25;
+        if(newHealth > 100f)
+        {
+            currentHealth = maxHealth;
+        }
+        else
+        {
+            currentHealth = newHealth;
+        }
+        GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
+        }
+    }
     // void OnDrawGizmos()
     // {
     //     Gizmos.color = Color.red;

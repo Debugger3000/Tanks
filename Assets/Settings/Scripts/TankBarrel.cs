@@ -234,6 +234,12 @@ public class TankBarrel : MonoBehaviour
         {
             InitShoot(); // start shot logic...        
         }
+        // current weapon is out of ammo...
+        else if (!hasPlayerShot && currentWeapon.currentAmmo < 1)
+        {
+            // play audio
+            tankBarrelAudioSource.PlayOneShot(AudioManager.Instance.powerChangeClick);
+        }
     }
 
 

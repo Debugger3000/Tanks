@@ -12,6 +12,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip tankFire; // tank fires
     public AudioClip environmentExplosion; // explosion on impact
     public AudioClip tankHitExplosion; // explosion on impact
+    public AudioClip crateHeal;
+    public AudioClip cratePickUp;
     public AudioClip uiClick; // click on UI
 
     [Header("Announcer")]
@@ -60,5 +62,15 @@ public class AudioManager : MonoBehaviour
     public void PlayCrateInbound()
     {
         announcerSource.PlayOneShot(crateInboundAnnouncer);
+    }
+
+    public void PlayHealCrateSFX()
+    {
+        sfxSource.PlayOneShot(crateHeal);
+    }
+
+    public void PlayCratePickUp()
+    {
+        sfxSource.PlayOneShot(cratePickUp);
     }
 }
