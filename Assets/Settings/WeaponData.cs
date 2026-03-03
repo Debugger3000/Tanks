@@ -30,6 +30,7 @@ public class WeaponData : ScriptableObject
     // public float fireRate;
     // public int magazineSize;
     // public float reloadTime;
+    public bool isMineType = false;
 
     [Header("Audio")]
     public AudioClip fireSound;

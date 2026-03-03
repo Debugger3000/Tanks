@@ -112,9 +112,12 @@ public class GameController : MonoBehaviour
         // increment p2 start weapons
         weaponUI.IncrementWeapon(0, "HE-small");
         weaponUI.IncrementWeapon(0, "HE-large");
+        weaponUI.IncrementWeapon(0, "Mines");
         // increment p2 start weapons
         weaponUI.IncrementWeapon(1, "HE-small"); // increment
         weaponUI.IncrementWeapon(1, "HE-large");
+        weaponUI.IncrementWeapon(1, "Mines");
+
 
         // Set current tank weapons to default 
         WeaponInstance p1Start = weaponUI.GetWeapon(0, "HE-small");
@@ -288,7 +291,7 @@ public class GameController : MonoBehaviour
         System.Random random = new System.Random();
         // check if crate round
             // crate round every 3 rounds, it will flip flop between players...
-        if(turnCounter > 0)
+        if(turnCounter > 0 && turnCounter % 3 == 0)
         {
             // determine spawn location for each crate
             int randX1 = random.Next(-67, -1);

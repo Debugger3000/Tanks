@@ -8,6 +8,8 @@ public abstract class BaseProjectile : MonoBehaviour
     public WeaponData weaponData;
 
     private bool isExploded = false;
+
+    public bool isMineType = false;
     // protected AudioSource projectileAudioSource;
     // start function
     void Start()
@@ -26,7 +28,7 @@ public abstract class BaseProjectile : MonoBehaviour
         return projectileDamage;
     }
 
-    // This is the "contract" - Children MUST implement this
+    // Children implement this
     public abstract void TriggerSpecialWeaponEffect(Vector2 hitPoint, Quaternion hitRotation, bool isExploded);
 
     public void Setup(WeaponData weaponData)
@@ -34,12 +36,16 @@ public abstract class BaseProjectile : MonoBehaviour
         Debug.Log($"Setting projectileDamage in BaseProjectile... to {weaponData}");
         this.weaponData = weaponData; // set data for projectile that just spawned
         SetDamage();
+        if (weaponData.isMineType)
+        {
+            isMineType = true; // set mine type to true
+        }
     }
 
 
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         ContactPoint2D contact = collision.GetContact(0);
         Vector2 hitPoint = contact.point;
@@ -51,7 +57,7 @@ public abstract class BaseProjectile : MonoBehaviour
 
         
         // Check if we hit the ground
-        if (collision.gameObject.CompareTag("GroundDestruct"))
+        if (collision.gameObject.CompareTag("GroundDestruct") && !isMineType)
         {
             // spawn projectile explosion effect
             GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
@@ -77,7 +83,7 @@ public abstract class BaseProjectile : MonoBehaviour
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Tanks")) 
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Tanks") && !isMineType) 
         {
             // spawn projectile explosion effect
             GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
@@ -93,10 +99,13 @@ public abstract class BaseProjectile : MonoBehaviour
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Crate")) 
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Crate") && !isMineType) 
         {
             // spawn projectile explosion effect
-            GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
+            GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);
+
+            Crate crate = collision.gameObject.GetComponent<Crate>();
+            Destroy(crate);
             // Destroy the bullet itself
             Destroy(gameObject);
             Destroy(effect, 3f);
@@ -108,6 +117,12 @@ public abstract class BaseProjectile : MonoBehaviour
 
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
+        }
+        else
+        {
+            // projectile has exploded switch turn now...
+            GameController.Instance.SwitchTurn();
+            
         }
         isExploded = true;
     }

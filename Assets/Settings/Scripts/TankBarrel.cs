@@ -268,7 +268,7 @@ public class TankBarrel : MonoBehaviour
             // start muzzle smoke
             GameObject muzzleSmokeEffect = Instantiate(muzzleSmokePrefab, firePoint.position, firePoint.rotation);
 
-            // 1. Create the bullet at the FirePoint's position and rotation
+            // create projectile at muzzle point
             GameObject bullet = Instantiate(currentWeapon.weaponData.projectilePreFab, firePoint.position, firePoint.rotation);
 
             // The Handoff: The Barrel gives the Projectile a reference to the data
@@ -280,11 +280,10 @@ public class TankBarrel : MonoBehaviour
             // make sure a tanks projectile doesn't explode on itself, on shoot
             Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
 
-            // 2. Get the Rigidbody2D to make it move
+            // get rb for projectile
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-            // 3. Push the bullet in the direction the firePoint is facing (up for 2D sprites)
-            // If your bullet flies sideways, change 'up' to 'right'
+            // propel the projectile
             rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
 
             // destroy muzzle effect
