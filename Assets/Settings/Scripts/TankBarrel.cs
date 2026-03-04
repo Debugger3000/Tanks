@@ -232,6 +232,8 @@ public class TankBarrel : MonoBehaviour
         // make sure player can only shoot once per turn
         if (!hasPlayerShot && currentWeapon.currentAmmo > 0)
         {
+            // if player has shot
+            hasPlayerShot = true;
             InitShoot(); // start shot logic...        
         }
         // current weapon is out of ammo...
@@ -275,6 +277,7 @@ public class TankBarrel : MonoBehaviour
             if (bullet.TryGetComponent(out BaseProjectile baseProjectileScript))
             {
                 baseProjectileScript.Setup(currentWeapon.weaponData);
+
             }
 
             // make sure a tanks projectile doesn't explode on itself, on shoot
@@ -290,8 +293,7 @@ public class TankBarrel : MonoBehaviour
             Destroy(muzzleEffect, 0.3f);
             Destroy(muzzleSmokeEffect, 6f);
 
-            // if player has shot
-            hasPlayerShot = true;
+            
 
             // decrement weapon ammo by 1 after use
             //currentWeapon.currentAmmo -= 1;

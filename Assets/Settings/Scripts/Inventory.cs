@@ -51,10 +51,6 @@ public class Inventory : MonoBehaviour
             // call to GameController because we have player barrel reference there
             gameController.SetPlayerWeapon(playerIndex, weaponName);
         }
-        else
-        {
-            // do nothing
-        }
     }
 
     // control current weapon Active icon UI for players
@@ -64,10 +60,6 @@ public class Inventory : MonoBehaviour
         if (weaponUI.IsWeaponActive(playerIndex, weaponName))
         {
             weaponUI.SelectButton(playerIndex,clickedButton); // deselect all other buttons
-        }
-        else
-        {
-            //do nothing...
         }
 
         // foreach (GameObject btn in allButtons)

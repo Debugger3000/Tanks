@@ -7,7 +7,7 @@ public abstract class BaseProjectile : MonoBehaviour
     private float projectileDamage;
     public WeaponData weaponData;
 
-    private bool isExploded = false;
+    protected bool isExploded = false;
 
     public bool isMineType = false;
     // protected AudioSource projectileAudioSource;
@@ -38,8 +38,20 @@ public abstract class BaseProjectile : MonoBehaviour
         SetDamage();
         if (weaponData.isMineType)
         {
-            isMineType = true; // set mine type to true
+            //isMineType = true; // set mine type to true
+            OneTimeTriggerAfterProjectileFire(); // trigger this for mine type
         }
+    }
+
+    public virtual void OneTimeTriggerAfterProjectileFire()
+    {
+        
+        Debug.Log($"We set isExploded to true in baseproj: {isExploded}");
+    }
+
+    public virtual void SetIsExploded()
+    {
+        isExploded = true;
     }
 
 
@@ -57,7 +69,7 @@ public abstract class BaseProjectile : MonoBehaviour
 
         
         // Check if we hit the ground
-        if (collision.gameObject.CompareTag("GroundDestruct") && !isMineType)
+        if (collision.gameObject.CompareTag("GroundDestruct") && !weaponData.isMineType)
         {
             // spawn projectile explosion effect
             GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
@@ -83,7 +95,7 @@ public abstract class BaseProjectile : MonoBehaviour
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Tanks") && !isMineType) 
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Tanks") && !weaponData.isMineType) 
         {
             // spawn projectile explosion effect
             GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
@@ -99,7 +111,7 @@ public abstract class BaseProjectile : MonoBehaviour
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Crate") && !isMineType) 
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Crate") && !weaponData.isMineType) 
         {
             // spawn projectile explosion effect
             GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);

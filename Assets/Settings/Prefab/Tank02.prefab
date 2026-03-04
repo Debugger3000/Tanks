@@ -1070,7 +1070,7 @@ MonoBehaviour:
   jumpForce: 10
   jetpackForce: 35
   gasDrainRateJetpack: 25
-  maxJetpackHeight: 5
+  maxJetpackHeight: 10
   tiltSpeed: 5
   shellPower: 75
   maxHealth: 100

@@ -3,93 +3,9 @@ using UnityEngine.Tilemaps;
 
 public class ClusterBomb : BaseProjectile
 {
-    //public float explosionRadius = 1f; // How many tiles to destroy
-    // public GameObject hitEffectPrefab;
-
-    // public WeaponData data;
-
     public float clusterForce = 5f;
 
     public GameObject clusterPrefab;
-
-    // private bool isExploded = false;
-
-    // Call this to pass in weapon data to determine 
-    // public void Setup(WeaponData weaponData)
-    // {
-    //     data = weaponData;
-    // }
-
-
-
-
-
-    // private void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     ContactPoint2D contact = collision.GetContact(0);
-    //     Vector2 hitPoint = contact.point;
-        
-    //     // Calculate rotation 
-    //     Vector2 normal = collision.contacts[0].normal;
-    //     float angle = Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg;
-    //     Quaternion hitRotation = Quaternion.Euler(0, 0, angle);
-        
-    //     // Check if we hit the ground
-    //     // if (collision.gameObject.CompareTag("GroundDestruct"))
-    //     // {
-    //     //     // spawn projectile explosion effect
-    //     //     GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);    
-        
-
-    //     //     // Try to get the Tilemap component from what we hit
-    //     //     Tilemap tilemap = collision.gameObject.GetComponent<Tilemap>();
-
-    //     //     if (tilemap != null)
-    //     //     {
-    //     //         base.Explode(tilemap, collision.contacts[0].point, weaponData.explosionRadius);
-    //     //         // Explode(tilemap, collision.contacts[0].point);
-    //     //     }
-
-    //     //     // projectile has exploded switch turn now...
-    //     //     GameController.Instance.SwitchTurn();
-
-    //     //     // Destroy the bullet itself
-    //     //     Destroy(gameObject);
-    //     //     Destroy(effect, 3f);
-
-    //     //     // call cluster bombs out
-    //     //     if (!isExploded)
-    //     //     {
-    //     //         CreateClusters(hitPoint,hitRotation);
-    //     //     }
-
-            
-    //     // }
-    //     // we hit a wall so it should bounce...
-    //     // else if(collision.gameObject.CompareTag("TankShellCollider"))
-    //     // {
-            
-    //     // }
-
-    //     if (collision.gameObject.layer == LayerMask.NameToLayer("Tanks")) 
-    //     {
-    //         // spawn projectile explosion effect
-    //         GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation); 
-
-    //         // projectile has exploded switch turn now...
-    //         GameController.Instance.SwitchTurn();
-
-    //         // Destroy the bullet itself
-    //         Destroy(gameObject);
-    //         Destroy(effect, 3f);
-
-    //         // call cluster bombs out
-    //         if (!isExploded)
-    //         {
-    //             CreateClusters(hitPoint,hitRotation);
-    //         }
-    //     }
-    // }
 
     public override void TriggerSpecialWeaponEffect(Vector2 hitPoint, Quaternion hitRotation, bool isExploded)
     {
@@ -130,12 +46,5 @@ public class ClusterBomb : BaseProjectile
         }
            //isExploded = true; // make sure we only trigger mini clusters once... 
         }
-    }
-
-    // function to call to release the 5 mini bombs
-    private void CreateClusters(Vector2 hitPoint, Quaternion hitRotation)
-    {
-        
-        
     }
 }

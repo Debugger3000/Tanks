@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8555836458046629390}
   - component: {fileID: 9165649480838387796}
   - component: {fileID: 6295794214866038958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,6 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Mine
   weaponData: {fileID: 0}
   isMineType: 0
+  mineSplitDelayTime: 2.5
+  mineSeparationDistance: 5
 --- !u!1 &2180874586649838631
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6529763509881087672}
   - component: {fileID: 6273617001210149461}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6008818450841211978}
   - component: {fileID: 3970523762717904015}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: minebody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
