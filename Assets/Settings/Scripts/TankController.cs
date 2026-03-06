@@ -84,6 +84,7 @@ public class TankController : MonoBehaviour
 
             if(currentHealth <= 0)
             {
+                StartTankHitAudio();
                 // Tank has zero health or less, end game
                 GameController.Instance.OnPlayerDeath(tankIndex);
             }
@@ -91,7 +92,7 @@ public class TankController : MonoBehaviour
             {
                 GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
             }
-            StartTankHitAudio(); // start tank hit audio...
+            //StartTankHitAudio(); // start tank hit audio...
         }
     }
 

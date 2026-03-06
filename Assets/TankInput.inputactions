@@ -220,7 +220,7 @@
                 {
                     "name": "",
                     "id": "47f691d7-bf31-4d21-8481-1da73597ad6a",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": ";T1",
@@ -561,7 +561,7 @@
                 {
                     "name": "",
                     "id": "19a3285b-966f-404b-8b69-ff98a858d58a",
-                    "path": "<Keyboard>/rightCtrl",
+                    "path": "<Keyboard>/rightShift",
                     "interactions": "",
                     "processors": "",
                     "groups": ";T2",

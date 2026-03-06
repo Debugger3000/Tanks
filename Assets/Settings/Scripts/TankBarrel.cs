@@ -137,7 +137,7 @@ public class TankBarrel : MonoBehaviour
             Vector2 fullInput = context.ReadValue<Vector2>();
 
             // Grab only Y axis for move controls so just W and S
-            verticalInput = fullInput.y;
+            verticalInput = fullInput.y * -1; // flip direction
 
     
             // If the input is active (not zero)

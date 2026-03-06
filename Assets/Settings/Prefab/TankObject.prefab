@@ -215,7 +215,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.640062, y: 0.33693153, z: 0}
-  m_LocalScale: {x: 1.75, y: 2, z: 1}
+  m_LocalScale: {x: 1.75, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4509250188971371614}
@@ -1315,6 +1315,22 @@ PrefabInstance:
     - target: {fileID: 6345624083897860668, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873432139772268842, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_Color.b
+      value: 0.15196685
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873432139772268842, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_Color.g
+      value: 0.18867922
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873432139772268842, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_Color.r
+      value: 0.13972943
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1188696
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2214630345334268848, guid: f42a5a3735ce601408cf677475ec037a, type: 3}

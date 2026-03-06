@@ -127,6 +127,7 @@ public abstract class BaseProjectile : MonoBehaviour
                 TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);
             }
 
+
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
         }

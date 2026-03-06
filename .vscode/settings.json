@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "11526-Playground.sln"
+    "dotnet.defaultSolution": "11526-Playground.slnx"
 }

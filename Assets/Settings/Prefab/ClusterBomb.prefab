@@ -22,11 +22,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6572025414732429342, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6572025414732429342, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6572025414732429342, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
       propertyPath: m_LocalPosition.x
@@ -111,5 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClusterBomb
   weaponData: {fileID: 0}
+  isMineType: 0
   clusterForce: 10
   clusterPrefab: {fileID: 6965170067589262021, guid: b7ef591c7348a5241866be7e5f98361f, type: 3}

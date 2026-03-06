@@ -23,11 +23,14 @@ public class Crate : MonoBehaviour
             // give tank weapon
             GameController.Instance.TankHitsCrate(tankIndex,randomWeaponName);
 
+            AudioManager.Instance.PlayHealCrateSFX(); 
+
             // destroy crate on tank contact 
             Destroy(gameObject);
         }
         else if(collision.gameObject.layer == LayerMask.NameToLayer("Projectiles"))
         {
+            AudioManager.Instance.PlayEnvironmentHit();
             // destroy crate on tank contact 
             Destroy(gameObject);
         }

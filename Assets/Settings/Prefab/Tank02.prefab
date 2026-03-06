@@ -556,7 +556,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.647451, y: 0.23399898, z: 0}
-  m_LocalScale: {x: 1.75, y: 2, z: 1}
+  m_LocalScale: {x: 3.25, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5895028497010742106}
@@ -1358,6 +1358,10 @@ PrefabInstance:
       propertyPath: m_EditorClassIdentifier
       value: Assembly-CSharp::TankBarrel
       objectReference: {fileID: 0}
+    - target: {fileID: 3587554690656339520, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2641547
+      objectReference: {fileID: 0}
     - target: {fileID: 4756087098881014793, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.915
@@ -1397,6 +1401,18 @@ PrefabInstance:
     - target: {fileID: 4756087098881014793, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118618216989057459, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.1981132
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118618216989057459, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.1981132
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118618216989057459, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
+      propertyPath: m_Color.r
+      value: 0.1981132
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7866566573783112955, guid: c3e19bc8f43234e4cb4346fd0f368b0f, type: 3}
