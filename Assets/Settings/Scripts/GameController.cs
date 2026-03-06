@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,6 +28,8 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI p1PowerText;
     public Image p2PowerBar;
     public TextMeshProUGUI p2PowerText;
+
+    public GameObject gameMenu;
 
 
     [Header("Player Inventory")]
@@ -57,7 +60,28 @@ public class GameController : MonoBehaviour
 
     [Header("Game Settings")]
     readonly private float turnDelay = 5.0f;
+    readonly private float crateSpawnDelay = 3.0f;
     private int turnCounter = 0;
+
+    [Header("Camera Settings")]
+    // public CinemachineVirtualCamera virtualCamera;
+    public CinemachineCamera virtualCamera;
+    private CinemachineConfiner2D confiner;
+    public float wideCameraView = 40f; // wide view orthogonic float value
+    public float onTankCameraView = 20f; // on tank float view
+    public float onAimCameraView = 30f; // when tank barrel moves...
+    public float onProjectileCameraView = 30f;
+    public Transform cameraOrigin;
+
+    [Header("Zoom Settings")]
+    public float zoomSpeed = 0.25f;
+    public float minZoom = 3f;
+    public float maxZoom = 40f;
+
+    [Header("Panning Settings")]
+    public float panSpeed = 0.1f;
+    
+    
 
     // Players(Tanks) 1 & 2 - script list
     private TankController[] tankList;
@@ -74,7 +98,9 @@ public class GameController : MonoBehaviour
     // expose GameController via GameController.Instance
     void Awake() { 
         Instance = this;
-        }
+        // Grab the confiner component once
+        confiner = virtualCamera.GetComponent<CinemachineConfiner2D>();
+    }
 
 
     // ---
@@ -138,6 +164,81 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // Camera follow logic
+    public void FollowTankCamera()
+    {
+        // Get the Transform of the current tank
+        Transform activeTankTransform = tankList[activePlayerIndex].transform;
+
+        // PROGRAMMATICALLY CHANGE TARGETS
+        virtualCamera.Follow = activeTankTransform;
+        virtualCamera.LookAt = activeTankTransform;
+
+        // For 2D Cameras, we modify the Lens Ortho Size
+        virtualCamera.Lens.OrthographicSize = onTankCameraView;
+        confiner.InvalidateLensCache(); // re adjust confiner
+    }
+
+    // have camera follow projectile or just go wide view...
+    public void ProjectileShotCameraView(Transform projectileTransform)
+    {
+        virtualCamera.Follow = projectileTransform;
+        virtualCamera.LookAt = projectileTransform;
+
+        virtualCamera.Lens.OrthographicSize = onProjectileCameraView;  
+        // confiner.InvalidateLensCache(); // re adjust confiner
+    }
+
+    // public void OnTankAimCameraView(Transform transform)
+    // {
+    //     virtualCamera.Follow = transform;
+    //     virtualCamera.LookAt = transform;
+
+    //     virtualCamera.Lens.OrthographicSize = onAimCameraView; 
+    // }
+
+    // make camera view wide
+    public void WideCameraView()
+    {
+        // change follow to origin of map
+        virtualCamera.Follow = cameraOrigin;
+        virtualCamera.LookAt = cameraOrigin;
+
+        virtualCamera.Lens.OrthographicSize = wideCameraView;
+        confiner.InvalidateLensCache(); // re adjust confiner
+    }
+
+    // camera control
+    public void CameraScroll(Vector2 scrollValue)
+    {
+        float currentZoom = virtualCamera.Lens.OrthographicSize;
+        // Scroll down usually gives negative Y, so we subtract
+        currentZoom -= scrollValue.y * zoomSpeed;
+        Debug.Log($"Current zoom: {currentZoom}");
+        virtualCamera.Lens.OrthographicSize = Mathf.Clamp(currentZoom, minZoom, maxZoom);
+
+        if (confiner != null)
+        {
+            confiner.InvalidateLensCache();
+        }
+    }
+
+    // public void CameraFollowToNull()
+    // {
+    //     virtualCamera.Follow = null; // Unhook from tank
+    // }
+
+    // public void CameraPan(Vector2 delta)
+    // {
+    //     // Adjust movement based on current zoom so it doesn't feel wild
+    //         float zoomAdjuster = virtualCamera.Lens.OrthographicSize / 10f;
+
+    //         // Invert delta so dragging the mouse "pulls" the map
+    //         Vector3 move = new Vector3(-delta.x, -delta.y, 0) * panSpeed * zoomAdjuster;
+            
+    //         virtualCamera.transform.position += move;
+    // }
+
     
 
     public void WeaponAmmoDecrement(int tankIndex, string weaponName)
@@ -149,6 +250,16 @@ public class GameController : MonoBehaviour
     // ---
     // UI Logic
     // --> TankDamage UI
+    public void OpenGameMenu()
+    {
+        gameMenu.SetActive(true);
+        Debug.Log($"()((()()()()()()()()())) we ahve set gamemenu to true");
+    }
+    public void CloseGameMenu()
+    {
+        gameMenu.SetActive(false);
+    }
+
     public void TankDamage(int tankIndex, float currentHealth)
     {
         
@@ -238,6 +349,7 @@ public class GameController : MonoBehaviour
 
         UpdateTurnUI(); // switch turn indicator
         CrateSpawn(); // check turns for crates...
+        yield return new WaitForSeconds(crateSpawnDelay);
         SetCurrentTurnFocus();
         isSwitching = false;
     }
@@ -246,12 +358,7 @@ public class GameController : MonoBehaviour
     private void DeactivateInput()
     {
         players[0].DeactivateInput();
-        //players[0].enabled = false;
-        //players[0].currentActionMap.Disable();
         players[1].DeactivateInput();
-        //players[1].enabled = false;
-        //players[1].currentActionMap.Disable();
-         // turn on active player 
     }
 
     private void SetCurrentTurnFocus()
@@ -260,6 +367,8 @@ public class GameController : MonoBehaviour
         players[activePlayerIndex].ActivateInput();
         //OnTurnSwap(players[activePlayerIndex]);
         // players[activePlayerIndex].currentActionMap.Enable();
+
+        FollowTankCamera(); // make camera look at player...
     }
 
     private void EndOfPlayerTurn()
@@ -293,6 +402,11 @@ public class GameController : MonoBehaviour
             // crate round every 3 rounds, it will flip flop between players...
         if(turnCounter > 0 && turnCounter % 3 == 0)
         {
+            
+            WideCameraView(); // change camera to full view
+
+
+
             // determine spawn location for each crate
             int randX1 = random.Next(-67, -1);
             int randX2 = random.Next(1, 67);
@@ -300,11 +414,11 @@ public class GameController : MonoBehaviour
             p2CrateSpawn.position = new Vector2(randX2, crateSpawnHeight);
 
             // determine health or weapon crate...
-            int crateRoll1 = random.Next(0, 2);
-            int crateRoll2 = random.Next(0, 2);
+            int crateRoll1 = random.Next(0, 100);
+            int crateRoll2 = random.Next(0, 100);
 
             // p1 crate instantiate
-            if(crateRoll1 == 0)
+            if(crateRoll1 > 24)
             {
                 // spawn weapons for p1
                 Instantiate(cratePrefab, p1CrateSpawn.position, p1CrateSpawn.rotation);
@@ -314,7 +428,7 @@ public class GameController : MonoBehaviour
             }
 
             // p2 crate instantiate
-            if(crateRoll2 == 0)
+            if(crateRoll2 > 24)
             {
                 Instantiate(cratePrefab, p2CrateSpawn.position, p2CrateSpawn.rotation);
             }else
@@ -323,6 +437,8 @@ public class GameController : MonoBehaviour
             }
             // play announcer audio
             AudioManager.Instance.PlayCrateInbound();
+
+
         }
     }
 

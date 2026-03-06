@@ -16,8 +16,9 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: e0aab8ef7a3e2664c9a41888a276b862, type: 3}
   projectilePreFab: {fileID: 2972647034154937985, guid: 44715fff30e7dcb4a8c4e93605b5c981, type: 3}
   hitEffectPrefab: {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}
-  damage: 20
+  damage: 25
   explosionRadius: 2
   childWeaponData: []
-  startAmmo: 3
+  startAmmo: 5
+  isMineType: 0
   fireSound: {fileID: 0}

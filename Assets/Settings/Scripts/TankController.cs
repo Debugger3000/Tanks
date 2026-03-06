@@ -53,11 +53,13 @@ public class TankController : MonoBehaviour
 
     private Vector2 moveInput;
 
+    private bool isPanning = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth; // set health to full
-        currentGas = maxGas; // set gas to full
+        currentGas = 100000; // set gas to full
 
         var pInput = GetComponent<PlayerInput>();
         Debug.Log($"{gameObject.name} is Player Index: {pInput.playerIndex}");
@@ -90,6 +92,7 @@ public class TankController : MonoBehaviour
             }
             else
             {
+                StartTankHitAudio();
                 GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
             }
             //StartTankHitAudio(); // start tank hit audio...
@@ -309,7 +312,9 @@ public class TankController : MonoBehaviour
         //if (!isMyTurn) return;
         Debug.Log($"tank {tankIndex} OnMove - IsmyTurn: {isMyTurn}");
         //Debug.Log($"{gameObject.name} moved by {context.control.name} " + $"using scheme: {GetComponent<PlayerInput>().currentControlScheme}");
-        moveInput = context.ReadValue<Vector2>();
+        if (isMyTurn)
+        {
+            moveInput = context.ReadValue<Vector2>();
 
         // input detected...
         if (moveInput.x != 0)
@@ -328,16 +333,10 @@ public class TankController : MonoBehaviour
             // User let go of the button or stick is neutral
             tankControllerAudioSource.Stop();
         }
-        // if (Mathf.Abs(moveInput.x) > 0.01f)
-        // {
-        //         if(currentGas > 0f)
-        //         {
-        //             // drain gas with each movement update
-        //             currentGas -= 5;
-        //             GameController.Instance.TankGas(tankIndex,currentGas);
-        //         }
             
-        // }
+        }
+
+        
     }
 
     public void SetIsTurn(bool val)
@@ -382,5 +381,43 @@ public class TankController : MonoBehaviour
     // {
     //     Gizmos.color = Color.red;
     //     Gizmos.DrawWireCube(groundCheck.position, boxSize);
+    // }
+
+
+
+    // Call this from your PlayerInput component (Events or C#)
+    public void OnScrollWheel(InputAction.CallbackContext context)
+    {
+        Vector2 scrollValue = context.ReadValue<Vector2>();
+        if (scrollValue.y != 0)
+        {
+            GameController.Instance.CameraScroll(scrollValue);
+        }
+    }
+
+    // Bind this to the RightClickHold button (Started and Canceled)
+    // public void OnRightClickHold(InputAction.CallbackContext context)
+    // {
+    //     if (context.started)
+    //     {
+    //         isPanning = true;
+    //         GameController.Instance.CameraFollowToNull();
+
+    //     }
+    //     else if (context.canceled)
+    //     {
+    //         isPanning = false;
+    //     }
+    // }
+
+    // // Bind this to the CameraPan (Mouse Delta)
+    // public void OnCameraPan(InputAction.CallbackContext context)
+    // {
+    //     if (isPanning)
+    //     {
+    //         Vector2 delta = context.ReadValue<Vector2>();
+            
+    //         GameController.Instance.CameraPan(delta);
+    //     }
     // }
 }

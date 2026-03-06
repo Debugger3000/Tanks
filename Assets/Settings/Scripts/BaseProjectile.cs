@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -40,6 +41,7 @@ public abstract class BaseProjectile : MonoBehaviour
         {
             //isMineType = true; // set mine type to true
             OneTimeTriggerAfterProjectileFire(); // trigger this for mine type
+            GameController.Instance.SwitchTurn(); // switch turn on first mine creation...
         }
     }
 

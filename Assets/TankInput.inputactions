@@ -104,6 +104,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ScrollZoom",
+                    "type": "Value",
+                    "id": "2d56e5e8-a7fc-40f0-933d-e8f3452df3de",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -566,6 +575,17 @@
                     "processors": "",
                     "groups": ";T2",
                     "action": "JumpT2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca621649-e16e-4809-b383-0582f17870dd",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";T1;T2",
+                    "action": "ScrollZoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

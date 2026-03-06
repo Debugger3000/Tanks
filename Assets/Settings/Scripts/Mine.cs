@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class Mine : BaseProjectile
 {
-    protected int minesToSplitAmount = 2; // mines to break off
+    protected int minesToSplitAmount = 3; // mines to break off
 
     public float mineSplitDelayTime = 2.5f;
     public float mineSeparationDistance = 5f;
@@ -80,7 +80,7 @@ public class Mine : BaseProjectile
             // }
 
             // projectile has exploded switch turn now...
-            GameController.Instance.SwitchTurn();
+            // GameController.Instance.SwitchTurn();
         }
         else if(collision.gameObject.layer == LayerMask.NameToLayer("Tanks"))
         {
@@ -90,7 +90,7 @@ public class Mine : BaseProjectile
             Destroy(gameObject);
             Destroy(effect, 3f);
 
-            GameController.Instance.SwitchTurn();
+            // GameController.Instance.SwitchTurn();
         }
         else if(collision.gameObject.layer == LayerMask.NameToLayer("Crate"))
         {
@@ -145,7 +145,7 @@ public class Mine : BaseProjectile
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
             // propel the projectile
-            rb.AddForce(gameObject.transform.right * ((i + 1) *mineSeparationDistance), ForceMode2D.Impulse);
+            rb.AddForce(gameObject.transform.right * ((i + -1) *mineSeparationDistance), ForceMode2D.Impulse);
             
             
             

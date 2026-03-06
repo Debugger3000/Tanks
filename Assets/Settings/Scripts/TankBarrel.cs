@@ -132,7 +132,6 @@ public class TankBarrel : MonoBehaviour
         // make sure only current tank barrel is rotating.
         if (myTankController.isMyTurn)
         {
-
             //Debug.Log($"rotate barrel for tank {tankIndex} pressed...");
             Vector2 fullInput = context.ReadValue<Vector2>();
 
@@ -234,6 +233,7 @@ public class TankBarrel : MonoBehaviour
         {
             // if player has shot
             hasPlayerShot = true;
+           
             InitShoot(); // start shot logic...        
         }
         // current weapon is out of ammo...
@@ -272,6 +272,9 @@ public class TankBarrel : MonoBehaviour
 
             // create projectile at muzzle point
             GameObject bullet = Instantiate(currentWeapon.weaponData.projectilePreFab, firePoint.position, firePoint.rotation);
+
+            // have camera follow projectile
+            GameController.Instance.ProjectileShotCameraView(bullet.transform); // set camera to wide view...
 
             // The Handoff: The Barrel gives the Projectile a reference to the data
             if (bullet.TryGetComponent(out BaseProjectile baseProjectileScript))

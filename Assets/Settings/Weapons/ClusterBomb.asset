@@ -20,5 +20,6 @@ MonoBehaviour:
   explosionRadius: 1
   childWeaponData:
   - {fileID: 11400000, guid: 5fc538764dbe15f43b8d33b8aa65e448, type: 2}
-  startAmmo: 2
+  startAmmo: 3
+  isMineType: 0
   fireSound: {fileID: 0}

@@ -215,7 +215,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.640062, y: 0.33693153, z: 0}
-  m_LocalScale: {x: 1.75, y: 3, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4509250188971371614}
@@ -512,6 +512,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d0792e8f-700e-4129-93d7-604378b641cf
     m_ActionName: Tanks/JumpT2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9201799727265601436}
+        m_TargetAssemblyTypeName: TankController, Assembly-CSharp
+        m_MethodName: OnScrollWheel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2d56e5e8-a7fc-40f0-933d-e8f3452df3de
+    m_ActionName: 'Tanks/ScrollZoom[/Mouse/scroll]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: T1
   m_DefaultActionMap: Tanks
@@ -1276,13 +1292,25 @@ PrefabInstance:
       propertyPath: m_EditorClassIdentifier
       value: Assembly-CSharp::TankBarrel
       objectReference: {fileID: 0}
+    - target: {fileID: 5613121460062115540, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613121460062115540, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.497
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613121460062115540, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 6345624083897860668, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.918
+      value: 1.93
       objectReference: {fileID: 0}
     - target: {fileID: 6345624083897860668, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.158
+      value: -0.256
       objectReference: {fileID: 0}
     - target: {fileID: 6345624083897860668, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1329,8 +1357,40 @@ PrefabInstance:
       value: 0.13972943
       objectReference: {fileID: 0}
     - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -2.721143
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1188696
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.014
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.008
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934449044635122924, guid: f42a5a3735ce601408cf677475ec037a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2214630345334268848, guid: f42a5a3735ce601408cf677475ec037a, type: 3}

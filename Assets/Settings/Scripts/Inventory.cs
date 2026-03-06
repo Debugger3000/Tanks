@@ -75,4 +75,10 @@ public class Inventory : MonoBehaviour
         // }
     }
 
+    public void GameMenuClick()
+    {
+        GameController.Instance.OpenGameMenu(); // open game menu...
+        Debug.Log($"We clicked menu icon on main UI");
+    }
+
 }
