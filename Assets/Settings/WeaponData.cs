@@ -19,6 +19,9 @@ public class WeaponData : ScriptableObject
     // default is 1f radius, two holes in terrain have to be made close together to disrupt tank movement
     public float explosionRadius = 1f; // How many tiles to destroy
 
+    public float explosiveDamage = 10f; // Near hit damage
+    public float explosiveBuffer = 3f; // explosionradius + buffer = explosive raycast zone for nearhits 
+
     [Header("Child Projectile Stats")]
     public List<WeaponData> childWeaponData = new List<WeaponData>();
 

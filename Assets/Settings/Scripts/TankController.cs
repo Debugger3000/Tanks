@@ -53,7 +53,7 @@ public class TankController : MonoBehaviour
 
     private Vector2 moveInput;
 
-    private bool isPanning = false;
+    // private bool isPanning = false;
 
     void Start()
     {
@@ -79,23 +79,7 @@ public class TankController : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out BaseProjectile projectile))
         {
             float damageOfProjectile = projectile.GetDamage();  
-            Debug.Log($"damage of projectile: {damageOfProjectile}");
-            Debug.Log($"BEFORE currentHealth for tank: {currentHealth}");
-            currentHealth -= damageOfProjectile; // subtract from tank health
-            Debug.Log($"AFTER currentHealth for tank: {currentHealth}");
-
-            if(currentHealth <= 0)
-            {
-                StartTankHitAudio();
-                // Tank has zero health or less, end game
-                GameController.Instance.OnPlayerDeath(tankIndex);
-            }
-            else
-            {
-                StartTankHitAudio();
-                GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
-            }
-            //StartTankHitAudio(); // start tank hit audio...
+            TankTakesDamage(damageOfProjectile); // subtract health from tank
         }
     }
 
@@ -103,6 +87,23 @@ public class TankController : MonoBehaviour
     {   
         AudioManager.Instance.PlayTankHit(); // play tank hit audio...
         StartCoroutine(ActivateDelay());
+    }
+
+    public void TankTakesDamage(float damageOfProjectile)
+    {
+        currentHealth -= damageOfProjectile; // subtract from tank health
+
+        if(currentHealth <= 0)
+            {
+                StartTankHitAudio();
+                // Tank has zero health or less, end game
+                GameController.Instance.OnPlayerDeath(tankIndex);
+            }
+        else
+            {
+                StartTankHitAudio();
+                GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
+            }
     }
 
     // delayed call, so animations can play out 

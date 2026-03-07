@@ -290,7 +290,9 @@ public class TankBarrel : MonoBehaviour
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
             // propel the projectile
-            rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+            // rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+            // Instead of AddForce
+            rb.linearVelocity = firePoint.up * bulletForce;
 
             // destroy muzzle effect
             Destroy(muzzleEffect, 0.3f);

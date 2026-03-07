@@ -29,7 +29,7 @@ public class MiddlePole : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the thing that hit us is a projectile
-        if (collision.gameObject.CompareTag("TankProjectile"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Projectiles"))
         {
             TakeDamage(10f); // Decrease health by 10
             

@@ -11,6 +11,15 @@ public abstract class BaseProjectile : MonoBehaviour
     protected bool isExploded = false;
 
     public bool isMineType = false;
+
+    private Vector2 lastVelocity;
+
+    private Rigidbody2D rb;
+
+    void Awake() 
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
     // protected AudioSource projectileAudioSource;
     // start function
     void Start()
@@ -94,8 +103,12 @@ public abstract class BaseProjectile : MonoBehaviour
                 TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);
             }
 
+            ExplosiveNearHit(); // check explosive radius for near hits
+
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
+
+            isExploded = true;
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Tanks") && !weaponData.isMineType) 
         {
@@ -105,6 +118,8 @@ public abstract class BaseProjectile : MonoBehaviour
             Destroy(gameObject);
             Destroy(effect, 3f);
 
+            isExploded = true;
+
             if (!isExploded)
             {
                 TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);
@@ -112,6 +127,7 @@ public abstract class BaseProjectile : MonoBehaviour
 
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
+            isExploded = true;
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Crate") && !weaponData.isMineType) 
         {
@@ -129,17 +145,23 @@ public abstract class BaseProjectile : MonoBehaviour
                 TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);
             }
 
-
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
+
+            isExploded = true;
+        }
+        // projectile hits a wall... it should bounce off
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) 
+        {
+            Debug.Log($"Projectile hit the wall..............................................");
+            ProjectileBounce(collision);
+            
         }
         else
         {
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
-            
         }
-        isExploded = true;
     }
 
 
@@ -173,5 +195,58 @@ public abstract class BaseProjectile : MonoBehaviour
 
         // enviuronment damage so we can play audio
         AudioManager.Instance.PlayEnvironmentHit(); // call audio manager to play...
+    }
+
+
+    protected void ProjectileBounce(Collision2D collision)
+    {
+        var contact = collision.contacts[0].normal;
+        Vector2 reflectDirection = Vector2.Reflect(lastVelocity.normalized,contact);
+
+        rb.linearVelocity = reflectDirection.normalized * 30f;
+    }
+
+    // use to track projectiles velocity before contacts and such...
+    void Update()
+    {
+        // Record the velocity every frame before physics handles collisions
+        lastVelocity = rb.linearVelocity;
+    }
+
+
+    // close hits should damage vehicle....
+    protected void ExplosiveNearHit()
+    {
+        // weaponData.explosionRadius;
+
+        // weaponData.explosiveDamage;
+        // weaponData.explosiveBuffer
+
+        // raycast in this radius + a little buffer zone... and then tank should take damage based on projectiles stats
+
+        float totalRadius = weaponData.explosionRadius + weaponData.explosiveBuffer;
+    
+        // We only care about objects on the "Tanks" layer to save performance
+        int tankLayerMask = LayerMask.GetMask("Tanks");
+        
+        Collider2D[] hitTanks = Physics2D.OverlapCircleAll(transform.position, totalRadius, tankLayerMask);
+
+        // 2. Loop through every tank caught in the blast
+        foreach (Collider2D hit in hitTanks)
+        {
+            // Check if the object has a health component
+            if (hit.TryGetComponent(out TankController tankController))
+            {
+                Debug.Log($"Tank was hit by NEAR HIT.................");
+                // Optional: Calculate Falloff Damage
+                // Deals 100% damage at center, and scales down to 0% at the edge
+                // float distance = Vector2.Distance(transform.position, hit.transform.position);
+                // float damagePercent = 1f - (distance / totalRadius);
+                // float finalDamage = weaponData.explosiveDamage * Mathf.Clamp01(damagePercent);
+
+                // Apply the damage
+                tankController.TankTakesDamage(weaponData.explosiveDamage);
+            }
+        }
     }
 }

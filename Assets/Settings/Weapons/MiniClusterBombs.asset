@@ -18,6 +18,9 @@ MonoBehaviour:
   hitEffectPrefab: {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}
   damage: 10
   explosionRadius: 0.5
+  explosiveDamage: 5
+  explosiveBuffer: 0.5
   childWeaponData: []
   startAmmo: 9999
+  isMineType: 0
   fireSound: {fileID: 0}

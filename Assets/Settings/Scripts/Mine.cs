@@ -102,10 +102,12 @@ public class Mine : BaseProjectile
             // Destroy the bullet itself
             Destroy(gameObject);
             Destroy(effect, 3f);
-
-
-
             // GameController.Instance.SwitchTurn();
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) 
+        {
+            Debug.Log($"Projectile hit the wall..............................................");
+            ProjectileBounce(collision);
         }
     }
 
@@ -146,19 +148,6 @@ public class Mine : BaseProjectile
 
             // propel the projectile
             rb.AddForce(gameObject.transform.right * ((i + -1) *mineSeparationDistance), ForceMode2D.Impulse);
-            
-            
-            
         }
-
-        
-
-        
     }
-
-    // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
 }
