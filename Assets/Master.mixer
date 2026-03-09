@@ -30,6 +30,28 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-6064511470223627361
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: bf49e0eac8d1f1b41a1ef83b1450bcc7
+  m_EffectName: Compressor
+  m_MixLevel: a8ff82d8c54e782419ecfe85f03b3eef
+  m_Parameters:
+  - m_ParameterName: Threshold
+    m_GUID: 58bb0454b1ebdb1499d09cfd975a9264
+  - m_ParameterName: Attack
+    m_GUID: 832eb8deaa3c1bc4393eba9c2180b4fe
+  - m_ParameterName: Release
+    m_GUID: 4cbc722f2aed9b24b8951336001c63d3
+  - m_ParameterName: Make up gain
+    m_GUID: 988ea6713dbba8946bf7a7495b81b1dc
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &-5750953551723565947
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -173,7 +195,9 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 4b9ea9b266a155e46b9fb79b5ce9d79f
   m_FloatValues:
-    eae35ab0002f1b74eaf656e59a377ee9: -6.9910693
+    eae35ab0002f1b74eaf656e59a377ee9: -7.8940845
+    547d3631988d8c843a013119b6468a41: 1061
+    988ea6713dbba8946bf7a7495b81b1dc: 12.2
     f6988ef186f980a43aaa5b6232960fd6: 10411
     b95d60621e74aab4fabfa1b75ac1a7cf: -2184
     57eebdd27fe199048bd5c857ef333236: 0.0238
@@ -182,11 +206,12 @@ AudioMixerSnapshotController:
     d7232de562325154fa70d450b6681cbd: -2817
     0e7419c7cb94df44ab4d89c2883273f7: -6760
     0c0eb9b82522ef34ca5f54c8bd7d006e: -915
+    caa6e5d8ceeb27148bfeb5dff285189c: 1.37
     31d5a6394b203a746822066dfa0843a8: 0.0465
-    e81c902a132e95842af80be9d59419ed: -15.3643055
+    e81c902a132e95842af80be9d59419ed: -15.203878
     779c618ae626fd3469818f2b6469979f: 131
     0db00acbfac821d47a312eb3eca0ae9f: 16.9
-    4f4e7d8c773e40a4195386153001c85f: -4.9356413
+    4f4e7d8c773e40a4195386153001c85f: -14.221897
     0acfe62ed406f2342acd8d2feb463cd4: 14.1
   m_TransitionOverrides: {}
 --- !u!244 &182649937791862665
@@ -302,6 +327,7 @@ AudioMixerGroupController:
   m_Effects:
   - {fileID: -7714035175302211922}
   - {fileID: -208203850604350585}
+  - {fileID: -6064511470223627361}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0

@@ -55,7 +55,7 @@ public class TankController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth; // set health to full
-        currentGas = 100000; // set gas to full
+        currentGas = maxGas; // set gas to full
 
         var pInput = GetComponent<PlayerInput>();
         Debug.Log($"{gameObject.name} is Player Index: {pInput.playerIndex}");
@@ -99,8 +99,8 @@ public class TankController : MonoBehaviour
             }
         else if(type == "nearhit")
             {
-                AudioManager.Instance.PlayArtilleryInbound(); // play tank hit audio...
                 StartCoroutine(ActivateDelay());
+                AudioManager.Instance.PlayArtilleryInbound(); // play tank hit audio...
                 // play artillery inbound
                 GameController.Instance.TankDamage(tankIndex, currentHealth); // update UI health bar
             }
@@ -223,7 +223,7 @@ public class TankController : MonoBehaviour
 
         if (!isMyTurn) return;
         // make sure tank controller knows when player is pressing jetpack
-        if (context.started) 
+        if (context.started && currentGas > 0) 
         {
             isJetpacking = true;
             if (tankControllerAudioSource.isPlaying)
@@ -253,26 +253,7 @@ public class TankController : MonoBehaviour
         if (isMyTurn)
         {
             moveInput = context.ReadValue<Vector2>();
-
-        // input detected...
-        // if (moveInput.x != 0)
-        // {
-        //     if (!tankControllerAudioSource.isPlaying)
-        //     {
-        //             tankControllerAudioSource.clip = AudioManager.Instance.tankEngineIdle;
-        //             tankControllerAudioSource.loop = true;
-        //             tankControllerAudioSource.Play();
-        //     }
-        // }
-        // else
-        // {
-        //     // User let go of the button or stick is neutral
-        //     tankControllerAudioSource.Stop();
-        // }
-            
         }
-
-        
     }
 
     public void SetIsTurn(bool val)

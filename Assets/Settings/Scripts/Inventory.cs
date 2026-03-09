@@ -46,7 +46,6 @@ public class Inventory : MonoBehaviour
     public void GameMenuClick()
     {
         GameController.Instance.OpenGameMenu(); // open game menu...
-        GameController.Instance.GameMenuOpenedDisableControls(); // disable player controls...
     }
 
 }

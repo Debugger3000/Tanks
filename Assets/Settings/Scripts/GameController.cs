@@ -215,10 +215,12 @@ public class GameController : MonoBehaviour
     public void OpenGameMenu()
     {
         gameMenu.SetActive(true);
+        DeactivateInput(); // disable player controls while game menu is open
     }
     public void CloseGameMenu()
     {
         gameMenu.SetActive(false);
+        SetCurrentTurnFocus(); // enable input...
     }
 
     public void TankDamage(int tankIndex, float currentHealth)
@@ -409,6 +411,7 @@ public class GameController : MonoBehaviour
     {
         // deactivate 
         int winner = (losingPlayerIndex == 0) ? 1 : 2;
+        WideCameraView(); // set view to wide screen view
         winScreen.SetActive(true); // make end game UI active in hierarchy
         winText.text = $"PLAYER {winner} WINS!"; // set win text
     }
@@ -425,14 +428,4 @@ public class GameController : MonoBehaviour
     {
         Application.Quit();
     }
-
-    public void GameMenuOpenedDisableControls()
-    {
-        DeactivateInput(); // disable player controls while game menu is open
-    }
-    public void GameMenuClosed()
-    {
-        SetCurrentTurnFocus(); // enable input...
-    }
-
 }
