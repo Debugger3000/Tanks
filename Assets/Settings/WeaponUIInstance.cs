@@ -11,12 +11,6 @@ public class WeaponUIInstance
     public WeaponData weaponData;
     public string weaponNameID = "HE-small";
     public GameObject uiWeaponButton;
-    // components of UI button
-    
-    // public TMPro.TextMeshProUGUI ammoText;
-
-   
-
 
     // Give weaponData + ammo to carry
     public WeaponUIInstance(WeaponData data, GameObject button)

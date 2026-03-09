@@ -3,11 +3,6 @@ using UnityEngine.UI;
 
 public class MiddlePole : MonoBehaviour
 {
-
-    // public so other scripts can edit this value... sometimes useful...
-    //public float health = 100f;
-
-    // make this private so only this script can edit pole health
     [Header("Settings")]
     [SerializeField] private float maxHealth = 100f;
     private float currentHealth;
@@ -24,17 +19,13 @@ public class MiddlePole : MonoBehaviour
         healthBarCanvas.SetActive(false);
     }
 
-
-    // This is called automatically by Unity when a 2D collision occurs
+    // collision logic with projectiles...
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the thing that hit us is a projectile
         if (collision.gameObject.layer == LayerMask.NameToLayer("Projectiles"))
         {
             TakeDamage(10f); // Decrease health by 10
-            
-            // Optional: Destroy the projectile on impact
-            //Destroy(collision.gameObject);
         }
     }
 

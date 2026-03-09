@@ -134,6 +134,8 @@ public abstract class BaseProjectile : MonoBehaviour
             // spawn projectile explosion effect
             GameObject effect = Instantiate(weaponData.hitEffectPrefab, hitPoint, hitRotation);
 
+            AudioManager.Instance.PlayEnvironmentHit(); // call audio manager to play...
+
             Crate crate = collision.gameObject.GetComponent<Crate>();
             Destroy(crate);
             // Destroy the bullet itself
@@ -145,6 +147,8 @@ public abstract class BaseProjectile : MonoBehaviour
                 TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);
             }
 
+            ExplosiveNearHit(); // check explosive radius for near hits
+            
             // projectile has exploded switch turn now...
             GameController.Instance.SwitchTurn();
 
@@ -171,9 +175,7 @@ public abstract class BaseProjectile : MonoBehaviour
         // Convert world impact position to Tilemap cell position
         Vector3Int centerCell = map.WorldToCell(impactPoint);
 
-        // Loop through a grid around the impact point
-        // With 0.25 cells, a range of 5-6 will ensure a smooth circle
-        // If your cell size is 0.125, you need a larger range to "find" all the tiny tiles
+        // Loop through a grid around the impact point. Destroy those tiles 
         int range = Mathf.CeilToInt(explosionRadius / 0.125f) + 1; 
 
         for (int x = -range; x <= range; x++)
@@ -217,35 +219,21 @@ public abstract class BaseProjectile : MonoBehaviour
     // close hits should damage vehicle....
     protected void ExplosiveNearHit()
     {
-        // weaponData.explosionRadius;
-
-        // weaponData.explosiveDamage;
-        // weaponData.explosiveBuffer
-
-        // raycast in this radius + a little buffer zone... and then tank should take damage based on projectiles stats
-
         float totalRadius = weaponData.explosionRadius + weaponData.explosiveBuffer;
     
-        // We only care about objects on the "Tanks" layer to save performance
+        // get Tanks mask
         int tankLayerMask = LayerMask.GetMask("Tanks");
-        
+        // use overlap circle cause its easy to grab radius and tanks layer hit
         Collider2D[] hitTanks = Physics2D.OverlapCircleAll(transform.position, totalRadius, tankLayerMask);
 
-        // 2. Loop through every tank caught in the blast
+        // grabs tanks within blast near hit radius
         foreach (Collider2D hit in hitTanks)
         {
             // Check if the object has a health component
             if (hit.TryGetComponent(out TankController tankController))
             {
-                Debug.Log($"Tank was hit by NEAR HIT.................");
-                // Optional: Calculate Falloff Damage
-                // Deals 100% damage at center, and scales down to 0% at the edge
-                // float distance = Vector2.Distance(transform.position, hit.transform.position);
-                // float damagePercent = 1f - (distance / totalRadius);
-                // float finalDamage = weaponData.explosiveDamage * Mathf.Clamp01(damagePercent);
-
                 // Apply the damage
-                tankController.TankTakesDamage(weaponData.explosiveDamage);
+                tankController.TankTakesDamage(weaponData.explosiveDamage,"nearhit");
             }
         }
     }

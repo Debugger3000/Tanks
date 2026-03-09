@@ -18,12 +18,14 @@ public class HealthCrate : MonoBehaviour
             int tankIndex = tankController.GetTankIndex();
             // give tank weapon
             GameController.Instance.TankHitsHealthCrate(tankIndex);
+            AudioManager.Instance.PlayHealCrateSFX(); // play crate grabbed sound
 
             // destroy crate on tank contact 
             Destroy(gameObject);
         }
         else if(collision.gameObject.layer == LayerMask.NameToLayer("Projectiles"))
         {
+            // AudioManager.Instance.PlayEnvironmentHit();
             // destroy crate on tank contact 
             Destroy(gameObject);
         }

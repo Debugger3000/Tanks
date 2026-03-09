@@ -15,9 +15,11 @@ public class AudioManager : MonoBehaviour
     public AudioClip crateHeal;
     public AudioClip cratePickUp;
     public AudioClip uiClick; // click on UI
+    public AudioClip jetpack;
 
     [Header("Announcer")]
     public AudioClip tankHitAnnouncer;
+    public AudioClip tankNearHitAccouncer;
     public AudioClip crateInboundAnnouncer;
     public AudioClip fireAtWillAnnouncer;
 
@@ -45,6 +47,11 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(tankHitExplosion);
     }
 
+    public void PlayTankHitNotDead()
+    {
+        sfxSource.PlayOneShot(tankNearHitAccouncer);
+    }
+
     public void PlayEnvironmentHit()
     {
         sfxSource.PlayOneShot(environmentExplosion);
@@ -55,9 +62,14 @@ public class AudioManager : MonoBehaviour
     {
         announcerSource.PlayOneShot(fireAtWillAnnouncer);
     }
-    public void PlayTargetHitAnnouncer()
+    public void PlayTargetNeutralizedAnnouncer()
     {
         announcerSource.PlayOneShot(tankHitAnnouncer);
+    }
+
+    public void PlayArtilleryInbound()
+    {
+        announcerSource.PlayOneShot(tankNearHitAccouncer);
     }
     public void PlayCrateInbound()
     {

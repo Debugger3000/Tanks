@@ -4,46 +4,26 @@ using UnityEngine;
 // Class InventoryUI
 public class Inventory : MonoBehaviour
 {
-    //public PlayerWeaponInventory inventory; // Reference to your SO
-    //public GameObject buttonPrefab;   // A button with a text component
-    // public TankBarrel playerBarrel;
+    // these references are not necessary since they are in Gamecontroller.Instance but whatever
     private GameController gameController;
-
-    private WeaponUI weaponUI;
-    // public WeaponData weaponData;
+    private WeaponUI weaponUI; // reference to weaponUI
 
     public string weaponName = "HE-small";
 
-    // private WeaponInstance weaponInstance;
-
-    // public List<string> weaponNames = new List<string> { "HE-small", "HE-large" };
-    // icons for certain player... 
-    // public GameObject[] allButtons;
-    
-    // public string iconName = "Icon"; 
-
-    // public TMPro.TextMeshProUGUI ammoText;
 
     [SerializeField]
     public int playerIndex = 0;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         // set weaponUI so we can communicate with it
         weaponUI = FindAnyObjectByType<WeaponUI>();
-
         // Find the controller once at the start
         gameController = FindAnyObjectByType<GameController>();
-
-        // set weaponInstance reference
-        //weaponInstance = weaponUI.GetWeapon(playerIndex,weaponName);
     }
 
     // call gamecontroller method to set weapon for whatever player...
     public void OnClickSetWeapon()
     {
-        Debug.Log("BUTTON CLICKED BUITTON CLIEDK");
-
         // make sure weapon is available...
         if(weaponUI.IsWeaponActive(playerIndex, weaponName))
         {
@@ -61,24 +41,12 @@ public class Inventory : MonoBehaviour
         {
             weaponUI.SelectButton(playerIndex,clickedButton); // deselect all other buttons
         }
-
-        // foreach (GameObject btn in allButtons)
-        // {
-        //     // Look for the icon child in every button
-        //     Transform icon = btn.transform.Find(iconName);
-            
-        //     if (icon != null)
-        //     {
-        //         // If it's the button we clicked, turn it ON. Otherwise, OFF.
-        //         icon.gameObject.SetActive(btn == clickedButton);
-        //     }
-        // }
     }
 
     public void GameMenuClick()
     {
         GameController.Instance.OpenGameMenu(); // open game menu...
-        Debug.Log($"We clicked menu icon on main UI");
+        GameController.Instance.GameMenuOpenedDisableControls(); // disable player controls...
     }
 
 }

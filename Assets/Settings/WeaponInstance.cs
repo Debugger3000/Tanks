@@ -7,7 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class WeaponInstance
 {
-    // This connects the instance to the ScriptableObject
+    // hold weaponData
     public WeaponData weaponData; 
 
     // ammo in inventory instance...
@@ -19,7 +19,6 @@ public class WeaponInstance
 
     // corresponding UI button for this weapon instance
     public GameObject button;
-
 
     // Give weaponData + ammo to carry
     public WeaponInstance(WeaponData data)

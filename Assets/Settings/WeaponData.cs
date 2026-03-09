@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This attribute allows you to right-click in the Project window to create a new weapon asset
+// Where projectile scriptable data is created from
 [CreateAssetMenu(fileName = "TankWeapon", menuName = "ScriptableObjects/WeaponData", order = 1)]
 public class WeaponData : ScriptableObject
 {
@@ -25,14 +25,9 @@ public class WeaponData : ScriptableObject
     [Header("Child Projectile Stats")]
     public List<WeaponData> childWeaponData = new List<WeaponData>();
 
-    // default is infinite
-    // Pass diff value when creating weapon instance to change
     public int startAmmo = 9999;
     [Header("Stats")]
-    // public float damage;
-    // public float fireRate;
-    // public int magazineSize;
-    // public float reloadTime;
+    
     public bool isMineType = false;
 
     [Header("Audio")]

@@ -19,7 +19,7 @@ MonoBehaviour:
   damage: 10
   explosionRadius: 1
   explosiveDamage: 10
-  explosiveBuffer: 1
+  explosiveBuffer: 2
   childWeaponData:
   - {fileID: 11400000, guid: 5fc538764dbe15f43b8d33b8aa65e448, type: 2}
   startAmmo: 3

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
+// First script that runs on game launch
+// Possibly might not be needed after I figured out input issues via 2 players on 1 device...
+// So this is just kept here for now lol... 
 public class GameInit : MonoBehaviour
 {
     public GameObject T1; // Drag your Tank Prefab here
@@ -14,11 +17,11 @@ public class GameInit : MonoBehaviour
 
     void Start()
     {
-
+        // devices
         InputDevice keyboard = Keyboard.current;
         InputDevice mouse = Mouse.current;
 
-        // Fallback: If .current is null, try to find ANY device of that type
+        // fallback
         if (keyboard == null) keyboard = InputSystem.GetDevice<Keyboard>();
         if (mouse == null) mouse = InputSystem.GetDevice<Mouse>();
 
@@ -27,68 +30,25 @@ public class GameInit : MonoBehaviour
         {
             Debug.Log("mouse is still null somehow ???");
         }
-        // Create the list safely
+        // Create the list of devices...
         var devices = new InputDevice[]{keyboard, mouse};
-        // if (keyboard != null) devices.Add(keyboard);
-        // if (mouse != null) devices.Add(mouse);
-
-        // if (devices.Length < 2)
-        // {
-        //     Debug.LogError("Device list is less than 2...");
-        //     return;
-        // }
-
-        //instantiate players in game and their input
+    
+        // Player 1 set up
         var p1 = PlayerInput.Instantiate(T1, 
             playerIndex: 0, 
             controlScheme: "T1",
             pairWithDevices: devices);
-
-        // var p1 = PlayerInput.Instantiate(T1, 
-        //     playerIndex: 0);
         
-        // ConfigurePlayerUI(p1);
         p1.transform.position = spawnPoint1.position;
         
-
-        
+        // Player 2 set up
         var p2 = PlayerInput.Instantiate(T2, 
             playerIndex: 1,
             controlScheme: "T2",
             pairWithDevices: devices);
-        //ConfigurePlayerUI(p2);
         p2.transform.position = spawnPoint2.position;
-       
-
-        // var mouse = PlayerInput.Instantiate(mouseObject, 
-        //     playerIndex: 2, 
-        //     controlScheme: "Mouse", 
-        //     pairWithDevice: Mouse.current);
-
-        //p1.ActivateInput();
-        //p2.ActivateInput();
-        //mouse.ActivateInput();
-
-        //Debug.Log($"Spawned P1 (Index: {p1.playerIndex}) and P2 (Index: {p2.playerIndex})");
-
+    
         // Link them to the controller
         GameController.Instance.InitializePlayers(p1, p2); 
-
-
-        // void ConfigurePlayerUI(PlayerInput player)
-        // {
-        //     // Find the MultiplayerEventSystem on the instantiated player prefab
-        //     var eventSystem = player.GetComponentInChildren<MultiplayerEventSystem>();
-        //     var uiModule = player.GetComponentInChildren<InputSystemUIInputModule>();
-
-        //     if (uiModule != null)
-        //     {
-        //         // Explicitly map the UI actions from the player's local input asset
-        //         uiModule.actionsAsset = player.actions; 
-                
-        //         // This ensures the UI module knows which "Player" it belongs to
-        //         player.uiInputModule = uiModule; 
-        //     }
-        // }
     }
 }

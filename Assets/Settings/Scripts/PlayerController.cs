@@ -56,15 +56,8 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
 
-        // Jump
-        // if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
-        // {
-        //     rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        // }
-
         // Check if grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
-
 
         Vector2 targetVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
         rb.linearVelocity = targetVelocity;

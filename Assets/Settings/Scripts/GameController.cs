@@ -31,12 +31,6 @@ public class GameController : MonoBehaviour
 
     public GameObject gameMenu;
 
-
-    [Header("Player Inventory")]
-    [Header("Inventory Data")]
-    // public PlayerWeaponInventory p1Inventory;
-    // public PlayerWeaponInventory p2Inventory;
-
     // hold UI weapon references + weapon Instances in general for each player...   
     public WeaponUI weaponUI;
 
@@ -93,7 +87,6 @@ public class GameController : MonoBehaviour
     // Safeguard 
     private bool isSwitching = false;
 
-    // public InputActionAsset myInputActions;
 
     // expose GameController via GameController.Instance
     void Awake() { 
@@ -138,11 +131,9 @@ public class GameController : MonoBehaviour
         // increment p2 start weapons
         weaponUI.IncrementWeapon(0, "HE-small");
         weaponUI.IncrementWeapon(0, "HE-large");
-        weaponUI.IncrementWeapon(0, "Mines");
         // increment p2 start weapons
         weaponUI.IncrementWeapon(1, "HE-small"); // increment
         weaponUI.IncrementWeapon(1, "HE-large");
-        weaponUI.IncrementWeapon(1, "Mines");
 
 
         // Set current tank weapons to default 
@@ -158,7 +149,6 @@ public class GameController : MonoBehaviour
         // make sure return is not null
         if (curWeaponInstance != null)
         {
-            Debug.Log($"Setting weapon for {playerIndex} to {curWeaponInstance.weaponData.weaponName}...");
             if(playerIndex == 0) player1Barrel.SetWeapon(curWeaponInstance);
             else player2Barrel.SetWeapon(curWeaponInstance);
         }
@@ -189,14 +179,6 @@ public class GameController : MonoBehaviour
         // confiner.InvalidateLensCache(); // re adjust confiner
     }
 
-    // public void OnTankAimCameraView(Transform transform)
-    // {
-    //     virtualCamera.Follow = transform;
-    //     virtualCamera.LookAt = transform;
-
-    //     virtualCamera.Lens.OrthographicSize = onAimCameraView; 
-    // }
-
     // make camera view wide
     public void WideCameraView()
     {
@@ -208,7 +190,7 @@ public class GameController : MonoBehaviour
         confiner.InvalidateLensCache(); // re adjust confiner
     }
 
-    // camera control
+    // camera control with scroll
     public void CameraScroll(Vector2 scrollValue)
     {
         float currentZoom = virtualCamera.Lens.OrthographicSize;
@@ -223,29 +205,9 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // public void CameraFollowToNull()
-    // {
-    //     virtualCamera.Follow = null; // Unhook from tank
-    // }
-
-    // public void CameraPan(Vector2 delta)
-    // {
-    //     // Adjust movement based on current zoom so it doesn't feel wild
-    //         float zoomAdjuster = virtualCamera.Lens.OrthographicSize / 10f;
-
-    //         // Invert delta so dragging the mouse "pulls" the map
-    //         Vector3 move = new Vector3(-delta.x, -delta.y, 0) * panSpeed * zoomAdjuster;
-            
-    //         virtualCamera.transform.position += move;
-    // }
-
     
 
-    public void WeaponAmmoDecrement(int tankIndex, string weaponName)
-    {
-        // weapon fired, decrement this weapon
-        weaponUI.DecrementWeapon(tankIndex, weaponName);
-    }
+    
 
     // ---
     // UI Logic
@@ -253,7 +215,6 @@ public class GameController : MonoBehaviour
     public void OpenGameMenu()
     {
         gameMenu.SetActive(true);
-        Debug.Log($"()((()()()()()()()()())) we ahve set gamemenu to true");
     }
     public void CloseGameMenu()
     {
@@ -262,11 +223,7 @@ public class GameController : MonoBehaviour
 
     public void TankDamage(int tankIndex, float currentHealth)
     {
-        
-
-        Debug.Log($"Tank {tankIndex} has  been damaged, current health argument now is:  {currentHealth}");
         float adjustedHealth = currentHealth / 100;
-        Debug.Log($"Adjusted healh is: {adjustedHealth}");
 
         // healthPercent should be a value between 0 and 1
         if (tankIndex == 0)
@@ -275,10 +232,11 @@ public class GameController : MonoBehaviour
             p2HealthBar.fillAmount = adjustedHealth;
     }
 
-    
-
-
-    
+    public void WeaponAmmoDecrement(int tankIndex, string weaponName)
+    {
+        // weapon fired, decrement this weapon
+        weaponUI.DecrementWeapon(tankIndex, weaponName);
+    }
 
     // deal with Gas UI changes
     public void TankGas(int tankIndex, float gasPercent)
@@ -294,7 +252,6 @@ public class GameController : MonoBehaviour
     // deal with power bar UI changes
     public void SetPowerBar(int tankIndex, float powerPercent)
     {
-        Debug.Log($"Tank index: {tankIndex} just moved POWER to {powerPercent}");
         // float adjustedPower = powerPercent / 100f;
         if(tankIndex == 0)
         {
@@ -311,15 +268,9 @@ public class GameController : MonoBehaviour
 
     private void UpdateTurnUI()
     {
-        //Debug.Log($"Tank {activePlayerIndex + 1}'s Turn");
         turnIndicator.text = $"Tank {activePlayerIndex + 1}'s Turn";
-        // p1GasBar.fillAmount = 1.0f;
-        // p2GasBar.fillAmount = 1.0f;
     }
 
-    
-
-    
 
     // ---
     // Turn Logic
@@ -340,10 +291,6 @@ public class GameController : MonoBehaviour
         DeactivateInput();
         yield return new WaitForSeconds(turnDelay);
 
-        Debug.Log($"switching turns now... old index {activePlayerIndex}");
-        
-        Debug.Log($"switching turns now... new index {activePlayerIndex}");
-
         EndOfPlayerTurn(); // reset end of players turn to values
         NewPlayersTurn(); // set new players turn values
 
@@ -363,11 +310,7 @@ public class GameController : MonoBehaviour
 
     private void SetCurrentTurnFocus()
     {
-        //players[activePlayerIndex].enabled = true;
         players[activePlayerIndex].ActivateInput();
-        //OnTurnSwap(players[activePlayerIndex]);
-        // players[activePlayerIndex].currentActionMap.Enable();
-
         FollowTankCamera(); // make camera look at player...
     }
 
@@ -389,7 +332,6 @@ public class GameController : MonoBehaviour
         tankList[activePlayerIndex].SetIsTurn(true);
         tankList[activePlayerIndex].ResetGas(); // set gas to full
         SetCurrentTurnFocus(); // activate input for current turn player
-        Debug.Log($"Activeturnindex: {activePlayerIndex} - turncounter: {turnCounter} - Set to true");
     }
 
 
@@ -402,10 +344,7 @@ public class GameController : MonoBehaviour
             // crate round every 3 rounds, it will flip flop between players...
         if(turnCounter > 0 && turnCounter % 3 == 0)
         {
-            
             WideCameraView(); // change camera to full view
-
-
 
             // determine spawn location for each crate
             int randX1 = random.Next(-67, -1);
@@ -437,8 +376,6 @@ public class GameController : MonoBehaviour
             }
             // play announcer audio
             AudioManager.Instance.PlayCrateInbound();
-
-
         }
     }
 
@@ -471,7 +408,6 @@ public class GameController : MonoBehaviour
     public void OnPlayerDeath(int losingPlayerIndex)
     {
         // deactivate 
-
         int winner = (losingPlayerIndex == 0) ? 1 : 2;
         winScreen.SetActive(true); // make end game UI active in hierarchy
         winText.text = $"PLAYER {winner} WINS!"; // set win text
@@ -488,6 +424,15 @@ public class GameController : MonoBehaviour
     public void QuitApplication()
     {
         Application.Quit();
+    }
+
+    public void GameMenuOpenedDisableControls()
+    {
+        DeactivateInput(); // disable player controls while game menu is open
+    }
+    public void GameMenuClosed()
+    {
+        SetCurrentTurnFocus(); // enable input...
     }
 
 }

@@ -20,26 +20,7 @@ public class WeaponUI : MonoBehaviour
         // populate player array for easy traversal of pWeapons based on index
         allPlayerWeapons.Add(p1Weapons); // Index 0
         allPlayerWeapons.Add(p2Weapons); // Index 1
-        Debug.Log($"allPlayerWeapons length first call is: {allPlayerWeapons.Count}");
         GameController.Instance.InitPlayerInventory();
-
-        Debug.Log($"allPlayerWeapons length: {allPlayerWeapons.Count}");
-
-        Debug.Log($"player index 1: weapon1 is : {allPlayerWeapons[1][0].weaponData.weaponName} & weapon 2 is : {allPlayerWeapons[1][1].weaponData.weaponName}");
-
-        // set ammo amounts for starting weapons for both players
-        // done via GameController
-
-    }
-
-    // Helper function to turn everything off
-    public void ResetAllIcons()
-    {
-        // foreach (var slot in weaponUIInstances)
-        // {
-        //     if (slot.greenIcon != null) 
-        //         slot.greenIcon.gameObject.SetActive(false);
-        // }
     }
 
     private WeaponInstance GrabWeaponLocal(int playerIndex, string weaponName)
@@ -101,11 +82,6 @@ public class WeaponUI : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            //do nothing
-        }
-        
     }
 
 
@@ -159,13 +135,11 @@ public class WeaponUI : MonoBehaviour
     public void MakeWeaponDeActive(WeaponInstance weaponInstance)
     {
         weaponInstance.active = false;
-        
         // call inventory to gray out image and make ammo text ""
         GrayOut(weaponInstance); // gray out weapon icon
     }
     private void SetAmmoUI(WeaponInstance weaponInstance, int amount)
     {
-        Debug.Log($"Setting ammo for {weaponInstance.weaponData.weaponName} with ammo amount of: {amount}");
         // grab text element
         TextMeshProUGUI textElement = weaponInstance.button.GetComponentInChildren<TextMeshProUGUI>();
         
@@ -174,38 +148,32 @@ public class WeaponUI : MonoBehaviour
             if(amount != 0)
             {
                 textElement.text = amount.ToString(); // set to amount above 0
-                Debug.Log($"setting ammo to {amount}");
             } 
             else {
-                Debug.Log($"setting ammo to empty... setammo amount is: {amount}");
                 textElement.text = ""; // set to nothing cause we are graying it out if 0
             }
         }
-        else
-        {
-            Debug.Log($"Text mesh pro is null somehow...........................");
-        }
     }
     
-
+    // make weapon ui gray to show its inactive...
     private void GrayOut(WeaponInstance weaponInstance)
     {
         Image buttonImage = weaponInstance.button.GetComponent<Image>();
-
         if (buttonImage != null)
         {
-            // 2. Set the color to gray
+            // set color to gray
             buttonImage.color = Color.gray5; 
         }
     }
 
+    // make weapon ui white to show its active...
     private void WhiteOut(WeaponInstance weaponInstance)
     {
         Image buttonImage = weaponInstance.button.GetComponent<Image>();
 
         if (buttonImage != null)
         {
-            // 2. Set the color to gray
+            // set color to white
             buttonImage.color = Color.white; 
         }
     }

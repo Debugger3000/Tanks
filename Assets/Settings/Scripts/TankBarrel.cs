@@ -27,12 +27,6 @@ public class TankBarrel : MonoBehaviour
     public AudioSource tankBarrelAudioSource;
     public AudioSource tankShootAudioSource;
 
-    // Projectile vars
-    // Header to show within inspector for our script...
-    [Header("Firing Settings")]
-    // public GameObject bulletPrefab;
-
-
     // current weapon / projectile
     // updated by UI from above... we swap to whatever weapon we want
     private WeaponInstance currentWeapon;
@@ -41,7 +35,6 @@ public class TankBarrel : MonoBehaviour
     public void SetWeapon(WeaponInstance weapon)
     {
         currentWeapon = weapon; // change weapon data in barrel
-        //projectileScript.Setup(currentWeapon); 
     }
 
 
@@ -62,25 +55,13 @@ public class TankBarrel : MonoBehaviour
         if (pInput != null)
         {
             tankIndex = pInput.playerIndex;                                 
-            //Debug.Log($"Tank spawned! I am player: {tankIndex}");
         }
-        // Looks up the hierarchy until it finds the TankController
-        // myTankController = GetComponentInParent<TankController>();
         
-        // if (myTankController == null) {
-        //     Debug.LogError($"Barrel on {gameObject.name} can't find its TankController parent!");
-        // }
-
         var tankControl = GetComponentInParent<TankController>();
         myTankController = tankControl; // set tankcontroller so we can grab vars
 
         tankBarrelAudioSource = GetComponent<AudioSource>(); // set audio source for barrel...
     }
-
-    // void Start()
-    // {
-        
-    // }
 
     public void SetHasPlayerShot(bool val)
     {
@@ -91,37 +72,12 @@ public class TankBarrel : MonoBehaviour
     // use FixedUpdate() for physics based stuff...
     void Update()
     {
-        //if (!myTankController.isMyTurn) return;
-
         // call rotate barrel function
         RotateBarrel();
-
-        // float rotationInput = 0;
-
-        // // Using Left/Right or Up/Down arrows to rotate
-        // if (Keyboard.current.wKey.isPressed) rotationInput = 1;
-        // if (Keyboard.current.sKey.isPressed) rotationInput = -1;
-
-        // // In 2D, we rotate around the Z axis
-        // transform.Rotate(0, 0, rotationInput * rotationSpeed * Time.deltaTime);
-
-        // float input = 0;
-
-        // // Up arrow moves toward 180 (Left), Down arrow moves toward 0 (Right)
-        // if (Keyboard.current.wKey.isPressed) input = 1;
-        // if (Keyboard.current.sKey.isPressed) input = -1;
-
-        
-        // Shoot projectile with space bar key press
-        // if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        // {
-        //     Shoot();
-        // }
     }
 
     public void OnShoot(InputAction.CallbackContext context)
     {
-        //Debug.Log("shoot for tank 1 pressed...");
         if (context.performed) {
             Shoot();
         }
@@ -129,20 +85,18 @@ public class TankBarrel : MonoBehaviour
 
     public void OnBarrelRotate(InputAction.CallbackContext context)
     {
-        // make sure only current tank barrel is rotating.
+        // make sure only current tank barrel is rotating
         if (myTankController.isMyTurn)
         {
-            //Debug.Log($"rotate barrel for tank {tankIndex} pressed...");
             Vector2 fullInput = context.ReadValue<Vector2>();
 
-            // Grab only Y axis for move controls so just W and S
+            // grab only y input since we want W and S or Up and Down arrows
             verticalInput = fullInput.y * -1; // flip direction
 
-    
-            // If the input is active (not zero)
+            // when input is detected...
             if (verticalInput != 0)
             {
-                // Only start playing if it's not already playing (prevents stutter)
+                // play audio if its not already playing
                 if (!tankBarrelAudioSource.isPlaying)
                 {
                     tankBarrelAudioSource.clip = AudioManager.Instance.tankBarrel;
@@ -155,41 +109,28 @@ public class TankBarrel : MonoBehaviour
                 // User let go of the button or stick is neutral
                 tankBarrelAudioSource.Stop();
             }
-
-
         }
        
     }
 
     private void RotateBarrel()
     {
-        // 1. Calculate the new angle based on input and time
+        // Get new angle
         currentAngle += verticalInput * rotationSpeed * Time.deltaTime;
 
-        // 2. Clamp the angle so it stays between 0 and 180
+        // get angle between min and max
         currentAngle = Mathf.Clamp(currentAngle, minAngle, maxAngle);
 
-        //Debug.Log($"tank {tankIndex} moveInput {currentAngle}");
-
-        // 3. Apply the rotation to the Z axis
+        // apply rotation to Z axis to turn barrel
         transform.localRotation = Quaternion.Euler(0, 0, currentAngle);
         
     }
-
-    // private float GetPowerPercent()
-    // {
-    //     return (bulletForce - 20f) / 20f;
-    // }
-
     // 35f is 100% power
     // 30f is 75% power
     // 25f is 50%
     // 20f is 25%
-
     public void OnIncreasePower(InputAction.CallbackContext context)
     {
-        //Debug.Log($"{gameObject.name} moved by {context.control.name}");
-
         if (context.performed) {
 
             // play audio
@@ -199,8 +140,6 @@ public class TankBarrel : MonoBehaviour
             {
                 bulletForce += 1;
             }
-            
-            // float powerPercent = 0.25f + (bulletForce - 10f) * (0.75f / 15f);
             float powerPercent = 0.25f + (bulletForce - 20f) * (0.75f / 15f);
             GameController.Instance.SetPowerBar(tankIndex, powerPercent);
         }
@@ -208,7 +147,6 @@ public class TankBarrel : MonoBehaviour
     }
     public void OnDecreasePower(InputAction.CallbackContext context)
     {
-        //Debug.Log($"{gameObject.name} moved by {context.control.name}");
         if (context.performed) {
 
             // play audio
@@ -218,7 +156,6 @@ public class TankBarrel : MonoBehaviour
             {
                 bulletForce -= 1;
             }
-            // float powerPercent = 0.25f + (bulletForce - 10f) * (0.75f / 15f);
             float powerPercent = 0.25f + (bulletForce - 20f) * (0.75f / 15f);
             GameController.Instance.SetPowerBar(tankIndex, powerPercent);
         }
@@ -233,7 +170,6 @@ public class TankBarrel : MonoBehaviour
         {
             // if player has shot
             hasPlayerShot = true;
-           
             InitShoot(); // start shot logic...        
         }
         // current weapon is out of ammo...
@@ -252,8 +188,6 @@ public class TankBarrel : MonoBehaviour
         // play this, wait a second then fire shot...
         AudioManager.Instance.PlayFireAtWillAnnouncer(); // play fire announcer audio
         StartCoroutine(SwitchTurnDelayed());
-    
-        //Invoke("SwitchTurnDelayed", turnDelay); // 
     }
 
     // delayed call, so animations can play out 
@@ -276,7 +210,7 @@ public class TankBarrel : MonoBehaviour
             // have camera follow projectile
             GameController.Instance.ProjectileShotCameraView(bullet.transform); // set camera to wide view...
 
-            // The Handoff: The Barrel gives the Projectile a reference to the data
+            // give baseprojectile data
             if (bullet.TryGetComponent(out BaseProjectile baseProjectileScript))
             {
                 baseProjectileScript.Setup(currentWeapon.weaponData);
@@ -290,24 +224,13 @@ public class TankBarrel : MonoBehaviour
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
             // propel the projectile
-            // rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
-            // Instead of AddForce
             rb.linearVelocity = firePoint.up * bulletForce;
 
             // destroy muzzle effect
             Destroy(muzzleEffect, 0.3f);
             Destroy(muzzleSmokeEffect, 6f);
 
-            
-
-            // decrement weapon ammo by 1 after use
-            //currentWeapon.currentAmmo -= 1;
-
-            // update UI for weapon icon
+            // decrement UI for weapon icon
             GameController.Instance.WeaponAmmoDecrement(tankIndex, currentWeapon.weaponData.weaponName); // decrement by 1
             }
-
-
-    
-  
 }

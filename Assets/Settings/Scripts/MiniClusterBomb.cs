@@ -3,24 +3,6 @@ using UnityEngine.Tilemaps;
 
 public class MiniClusterBomb : BaseProjectile
 {
-    //public float explosionRadius = 1f; // How many tiles to destroy
-    // public GameObject hitEffectPrefab;
-
-    //private WeaponData data;
-
-    // public float clusterForce = 5f;
-
-    // public float damage = 5f;
-    // public float explosionRadius = 0.5f;
-
-    // public GameObject clusterPrefab;
-
-    // Call this to pass in weapon data to determine 
-    // public void Setup(WeaponData weaponData)
-    // {
-    //     data = weaponData;
-    // }
-
     void Start()
     {
         gameObject.layer = LayerMask.NameToLayer("SpawnedProjectiles");
