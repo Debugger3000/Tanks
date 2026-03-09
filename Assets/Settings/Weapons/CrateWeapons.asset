@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CrateWeapons
   crateWeapons:
   - {fileID: 11400000, guid: f81f4cf158c7be541b8febe04c5dd5d2, type: 2}
+  - {fileID: 11400000, guid: 9a038882725fe3a46ab4ad23c8da6ea1, type: 2}
+  - {fileID: 11400000, guid: e87f7ff9d654a4b4ab8f8a94db8dda60, type: 2}

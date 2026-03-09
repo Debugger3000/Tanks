@@ -118,8 +118,6 @@ public abstract class BaseProjectile : MonoBehaviour
             Destroy(gameObject);
             Destroy(effect, 3f);
 
-            isExploded = true;
-
             if (!isExploded)
             {
                 TriggerSpecialWeaponEffect(hitPoint,hitRotation, isExploded);

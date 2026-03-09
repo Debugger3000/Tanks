@@ -131,9 +131,11 @@ public class GameController : MonoBehaviour
         // increment p2 start weapons
         weaponUI.IncrementWeapon(0, "HE-small");
         weaponUI.IncrementWeapon(0, "HE-large");
+        weaponUI.IncrementWeapon(0, "Cluster-bomb");
         // increment p2 start weapons
         weaponUI.IncrementWeapon(1, "HE-small"); // increment
         weaponUI.IncrementWeapon(1, "HE-large");
+        weaponUI.IncrementWeapon(1, "Cluster-bomb");
 
 
         // Set current tank weapons to default 
@@ -383,10 +385,8 @@ public class GameController : MonoBehaviour
 
     public string GetRandomCrateWeapon()
     {
-        System.Random random = new System.Random();
-        List<WeaponData> weapons = crateWeapons.crateWeapons;
-        int randomIndex = random.Next(0,weapons.Count);
-        return weapons[randomIndex].weaponName; // return weapon name / id
+        WeaponData weapon = crateWeapons.GetRandomWeapon(); // return random weapon data
+        return weapon.weaponName; // return weapon name / id
     }
 
     // give tank weapon of the crate it has hit...
