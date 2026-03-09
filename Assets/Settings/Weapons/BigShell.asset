@@ -19,7 +19,7 @@ MonoBehaviour:
   damage: 25
   explosionRadius: 2
   explosiveDamage: 15
-  explosiveBuffer: 3
+  explosiveBuffer: 4
   childWeaponData: []
   startAmmo: 5
   isMineType: 0

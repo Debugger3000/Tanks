@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   projectilePreFab: {fileID: 6965170067589262021, guid: b7ef591c7348a5241866be7e5f98361f, type: 3}
   hitEffectPrefab: {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}
-  damage: 10
+  damage: 5
   explosionRadius: 0.5
   explosiveDamage: 5
   explosiveBuffer: 0.5

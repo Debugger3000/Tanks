@@ -176,7 +176,7 @@ public class GameController : MonoBehaviour
         virtualCamera.LookAt = projectileTransform;
 
         virtualCamera.Lens.OrthographicSize = onProjectileCameraView;  
-        // confiner.InvalidateLensCache(); // re adjust confiner
+        confiner.InvalidateLensCache(); // re adjust confiner
     }
 
     // make camera view wide
